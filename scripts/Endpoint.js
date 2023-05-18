@@ -1,15 +1,16 @@
-class Endpoint {
+export default class Endpoint {
     name = "";
     fatherEndpoint = null;
+    endpointUrl = "";
     childEndpoints = [];
 
-    constructor(name, fatherEndpoint) {
+    constructor(name, fatherEndpoint, endpointUrl) {
         this.name = name;
         this.fatherEndpoint = fatherEndpoint;
-        this.childEndpoints = this.#getChildEndpoints();
+        this.endpointUrl = endpointUrl;
     }
 
-    #getChildEndpoints() {
+    getChildEndpoints() {
         // async call API to get child endpoints
     }
 }
