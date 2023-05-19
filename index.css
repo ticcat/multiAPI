@@ -1,0 +1,112 @@
+:root {
+    /* #region Colors */
+    --displayBackground: #000;
+    --background: #363636;
+    --onBackground: #5b5b5b;
+    --onBackgroundText: #fff;
+    --onBackgroundTextHover: #bbbbbb;
+    --onBackgroundTextActive: #444444;
+    /* #endregion */
+
+    /* #region Specific values */
+    --borderRadius: 25px;
+    /* #endregion */
+}
+
+.grid-container {
+    display: grid;
+}
+
+.flex-container {
+    display: flex;
+}
+
+html,
+body {
+    padding: 0;
+    margin: 0;
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    min-height: 100%;
+    background-color: var(--displayBackground);
+    box-sizing: border-box;
+    padding: 20px;
+}
+
+body.grid-container {
+    grid-template-columns: 11% auto;
+}
+
+/* #region Api buttons sidepanel */
+#api-buttons-sidepanel {
+    min-width: 100px;
+    background-color: var(--background);
+    margin-right: 15px;
+    border-radius: var(--borderRadius);
+}
+
+#api-buttons-sidepanel.flex-container {
+    box-sizing: border-box;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+#api-buttons-sidepanel .api-button {
+    width: 100px;
+    height: 100px;
+    background-color: var(--onBackground);
+    margin: 13px 20px;
+    padding: 8px 4px;
+    border-radius: var(--borderRadius);
+    box-shadow: 0px 10px 15px #252525;
+    transition: box-shadow 0.2s;
+}
+
+#api-buttons-sidepanel .api-button:hover {
+    box-shadow: 0px 5px 20px #0c0c0c;
+}
+
+#api-buttons-sidepanel .api-button:active {
+    box-shadow: none;
+}
+
+#api-buttons-sidepanel .api-button.active {
+    outline: 5px solid white;
+    box-shadow: 0px 5px 20px #0c0c0c;
+}
+
+/* #endregion */
+
+/* #region Main panel */
+#mainpanel {
+    background-color: var(--background);
+    border-radius: var(--borderRadius);
+    color: var(--onBackgroundText);
+}
+
+#mainpanel > h1 {
+    text-align: center;
+}
+
+#mainpanel a {
+    text-decoration: none;
+}
+
+#mainpanel a:link {
+    color: var(--onBackgroundText);
+}
+
+#mainpanel a:hover {
+    color: var(--onBackgroundTextHover);
+}
+
+#mainpanel a:active {
+    color: var(--onBackgroundTextActive);
+}
+/* #endregion */
