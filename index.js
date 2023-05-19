@@ -48,7 +48,6 @@ window.onload = () => {
     // DOM related code here to ensure everytihng is loaded beforehand.
     setCurrentAPITitle(pokeAPI.name);
     setCurrentAccessibleEndpoints(pokeAPI.firstLevelEndPoints);
-    console.log("Executed");
 };
 
 function setCurrentAPITitle(apiName) {
