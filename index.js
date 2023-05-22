@@ -4,47 +4,48 @@ import Endpoint from "./scripts/Endpoint.js";
 /* #region  APIs definitions */
 const accessibleAPIs = [];
 
-const pokeAPIFirstLevelEndpoints = [
-    new Endpoint("Berries", null, "/berry"),
-    new Endpoint("Items", null, "/item"),
-    new Endpoint("Locations", null, "/location"),
-    new Endpoint("Moves", null, "/move"),
-    new Endpoint("Pokemons", null, "/pokemon"),
-];
 const pokeAPI = new API(
     "Pokémon API",
     "/icons/APIs/pokemon.svg",
-    "https://pokeapi.co/api/v2/",
-    pokeAPIFirstLevelEndpoints
+    "https://pokeapi.co/api/v2"
 );
+
+pokeAPI.firstLevelEndPoints = [
+    new Endpoint("Berries", null, pokeAPI.baseUrl + "/berry"),
+    new Endpoint("Items", null, pokeAPI.baseUrl + "/item"),
+    new Endpoint("Locations", null, pokeAPI.baseUrl + "/location"),
+    new Endpoint("Moves", null, pokeAPI.baseUrl + "/move"),
+    new Endpoint("Pokemons", null, pokeAPI.baseUrl + "/pokemon"),
+];
+
 accessibleAPIs.push(pokeAPI);
 
-const swAPIFirstLevelEndpoints = [
-    new Endpoint("Films", null, "/films"),
-    new Endpoint("People", null, "/people"),
-    new Endpoint("Planets", null, "/planets"),
-    new Endpoint("Species", null, "/species"),
-    new Endpoint("Starships", null, "/starships"),
-    new Endpoint("Vehicles", null, "/vehicles"),
-];
 const swAPI = new API(
     "Star Wars API",
     "/icons/APIs/star-wars.svg",
-    "https://swapi.dev/api/",
-    swAPIFirstLevelEndpoints
+    "https://swapi.dev/api"
 );
+
+swAPI.firstLevelEndPoints = [
+    new Endpoint("Films", null, swAPI.baseUrl + "/films"),
+    new Endpoint("People", null, swAPI.baseUrl + "/people"),
+    new Endpoint("Planets", null, swAPI.baseUrl + "/planets"),
+    new Endpoint("Species", null, swAPI.baseUrl + "/species"),
+    new Endpoint("Starships", null, swAPI.baseUrl + "/starships"),
+    new Endpoint("Vehicles", null, swAPI.baseUrl + "/vehicles"),
+];
 accessibleAPIs.push(swAPI);
 
-const hpAPIFirstLevelEndpoints = [
-    new Endpoint("Characters", null, "/characters"),
-    new Endpoint("Spells", null, "/spells"),
-];
 const hpAPI = new API(
     "Harry Potter API",
     "/icons/APIs/harry-potter.svg",
-    "https://hp-api.onrender.com/api/",
-    hpAPIFirstLevelEndpoints
+    "https://hp-api.onrender.com/api"
 );
+
+hpAPI.firstLevelEndPoints = [
+    new Endpoint("Characters", null, hpAPI.baseUrl + "/characters"),
+    new Endpoint("Spells", null, hpAPI.baseUrl + "/spells"),
+];
 accessibleAPIs.push(hpAPI);
 /* #endregion */
 
