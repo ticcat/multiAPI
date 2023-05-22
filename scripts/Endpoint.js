@@ -1,16 +1,36 @@
 export default class Endpoint {
     name = "";
-    fatherEndpoint = null;
-    endpointUrl = "";
+    parentEndpoint = null;
+    url = "";
     childEndpoints = [];
 
     constructor(name, fatherEndpoint, endpointUrl) {
         this.name = name;
-        this.fatherEndpoint = fatherEndpoint;
-        this.endpointUrl = endpointUrl;
+        this.parentEndpoint = fatherEndpoint;
+        this.url = endpointUrl;
     }
 
-    async getChildEndpoints() {
-        // async call API to get child endpoints
+    async getData() {
+        let composedUrl = this.url;
+
+        let result = fetch(composedUrl)
+            .then((response) => response.json())
+            .then((data) => {
+                let result = [];
+
+                for (const element of data.results) {
+                    let newEndpoint = new Endpoint(
+                        element.name,
+                        this,
+                        element.url
+                    );
+
+                    result.push(newEndpoint);
+                }
+
+                return result;
+            });
+
+        return result;
     }
 }

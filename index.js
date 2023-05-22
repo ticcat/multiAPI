@@ -131,7 +131,7 @@ function navigateFromEndpoint(endpoint) {
     clearMainPanelEndpoints();
 
     // Set new accessible endpoints from clicked endpoint
-    let newAccessibleEndpoints = endpoint.getChildEndpoints();
-
-    setCurrentAccessibleEndpoints([]);
+    endpoint.getData().then((newAccesibleEPs) => {
+        setCurrentAccessibleEndpoints(newAccesibleEPs);
+    });
 }
