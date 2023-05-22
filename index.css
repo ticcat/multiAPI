@@ -81,6 +81,12 @@ body.grid-container {
     box-shadow: 0px 5px 20px #0c0c0c;
 }
 
+#api-buttons-sidepanel .api-button > img {
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
 /* #endregion */
 
 /* #region Main panel */
@@ -94,19 +100,20 @@ body.grid-container {
     text-align: center;
 }
 
-#mainpanel a {
+#mainpanel p {
     text-decoration: none;
+    cursor: pointer;
 }
 
-#mainpanel a:link {
+#mainpanel p:link {
     color: var(--onBackgroundText);
 }
 
-#mainpanel a:hover {
+#mainpanel p:hover {
     color: var(--onBackgroundTextHover);
 }
 
-#mainpanel a:active {
+#mainpanel p:active {
     color: var(--onBackgroundTextActive);
 }
 /* #endregion */

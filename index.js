@@ -114,7 +114,7 @@ function setCurrentAccessibleEndpoints(endpoints) {
 
     endpoints.forEach((eP) => {
         let newEndpoint = document.createElement("li");
-        let newEndpointLink = document.createElement("a");
+        let newEndpointButton = document.createElement("p");
 
         newEndpointLink.innerHTML = eP.name;
         newEndpointLink.href = "url";
