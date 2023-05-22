@@ -10,7 +10,7 @@ export default class Endpoint {
         this.endpointUrl = endpointUrl;
     }
 
-    getChildEndpoints() {
+    async getChildEndpoints() {
         // async call API to get child endpoints
     }
 }

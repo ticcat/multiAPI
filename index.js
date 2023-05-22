@@ -75,14 +75,14 @@ function loadAccessibleAPIs() {
 }
 
 function setCurrentAPI(api) {
-    clearMainPanel();
+    clearMainPanelEndpoints();
 
     setCurrentAPIButton(api.name);
     setCurrentAPITitle(api.name);
     setCurrentAccessibleEndpoints(api.firstLevelEndPoints);
 }
 
-function clearMainPanel() {
+function clearMainPanelEndpoints() {
     let accesibleEndpoints = document.getElementById(
         "currentAccessibleEndpoints"
     );
@@ -116,10 +116,21 @@ function setCurrentAccessibleEndpoints(endpoints) {
         let newEndpoint = document.createElement("li");
         let newEndpointButton = document.createElement("p");
 
-        newEndpointLink.innerHTML = eP.name;
-        newEndpointLink.href = "url";
+        newEndpointButton.innerHTML = eP.name;
+        newEndpointButton.onclick = function () {
+            navigateFromEndpoint(eP); //Navigate to next level endpoints.
+        };
 
-        newEndpoint.appendChild(newEndpointLink);
+        newEndpoint.appendChild(newEndpointButton);
         accesibleEndpoints.appendChild(newEndpoint);
     });
+}
+
+function navigateFromEndpoint(endpoint) {
+    clearMainPanelEndpoints();
+
+    // Set new accessible endpoints from clicked endpoint
+    let newAccessibleEndpoints = endpoint.getChildEndpoints();
+
+    setCurrentAccessibleEndpoints([]);
 }
