@@ -75,19 +75,19 @@ function loadAccessibleAPIs() {
     });
 }
 
+function clearMainPanelEndpoints() {
+    let accesibleEndpoints = document.getElementById(
+        "currentAccessibleEndpoints"
+    );
+    accesibleEndpoints.replaceChildren();
+}
+
 function setCurrentAPI(api) {
     clearMainPanelEndpoints();
 
     setCurrentAPIButton(api.name);
     setCurrentAPITitle(api.name);
     setCurrentAccessibleEndpoints(api.firstLevelEndPoints);
-}
-
-function clearMainPanelEndpoints() {
-    let accesibleEndpoints = document.getElementById(
-        "currentAccessibleEndpoints"
-    );
-    accesibleEndpoints.replaceChildren();
 }
 
 function setCurrentAPIButton(apiName) {
