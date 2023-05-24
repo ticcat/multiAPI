@@ -13,6 +13,22 @@ export default class Endpoint {
         this.url = endpointUrl;
     }
 
+    #getChildEndpointsFromData(rawData) {
+        let childEndpoints = [];
+
+        let data = rawData.results !== undefined ? rawData.results : rawData;
+
+        for (const element of data) {
+            let newEPName =
+                element.name !== undefined ? element.name : element.title;
+            let newEndpoint = new Endpoint(newEPName, this, element.url);
+
+            childEndpoints.push(newEndpoint);
+        }
+
+        return childEndpoints;
+    }
+
     async getData() {
         this.#abortController = new AbortController();
         this.#abortSignal = this.#abortController.signal;
@@ -21,35 +37,7 @@ export default class Endpoint {
 
         let result = fetch(composedUrl, { signal: this.#abortSignal })
             .then((response) => response.json())
-            .then((data) => {
-                let result = [];
-
-                try {
-                    for (const element of data.results) {
-                        let newEndpoint = new Endpoint(
-                            element.name,
-                            this,
-                            element.url
-                        );
-
-                        result.push(newEndpoint);
-                    }
-                } catch (error) {
-                    if (error.message === "data.results is not iterable") {
-                        for (const element of data) {
-                            let newEndpoint = new Endpoint(
-                                element.name,
-                                this,
-                                element.url
-                            );
-
-                            result.push(newEndpoint);
-                        }
-                    }
-                } finally {
-                    return result;
-                }
-            })
+            .then((data) => this.#getChildEndpointsFromData(data))
             .catch((error) => {
                 if (error.message === "AbortError") {
                     console.log("aborted");
