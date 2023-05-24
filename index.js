@@ -119,7 +119,7 @@ function setCurrentAccessibleEndpoints(endpoints) {
 
         newEndpointButton.innerHTML = eP.name;
         newEndpointButton.onclick = function () {
-            navigateFromEndpoint(eP); //Navigate to next level endpoints.
+            navigateFromEndpoint(eP);
         };
 
         newEndpoint.appendChild(newEndpointButton);
