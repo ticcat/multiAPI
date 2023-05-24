@@ -33,7 +33,7 @@ export default class Endpoint {
                         case "data.results is not iterable":
                             for (const element of data) {
                                 let newEndpoint = new Endpoint(
-                                    element.name.ca,
+                                    element.name,
                                     this,
                                     element.url
                                 );
