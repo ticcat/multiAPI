@@ -1,6 +1,9 @@
 import API from "./scripts/API.js";
 import Endpoint from "./scripts/Endpoint.js";
 
+const abortController = new AbortController();
+const { signal } = abortController;
+
 /* #region  APIs definitions */
 const accessibleAPIs = [];
 
@@ -83,6 +86,7 @@ function clearMainPanelEndpoints() {
 }
 
 function setCurrentAPI(api) {
+    abortController.abort();
     clearMainPanelEndpoints();
 
     setCurrentAPIButton(api.name);
@@ -128,10 +132,11 @@ function setCurrentAccessibleEndpoints(endpoints) {
 }
 
 function navigateFromEndpoint(endpoint) {
+    abortController.abort();
     clearMainPanelEndpoints();
 
     // Set new accessible endpoints from clicked endpoint
-    endpoint.getData().then((newAccesibleEPs) => {
+    endpoint.getData(signal).then((newAccesibleEPs) => {
         setCurrentAccessibleEndpoints(newAccesibleEPs);
     });
 }

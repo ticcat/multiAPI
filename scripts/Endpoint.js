@@ -10,10 +10,10 @@ export default class Endpoint {
         this.url = endpointUrl;
     }
 
-    async getData() {
+    async getData(abortSignal) {
         let composedUrl = this.url;
 
-        let result = fetch(composedUrl)
+        let result = fetch(composedUrl, { abortSignal })
             .then((response) => response.json())
             .then((data) => {
                 let result = [];
@@ -29,16 +29,20 @@ export default class Endpoint {
                         result.push(newEndpoint);
                     }
                 } catch (error) {
-                    if (error.message === "data.results is not iterable") {
-                        for (const element of data) {
-                            let newEndpoint = new Endpoint(
-                                element.name,
-                                this,
-                                element.url
-                            );
+                    switch (error.message) {
+                        case "data.results is not iterable":
+                            for (const element of data) {
+                                let newEndpoint = new Endpoint(
+                                    element.name.ca,
+                                    this,
+                                    element.url
+                                );
 
-                            result.push(newEndpoint);
-                        }
+                                result.push(newEndpoint);
+                            }
+                        case "AbortError":
+                            console.log("Data fetch aborted");
+                            return [];
                     }
                 } finally {
                     return result;
