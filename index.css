@@ -58,12 +58,12 @@ body.grid-container {
 }
 
 #api-buttons-sidepanel .api-button {
+    background-color: var(--onBackground);
     width: 100px;
     height: 100px;
-    background-color: var(--onBackground);
-    margin: 13px 20px;
     padding: 8px 4px;
     border-radius: var(--borderRadius);
+    margin: 13px 20px;
     box-shadow: 0px 10px 15px #252525;
     transition: box-shadow 0.2s;
 }
@@ -102,6 +102,7 @@ body.grid-container {
 
 #mainpanel p {
     text-decoration: none;
+    text-transform: capitalize;
     cursor: pointer;
 }
 
