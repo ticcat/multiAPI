@@ -18,17 +18,31 @@ export default class Endpoint {
             .then((data) => {
                 let result = [];
 
-                for (const element of data.results) {
-                    let newEndpoint = new Endpoint(
-                        element.name,
-                        this,
-                        element.url
-                    );
+                try {
+                    for (const element of data.results) {
+                        let newEndpoint = new Endpoint(
+                            element.name,
+                            this,
+                            element.url
+                        );
 
-                    result.push(newEndpoint);
+                        result.push(newEndpoint);
+                    }
+                } catch (error) {
+                    if (error.message === "data.results is not iterable") {
+                        for (const element of data) {
+                            let newEndpoint = new Endpoint(
+                                element.name,
+                                this,
+                                element.url
+                            );
+
+                            result.push(newEndpoint);
+                        }
+                    }
+                } finally {
+                    return result;
                 }
-
-                return result;
             });
 
         return result;
