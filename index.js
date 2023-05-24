@@ -1,9 +1,6 @@
 import API from "./scripts/API.js";
 import Endpoint from "./scripts/Endpoint.js";
 
-const abortController = new AbortController();
-const { signal } = abortController;
-
 /* #region  APIs definitions */
 const accessibleAPIs = [];
 
@@ -52,6 +49,8 @@ hpAPI.firstLevelEndPoints = [
 accessibleAPIs.push(hpAPI);
 /* #endregion */
 
+let currentActiveEndpoint = null;
+
 window.onload = () => {
     loadAccessibleAPIs();
     setCurrentAPI(accessibleAPIs[0]);
@@ -86,7 +85,7 @@ function clearMainPanelEndpoints() {
 }
 
 function setCurrentAPI(api) {
-    abortController.abort();
+    abortCurrentEndpointCall();
     clearMainPanelEndpoints();
 
     setCurrentAPIButton(api.name);
@@ -132,11 +131,15 @@ function setCurrentAccessibleEndpoints(endpoints) {
 }
 
 function navigateFromEndpoint(endpoint) {
-    abortController.abort();
+    abortCurrentEndpointCall();
     clearMainPanelEndpoints();
 
-    // Set new accessible endpoints from clicked endpoint
-    endpoint.getData(signal).then((newAccesibleEPs) => {
+    currentActiveEndpoint = endpoint;
+    endpoint.getData().then((newAccesibleEPs) => {
         setCurrentAccessibleEndpoints(newAccesibleEPs);
     });
+}
+
+function abortCurrentEndpointCall() {
+    if (currentActiveEndpoint !== null) currentActiveEndpoint.abortFetch();
 }
