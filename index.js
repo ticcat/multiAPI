@@ -78,9 +78,7 @@ function loadAccessibleAPIs() {
 }
 
 function clearMainPanelEndpoints() {
-    let accesibleEndpoints = document.getElementById(
-        "currentAccessibleEndpoints"
-    );
+    let accesibleEndpoints = document.getElementById("currAccEPList");
     accesibleEndpoints.replaceChildren();
 }
 
@@ -112,9 +110,7 @@ function setCurrentAPITitle(apiName) {
 }
 
 function setCurrentAccessibleEndpoints(endpoints) {
-    let accesibleEndpoints = document.getElementById(
-        "currentAccessibleEndpoints"
-    );
+    let accesibleEndpoints = document.getElementById("currAccEPList");
 
     endpoints.forEach((eP) => {
         let newEndpoint = document.createElement("li");
