@@ -1,15 +1,15 @@
 export default class Endpoint {
     name = "";
-    parentEndpoint = null;
+    parent = null;
     url = "";
     childEndpoints = [];
 
     #abortController = null;
     #abortSignal = null;
 
-    constructor(name, fatherEndpoint, endpointUrl) {
+    constructor(name, parentEP, endpointUrl) {
         this.name = name;
-        this.parentEndpoint = fatherEndpoint;
+        this.parent = parentEP;
         this.url = endpointUrl;
     }
 
