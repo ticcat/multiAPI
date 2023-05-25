@@ -40,7 +40,6 @@ export default class Endpoint {
             .then((data) => this.#getChildEndpointsFromData(data))
             .catch((error) => {
                 if (error.message === "AbortError") {
-                    console.log("aborted");
                 }
                 return [];
             });
