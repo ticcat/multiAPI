@@ -101,7 +101,8 @@ hpAPI.firstLevelEndPoints = [
 accessibleAPIs.push(hpAPI);
 /* #endregion */
 
-let currentActiveEndpoint = null;
+let currentAPI = null;
+let currentEndpoint = null;
 
 window.onload = () => {
     loadAccessibleAPIs();
@@ -135,12 +136,15 @@ function clearMainPanelEndpoints() {
 }
 
 function setCurrentAPI(api) {
+    currentAPI = api;
+    currentEndpoint = currentAPI.baseEndpoint;
+
     abortCurrentEndpointCall();
     clearMainPanelEndpoints();
 
-    setCurrentAPIButton(api.name);
-    setCurrentAPITitle(api.name);
-    setCurrentAccessibleEndpoints(api.firstLevelEndPoints);
+    setCurrentAPIButton(currentAPI.name);
+    setCurrentAPITitle(currentAPI.name);
+    setCurrentAccessibleEndpoints(currentAPI.firstLevelEndPoints);
 }
 
 function setCurrentAPIButton(apiName) {
@@ -159,6 +163,18 @@ function setCurrentAPITitle(apiName) {
     let currentAPITitle = document.getElementById("currentAPI");
 
     currentAPITitle.innerHTML = apiName;
+}
+
+function setBackBtnVisibility() {
+    let backBtn = document.getElementById("currAccEPTopBarBackBtn");
+
+    backBtn.onclick = () => navigateBack();
+
+    if (currentEndpoint.name !== "Base") {
+        backBtn.style = "visibility: visible;";
+    } else {
+        backBtn.style = "visibility: hidden;";
+    }
 }
 
 function setCurrentAccessibleEndpoints(endpoints) {
@@ -182,12 +198,23 @@ function navigateFromEndpoint(endpoint) {
     abortCurrentEndpointCall();
     clearMainPanelEndpoints();
 
-    currentActiveEndpoint = endpoint;
-    endpoint.getData().then((newAccesibleEPs) => {
-        setCurrentAccessibleEndpoints(newAccesibleEPs);
-    });
+    currentEndpoint = endpoint;
+
+    if (currentEndpoint.name === "Base") {
+        setCurrentAccessibleEndpoints(currentAPI.firstLevelEndPoints);
+    } else {
+        currentEndpoint.getData().then((newAccesibleEPs) => {
+            setCurrentAccessibleEndpoints(newAccesibleEPs);
+        });
+    }
+
+    setBackBtnVisibility();
+}
+
+export function navigateBack() {
+    navigateFromEndpoint(currentEndpoint.parent);
 }
 
 function abortCurrentEndpointCall() {
-    if (currentActiveEndpoint !== null) currentActiveEndpoint.abortFetch();
+    if (currentEndpoint !== null) currentEndpoint.abortFetch();
 }
