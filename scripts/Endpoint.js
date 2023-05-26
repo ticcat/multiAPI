@@ -1,16 +1,67 @@
 export default class Endpoint {
     name = "";
-    fatherEndpoint = null;
-    endpointUrl = "";
+    parent = null;
+    url = "";
     childEndpoints = [];
 
-    constructor(name, fatherEndpoint, endpointUrl) {
+    #abortController = null;
+    #abortSignal = null;
+
+    constructor(name, parentEP, endpointUrl) {
         this.name = name;
-        this.fatherEndpoint = fatherEndpoint;
-        this.endpointUrl = endpointUrl;
+        this.parent = parentEP;
+        this.url = endpointUrl;
     }
 
-    async getChildEndpoints() {
-        // async call API to get child endpoints
+    #isLastLevel() {
+        return this.parent.name !== "Base";
+    }
+
+    #getChildEndpointsFromData(rawData) {
+        let childEndpoints = [];
+
+        let data = rawData.results !== undefined ? rawData.results : rawData;
+
+        for (const element of data) {
+            let newEPName =
+                element.name !== undefined ? element.name : element.title;
+            let newEndpoint = new Endpoint(newEPName, this, element.url);
+
+            childEndpoints.push(newEndpoint);
+        }
+
+        return childEndpoints;
+    }
+
+    async getData() {
+        this.#abortController = new AbortController();
+        this.#abortSignal = this.#abortController.signal;
+
+        let composedUrl = this.url;
+
+        let result = fetch(composedUrl, { signal: this.#abortSignal })
+            .then((response) => response.json())
+            .then((data) => {
+                let dataResult = this.#isLastLevel()
+                    ? data
+                    : this.#getChildEndpointsFromData(data);
+
+                return {
+                    isLastLevel: this.#isLastLevel(),
+                    data: dataResult,
+                };
+            })
+            .catch((_) => {
+                return {
+                    isLastLevel: false,
+                    data: [],
+                };
+            });
+
+        return result;
+    }
+
+    abortFetch() {
+        if (this.#abortController !== null) this.#abortController.abort();
     }
 }

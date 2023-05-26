@@ -6,6 +6,13 @@
     --onBackgroundText: #fff;
     --onBackgroundTextHover: #bbbbbb;
     --onBackgroundTextActive: #444444;
+    --backgroundTextInput: #fff;
+    --onBackgroundTextInput: #a5a5a5;
+    /* #endregion */
+
+    /* #region SVG Filters */
+    --onBackgroundSVGFilter: invert(100%) sepia(0%) saturate(2%)
+        hue-rotate(35deg) brightness(116%) contrast(100%);
     /* #endregion */
 
     /* #region Specific values */
@@ -21,25 +28,34 @@
     display: flex;
 }
 
+.scroll-container {
+    max-height: 75vh;
+    overflow: auto;
+}
+
+.back-btn {
+    filter: var(--onBackgroundSVGFilter);
+    height: 30px;
+    width: 30px;
+}
+
 html,
 body {
     padding: 0;
     margin: 0;
-}
-
-html {
-    height: 100%;
+    height: 100vh;
 }
 
 body {
-    min-height: 100%;
+    min-height: 100vh;
     background-color: var(--displayBackground);
     box-sizing: border-box;
     padding: 20px;
+    overflow: auto;
 }
 
 body.grid-container {
-    grid-template-columns: 11% auto;
+    grid-template-columns: 10% auto;
 }
 
 /* #region Api buttons sidepanel */
@@ -58,12 +74,12 @@ body.grid-container {
 }
 
 #api-buttons-sidepanel .api-button {
+    background-color: var(--onBackground);
     width: 100px;
     height: 100px;
-    background-color: var(--onBackground);
-    margin: 13px 20px;
     padding: 8px 4px;
     border-radius: var(--borderRadius);
+    margin: 13px 20px;
     box-shadow: 0px 10px 15px #252525;
     transition: box-shadow 0.2s;
 }
@@ -90,30 +106,84 @@ body.grid-container {
 /* #endregion */
 
 /* #region Main panel */
-#mainpanel {
+#mainPanel.grid-container {
+    grid-template-rows: max-content auto;
+}
+
+#currentAPI {
+    text-align: center;
+    color: var(--onBackgroundText);
+}
+
+/* #region Current accessible endpoints */
+#currentAccessibleEndpoints {
     background-color: var(--background);
     border-radius: var(--borderRadius);
     color: var(--onBackgroundText);
 }
 
-#mainpanel > h1 {
-    text-align: center;
+#currentAccessibleEndpoints.grid-container {
+    grid-template-rows: max-content auto;
 }
 
-#mainpanel p {
+/* #region Current accessible endpoints top bar */
+#currAccEPTopBar {
+    margin: 40px 10px;
+    position: sticky;
+}
+
+#currAccEPTopBar.grid-container {
+    grid-template-columns: max-content auto max-content;
+    align-items: center;
+}
+
+#currAccEPTopBar .back-btn {
+    margin-left: 10px;
+    position: relative;
+    visibility: hidden;
+}
+
+#currAccEPTopBarCenterCol {
+    width: 1000px;
+    position: absolute;
+    justify-self: center;
+}
+
+#currAccEPTopBarSearchBar {
+    background-color: var(--backgroundTextInput);
+    border: 3px solid var(--onBackgroundTextInput);
+    border-radius: 20px;
+    height: 40px;
+    width: 100%;
+    text-align: center;
+    color: var(--onBackgroundTextInput);
+}
+/* #endregion */
+
+/* #region Current accessible endpoints list (cards) */
+/*TODO: Refactor to be cards*/
+
+#currAccEPList {
+    overflow: auto;
+}
+
+#currAccEPList p {
     text-decoration: none;
+    text-transform: capitalize;
     cursor: pointer;
 }
 
-#mainpanel p:link {
+#currAccEPList p:link {
     color: var(--onBackgroundText);
 }
 
-#mainpanel p:hover {
+#currAccEPList p:hover {
     color: var(--onBackgroundTextHover);
 }
 
-#mainpanel p:active {
+#currAccEPList p:active {
     color: var(--onBackgroundTextActive);
 }
+/* #endregion */
+/* #endregion */
 /* #endregion */

@@ -4,49 +4,105 @@ import Endpoint from "./scripts/Endpoint.js";
 /* #region  APIs definitions */
 const accessibleAPIs = [];
 
-const pokeAPIFirstLevelEndpoints = [
-    new Endpoint("Berries", null, "/berry"),
-    new Endpoint("Items", null, "/item"),
-    new Endpoint("Locations", null, "/location"),
-    new Endpoint("Moves", null, "/move"),
-    new Endpoint("Pokemons", null, "/pokemon"),
-];
 const pokeAPI = new API(
     "Pokémon API",
     "/icons/APIs/pokemon.svg",
-    "https://pokeapi.co/api/v2/",
-    pokeAPIFirstLevelEndpoints
+    new Endpoint("Base", null, "https://pokeapi.co/api/v2")
 );
+
+pokeAPI.firstLevelEndPoints = [
+    new Endpoint(
+        "Berries",
+        pokeAPI.baseEndpoint,
+        pokeAPI.baseEndpoint.url + "/berry"
+    ),
+    new Endpoint(
+        "Items",
+        pokeAPI.baseEndpoint,
+        pokeAPI.baseEndpoint.url + "/item"
+    ),
+    new Endpoint(
+        "Locations",
+        pokeAPI.baseEndpoint,
+        pokeAPI.baseEndpoint.url + "/location"
+    ),
+    new Endpoint(
+        "Moves",
+        pokeAPI.baseEndpoint,
+        pokeAPI.baseEndpoint.url + "/move"
+    ),
+    new Endpoint(
+        "Pokemons",
+        pokeAPI.baseEndpoint,
+        pokeAPI.baseEndpoint.url + "/pokemon"
+    ),
+];
+
 accessibleAPIs.push(pokeAPI);
 
-const swAPIFirstLevelEndpoints = [
-    new Endpoint("Films", null, "/films"),
-    new Endpoint("People", null, "/people"),
-    new Endpoint("Planets", null, "/planets"),
-    new Endpoint("Species", null, "/species"),
-    new Endpoint("Starships", null, "/starships"),
-    new Endpoint("Vehicles", null, "/vehicles"),
-];
 const swAPI = new API(
     "Star Wars API",
     "/icons/APIs/star-wars.svg",
-    "https://swapi.dev/api/",
-    swAPIFirstLevelEndpoints
+    new Endpoint("Base", null, "https://swapi.dev/api")
 );
+
+swAPI.firstLevelEndPoints = [
+    new Endpoint(
+        "Films",
+        swAPI.baseEndpoint,
+        swAPI.baseEndpoint.url + "/films"
+    ),
+    new Endpoint(
+        "People",
+        swAPI.baseEndpoint,
+        swAPI.baseEndpoint.url + "/people"
+    ),
+    new Endpoint(
+        "Planets",
+        swAPI.baseEndpoint,
+        swAPI.baseEndpoint.url + "/planets"
+    ),
+    new Endpoint(
+        "Species",
+        swAPI.baseEndpoint,
+        swAPI.baseEndpoint.url + "/species"
+    ),
+    new Endpoint(
+        "Starships",
+        swAPI.baseEndpoint,
+        swAPI.baseEndpoint.url + "/starships"
+    ),
+    new Endpoint(
+        "Vehicles",
+        swAPI.baseEndpoint,
+        swAPI.baseEndpoint.url + "/vehicles"
+    ),
+];
 accessibleAPIs.push(swAPI);
 
-const hpAPIFirstLevelEndpoints = [
-    new Endpoint("Characters", null, "/characters"),
-    new Endpoint("Spells", null, "/spells"),
-];
 const hpAPI = new API(
     "Harry Potter API",
     "/icons/APIs/harry-potter.svg",
-    "https://hp-api.onrender.com/api/",
-    hpAPIFirstLevelEndpoints
+    new Endpoint("Base", null, "https://hp-api.onrender.com/api")
 );
+
+hpAPI.firstLevelEndPoints = [
+    new Endpoint(
+        "Characters",
+        hpAPI.baseEndpoint,
+        hpAPI.baseEndpoint.url + "/characters"
+    ),
+    new Endpoint(
+        "Spells",
+        hpAPI.baseEndpoint,
+        hpAPI.baseEndpoint.url + "/spells"
+    ),
+];
 accessibleAPIs.push(hpAPI);
 /* #endregion */
+
+let currentAPI = null;
+let currentEndpoint = null;
 
 window.onload = () => {
     loadAccessibleAPIs();
@@ -74,19 +130,21 @@ function loadAccessibleAPIs() {
     });
 }
 
-function setCurrentAPI(api) {
-    clearMainPanelEndpoints();
-
-    setCurrentAPIButton(api.name);
-    setCurrentAPITitle(api.name);
-    setCurrentAccessibleEndpoints(api.firstLevelEndPoints);
+function clearMainPanelEndpoints() {
+    let accesibleEndpoints = document.getElementById("currAccEPList");
+    accesibleEndpoints.replaceChildren();
 }
 
-function clearMainPanelEndpoints() {
-    let accesibleEndpoints = document.getElementById(
-        "currentAccessibleEndpoints"
-    );
-    accesibleEndpoints.replaceChildren();
+function setCurrentAPI(api) {
+    abortCurrentEndpointCall();
+    clearMainPanelEndpoints();
+
+    currentAPI = api;
+    currentEndpoint = currentAPI.baseEndpoint;
+
+    setCurrentAPIButton(currentAPI.name);
+    setCurrentAPITitle(currentAPI.name);
+    setCurrentAccessibleEndpoints(currentAPI.firstLevelEndPoints);
 }
 
 function setCurrentAPIButton(apiName) {
@@ -107,10 +165,20 @@ function setCurrentAPITitle(apiName) {
     currentAPITitle.innerHTML = apiName;
 }
 
+function setBackBtnVisibility() {
+    let backBtn = document.getElementById("currAccEPTopBarBackBtn");
+
+    backBtn.onclick = () => navigateBack();
+
+    if (currentEndpoint.name !== "Base") {
+        backBtn.style = "visibility: visible;";
+    } else {
+        backBtn.style = "visibility: hidden;";
+    }
+}
+
 function setCurrentAccessibleEndpoints(endpoints) {
-    let accesibleEndpoints = document.getElementById(
-        "currentAccessibleEndpoints"
-    );
+    let accesibleEndpoints = document.getElementById("currAccEPList");
 
     endpoints.forEach((eP) => {
         let newEndpoint = document.createElement("li");
@@ -118,19 +186,46 @@ function setCurrentAccessibleEndpoints(endpoints) {
 
         newEndpointButton.innerHTML = eP.name;
         newEndpointButton.onclick = function () {
-            navigateFromEndpoint(eP); //Navigate to next level endpoints.
+            navigateFromEndpoint(eP);
         };
 
         newEndpoint.appendChild(newEndpointButton);
         accesibleEndpoints.appendChild(newEndpoint);
     });
+
+    setBackBtnVisibility();
+}
+
+function showLastLevelInfo(data) {
+    console.log("TODO: Implement info page.");
+    console.log(data);
 }
 
 function navigateFromEndpoint(endpoint) {
+    abortCurrentEndpointCall();
     clearMainPanelEndpoints();
 
-    // Set new accessible endpoints from clicked endpoint
-    let newAccessibleEndpoints = endpoint.getChildEndpoints();
+    currentEndpoint = endpoint;
 
-    setCurrentAccessibleEndpoints([]);
+    if (currentEndpoint.name === "Base") {
+        setCurrentAccessibleEndpoints(currentAPI.firstLevelEndPoints);
+    } else {
+        currentEndpoint.getData().then((result) => {
+            const { isLastLevel, data } = result;
+            if (isLastLevel) {
+                showLastLevelInfo(data);
+            } else {
+                setCurrentAccessibleEndpoints(data);
+            }
+        });
+    }
+}
+
+export function navigateBack() {
+    navigateFromEndpoint(currentEndpoint.parent);
+}
+
+function abortCurrentEndpointCall() {
+    if (currentEndpoint !== null && currentEndpoint?.name !== "Base")
+        currentEndpoint.abortFetch();
 }

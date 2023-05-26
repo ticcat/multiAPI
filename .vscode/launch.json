@@ -7,8 +7,9 @@
         {
             "type": "chrome",
             "request": "launch",
-            "name": "idedx.html",
-            "file": "d:\\OneDrive - Copy\\Personal\\Projects\\MultiAPI\\multiAPI\\index.html"
+            "name": "Live-server chome",
+            "url": "http://localhost:5500/",
+            "webRoot": "${workspaceFolder}"
         }
     ]
 }

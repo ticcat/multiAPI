@@ -1,13 +1,13 @@
 export default class API {
     name = "";
     imgSource = "";
-    baseUrl = "";
+    baseEndpoint = null;
     firstLevelEndPoints = [];
 
-    constructor(name, imgSource, baseUrl, firstLevelEndpoints) {
+    constructor(name, imgSource, baseEP, firstLevelEndpoints) {
         this.name = name;
         this.imgSource = imgSource;
-        this.baseUrl = baseUrl;
+        this.baseEndpoint = baseEP;
         this.firstLevelEndPoints = firstLevelEndpoints;
     }
 }

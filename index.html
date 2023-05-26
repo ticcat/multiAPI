@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="EN">
 <head>
+    <title>Multi API</title>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Page Title</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' type='text/css' media='screen' href='index.css'>
     <script type="module" src='index.js'></script>
@@ -13,12 +13,27 @@
     <div id="api-buttons-sidepanel" class="flex-container">
     </div>
     
-    <div id="mainpanel">
-        <h1 id="currentAPI">CurrentAPI placeholder</h1>
-
+    <div id="mainPanel" class="grid-container">
         <div>
-            <ul id="currentAccessibleEndpoints">
-            </ul>
+            <h1 id="currentAPI">CurrentAPI placeholder</h1>
+        </div>
+
+        <div id="currentAccessibleEndpoints" class="grid-container">
+            <div id="currAccEPTopBar" class="grid-container">
+                <img id="currAccEPTopBarBackBtn" class="back-btn" src="./icons/google/arrow_back.svg" alt="back-btn"></img>
+
+                <div id="currAccEPTopBarCenterCol">
+                    <div id="currAccEPTopBarSearchBar">Placeholder search bar</div>
+                </div>
+
+                <div id="currAccEPTopBarPagination"></div>
+            </div>
+
+            <!--TODO Make flexbox to support cards-->
+            <div class="scroll-container">
+                <ul id="currAccEPList">
+                </ul>
+            </div>
         </div>
     </div>
 </body>
