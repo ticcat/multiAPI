@@ -24,7 +24,7 @@ pokeAPI.firstLevelEndPoints = [
     new Endpoint(
         "Locations",
         pokeAPI.baseEndpoint,
-        pokeAPI.baseEndpoint + "/location"
+        pokeAPI.baseEndpoint.url + "/location"
     ),
     new Endpoint(
         "Moves",
@@ -196,6 +196,11 @@ function setCurrentAccessibleEndpoints(endpoints) {
     setBackBtnVisibility();
 }
 
+function showLastLevelInfo(data) {
+    console.log("TODO: Implement info page.");
+    console.log(data);
+}
+
 function navigateFromEndpoint(endpoint) {
     abortCurrentEndpointCall();
     clearMainPanelEndpoints();
@@ -205,8 +210,13 @@ function navigateFromEndpoint(endpoint) {
     if (currentEndpoint.name === "Base") {
         setCurrentAccessibleEndpoints(currentAPI.firstLevelEndPoints);
     } else {
-        currentEndpoint.getData().then((newAccesibleEPs) => {
-            setCurrentAccessibleEndpoints(newAccesibleEPs);
+        currentEndpoint.getData().then((result) => {
+            const { isLastLevel, data } = result;
+            if (isLastLevel) {
+                showLastLevelInfo(data);
+            } else {
+                setCurrentAccessibleEndpoints(data);
+            }
         });
     }
 }

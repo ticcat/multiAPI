@@ -13,6 +13,10 @@ export default class Endpoint {
         this.url = endpointUrl;
     }
 
+    #isLastLevel() {
+        return this.parent.name !== "Base";
+    }
+
     #getChildEndpointsFromData(rawData) {
         let childEndpoints = [];
 
@@ -37,11 +41,21 @@ export default class Endpoint {
 
         let result = fetch(composedUrl, { signal: this.#abortSignal })
             .then((response) => response.json())
-            .then((data) => this.#getChildEndpointsFromData(data))
-            .catch((error) => {
-                if (error.message === "AbortError") {
-                }
-                return [];
+            .then((data) => {
+                let dataResult = this.#isLastLevel()
+                    ? data
+                    : this.#getChildEndpointsFromData(data);
+
+                return {
+                    isLastLevel: this.#isLastLevel(),
+                    data: dataResult,
+                };
+            })
+            .catch((_) => {
+                return {
+                    isLastLevel: false,
+                    data: [],
+                };
             });
 
         return result;
