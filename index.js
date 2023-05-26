@@ -136,11 +136,11 @@ function clearMainPanelEndpoints() {
 }
 
 function setCurrentAPI(api) {
-    currentAPI = api;
-    currentEndpoint = currentAPI.baseEndpoint;
-
     abortCurrentEndpointCall();
     clearMainPanelEndpoints();
+
+    currentAPI = api;
+    currentEndpoint = currentAPI.baseEndpoint;
 
     setCurrentAPIButton(currentAPI.name);
     setCurrentAPITitle(currentAPI.name);
@@ -192,6 +192,8 @@ function setCurrentAccessibleEndpoints(endpoints) {
         newEndpoint.appendChild(newEndpointButton);
         accesibleEndpoints.appendChild(newEndpoint);
     });
+
+    setBackBtnVisibility();
 }
 
 function navigateFromEndpoint(endpoint) {
@@ -207,8 +209,6 @@ function navigateFromEndpoint(endpoint) {
             setCurrentAccessibleEndpoints(newAccesibleEPs);
         });
     }
-
-    setBackBtnVisibility();
 }
 
 export function navigateBack() {
@@ -216,5 +216,6 @@ export function navigateBack() {
 }
 
 function abortCurrentEndpointCall() {
-    if (currentEndpoint !== null) currentEndpoint.abortFetch();
+    if (currentEndpoint !== null && currentEndpoint?.name !== "Base")
+        currentEndpoint.abortFetch();
 }
