@@ -111,6 +111,9 @@ body.grid-container {
 }
 
 #currentAPI {
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 45px;
+    letter-spacing: 0.2rem;
     text-align: center;
     color: var(--onBackgroundText);
 }
