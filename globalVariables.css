@@ -1,0 +1,21 @@
+:root {
+    /* #region Colors */
+    --displayBackground: #000;
+    --background: #363636;
+    --onBackground: #5b5b5b;
+    --onBackgroundText: #fff;
+    --onBackgroundTextHover: #bbbbbb;
+    --onBackgroundTextActive: #444444;
+    --backgroundTextInput: #fff;
+    --onBackgroundTextInput: #a5a5a5;
+    /* #endregion */
+
+    /* #region SVG Filters */
+    --onBackgroundSVGFilter: invert(100%) sepia(0%) saturate(2%)
+        hue-rotate(35deg) brightness(116%) contrast(100%);
+    /* #endregion */
+
+    /* #region Specific values */
+    --borderRadius: 25px;
+    /* #endregion */
+}
