@@ -113,10 +113,10 @@ function loadAccessibleAPIs() {
     let apiButtonsSidePanel = document.getElementById("api-buttons-sidepanel");
 
     accessibleAPIs.forEach((accAPI) => {
-        let newApiButton = document.createElement("api-button");
+        const newApiButton = document.createElement("api-button");
 
-        newApiButton.setAttribute("id", accAPI.name);
         newApiButton.buttonAPI = accAPI;
+        newApiButton.setAttribute("id", accAPI.name);
         newApiButton.onclick = function () {
             setCurrentAPI(accAPI);
         };

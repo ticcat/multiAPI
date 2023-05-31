@@ -3,15 +3,18 @@ fetch("/components/api-button/api-button-template.html")
     .then((text) => define(text));
 
 function define(html) {
+    const template = document.createElement("template");
+    template.innerHTML = html;
+
     class ApiButton extends HTMLElement {
-        buttonAPI = null;
+        $buttonAPI;
 
         constructor() {
             super();
 
             // Create shadow root and add fetched html
             const shadowRoot = this.attachShadow({ mode: "open" });
-            shadowRoot.innerHTML = html;
+            this.shadowRoot.appendChild(template.content.cloneNode(true));
         }
 
         connectedCallback() {
@@ -20,10 +23,6 @@ function define(html) {
 
             apiButtonImg.src = this.buttonAPI.imgSource;
             apiButtonImg.alt = this.buttonAPI.name + " icon";
-        }
-
-        testLog() {
-            console.log("test");
         }
     }
 
