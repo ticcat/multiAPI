@@ -61,7 +61,7 @@ body.grid-container {
 
 #currentAPITitle {
     font-family: "Bebas Neue", sans-serif;
-    font-size: 45px;
+    font-size: 3rem;
     letter-spacing: 0.2rem;
     text-align: center;
     color: var(--onBackgroundText);
