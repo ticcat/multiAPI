@@ -155,7 +155,7 @@ function setCurrentAPIButton(apiName) {
 }
 
 function setCurrentAPITitle(apiName) {
-    let currentAPITitle = document.getElementById("currentAPI");
+    let currentAPITitle = document.getElementById("currentAPITitle");
 
     currentAPITitle.innerHTML = apiName;
 }

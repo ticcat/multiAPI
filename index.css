@@ -59,7 +59,7 @@ body.grid-container {
     grid-template-rows: max-content auto;
 }
 
-#currentAPI {
+#currentAPITitle {
     font-family: "Bebas Neue", sans-serif;
     font-size: 45px;
     letter-spacing: 0.2rem;
