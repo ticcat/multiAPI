@@ -1,8 +1,8 @@
 fetch("/components/api-button/api-button-template.html")
     .then((stream) => stream.text())
-    .then((text) => define(text));
+    .then((text) => defineApiButton(text));
 
-function define(html) {
+function defineApiButton(html) {
     const template = document.createElement("template");
     template.innerHTML = html;
 
@@ -15,7 +15,7 @@ function define(html) {
             super();
 
             // Create shadow root and append fetched html
-            const shadowRoot = this.attachShadow({ mode: "open" });
+            this.attachShadow({ mode: "open" });
             this.shadowRoot.appendChild(template.content.cloneNode(true));
         }
 
