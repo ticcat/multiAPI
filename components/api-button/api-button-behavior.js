@@ -7,12 +7,10 @@ function define(html) {
     template.innerHTML = html;
 
     class ApiButton extends HTMLElement {
-        $buttonAPI;
-
         constructor() {
             super();
 
-            // Create shadow root and add fetched html
+            // Create shadow root and append fetched html
             const shadowRoot = this.attachShadow({ mode: "open" });
             this.shadowRoot.appendChild(template.content.cloneNode(true));
         }
