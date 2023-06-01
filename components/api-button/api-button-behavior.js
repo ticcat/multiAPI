@@ -7,6 +7,10 @@ function define(html) {
     template.innerHTML = html;
 
     class ApiButton extends HTMLElement {
+        static get observedAttributes() {
+            return ["selected"];
+        }
+
         constructor() {
             super();
 
@@ -21,6 +25,20 @@ function define(html) {
 
             apiButtonImg.src = this.buttonAPI.imgSource;
             apiButtonImg.alt = this.buttonAPI.name + " icon";
+        }
+
+        attributeChangedCallback(name, _, newValue) {
+            switch (name) {
+                case "selected":
+                    let buttonContainer =
+                        this.shadowRoot.getElementById("button-container");
+                    if (newValue === "true") {
+                        buttonContainer.classList.add("active");
+                    } else {
+                        buttonContainer.classList.remove("active");
+                    }
+                    break;
+            }
         }
     }
 

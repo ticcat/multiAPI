@@ -147,9 +147,9 @@ function setCurrentAPIButton(apiName) {
 
     apiButtons.forEach((apiBtn) => {
         if (apiBtn.id === apiName) {
-            apiBtn.className = "api-button active";
+            apiBtn.setAttribute("selected", true);
         } else {
-            apiBtn.className = "api-button";
+            apiBtn.setAttribute("selected", false);
         }
     });
 }
