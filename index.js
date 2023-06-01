@@ -113,19 +113,14 @@ function loadAccessibleAPIs() {
     let apiButtonsSidePanel = document.getElementById("api-buttons-sidepanel");
 
     accessibleAPIs.forEach((accAPI) => {
-        let newApiButton = document.createElement("div");
-        let newApiButtonImg = document.createElement("img");
+        const newApiButton = document.createElement("api-button");
 
-        newApiButton.id = accAPI.name;
-        newApiButton.className = "api-button";
+        newApiButton.buttonAPI = accAPI;
+        newApiButton.setAttribute("id", accAPI.name);
         newApiButton.onclick = function () {
             setCurrentAPI(accAPI);
         };
 
-        newApiButtonImg.alt = accAPI.name + " image";
-        newApiButtonImg.src = accAPI.imgSource;
-
-        newApiButton.appendChild(newApiButtonImg);
         apiButtonsSidePanel.appendChild(newApiButton);
     });
 }
@@ -148,13 +143,13 @@ function setCurrentAPI(api) {
 }
 
 function setCurrentAPIButton(apiName) {
-    let apiButtons = document.querySelectorAll(".api-button");
+    let apiButtons = document.querySelectorAll("api-button");
 
     apiButtons.forEach((apiBtn) => {
         if (apiBtn.id === apiName) {
-            apiBtn.className = "api-button active";
+            apiBtn.setAttribute("selected", true);
         } else {
-            apiBtn.className = "api-button";
+            apiBtn.setAttribute("selected", false);
         }
     });
 }
