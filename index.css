@@ -68,13 +68,13 @@ body.grid-container {
 }
 
 /* #region Current accessible endpoints */
-#currentAccessibleEndpoints {
+#currentAccessibleEndpointsPanel {
     background-color: var(--background);
     border-radius: var(--borderRadius);
     color: var(--onBackgroundText);
 }
 
-#currentAccessibleEndpoints.grid-container {
+#currentAccessibleEndpointsPanel.grid-container {
     grid-template-rows: max-content auto;
 }
 
