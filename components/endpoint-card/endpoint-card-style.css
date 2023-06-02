@@ -9,9 +9,10 @@
 #card-container {
     background-color: var(--onBackground);
     border-radius: var(--borderRadius);
-    width: 200px;
-    height: 250px;
+    width: 250px;
+    height: 300px;
     padding: 20px;
+    margin: 20px;
     overflow: hidden;
 }
 
