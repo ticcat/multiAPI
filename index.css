@@ -9,7 +9,7 @@
 }
 
 .scroll-container {
-    max-height: 83vh;
+    max-height: 72vh;
     overflow: auto;
 }
 
@@ -31,7 +31,6 @@ body {
     background-color: var(--displayBackground);
     box-sizing: border-box;
     padding: 20px;
-    overflow: auto;
 }
 
 body.grid-container {
@@ -72,6 +71,7 @@ body.grid-container {
     background-color: var(--background);
     border-radius: var(--borderRadius);
     color: var(--onBackgroundText);
+    overflow: auto;
 }
 
 #currentAccessibleEndpointsPanel.grid-container {
@@ -81,7 +81,6 @@ body.grid-container {
 /* #region Current accessible endpoints top bar */
 #currAccEPTopBar {
     margin: 40px 10px;
-    position: sticky;
 }
 
 #currAccEPTopBar.grid-container {
