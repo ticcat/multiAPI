@@ -126,7 +126,7 @@ function loadAccessibleAPIs() {
 }
 
 function clearMainPanelEndpoints() {
-    let accesibleEndpoints = document.getElementById("currAccEPList");
+    let accesibleEndpoints = document.getElementById("currAccEPCards");
     accesibleEndpoints.replaceChildren();
 }
 
@@ -173,19 +173,14 @@ function setBackBtnVisibility() {
 }
 
 function setCurrentAccessibleEndpoints(endpoints) {
-    let accesibleEndpoints = document.getElementById("currAccEPList");
+    let accesibleEndpoints = document.getElementById("currAccEPCards");
 
     endpoints.forEach((eP) => {
-        let newEndpoint = document.createElement("li");
-        let newEndpointButton = document.createElement("p");
+        let newEndpointCard = document.createElement("endpoint-card");
 
-        newEndpointButton.innerHTML = eP.name;
-        newEndpointButton.onclick = function () {
-            navigateFromEndpoint(eP);
-        };
+        newEndpointCard.cardEndpoint = eP;
 
-        newEndpoint.appendChild(newEndpointButton);
-        accesibleEndpoints.appendChild(newEndpoint);
+        accesibleEndpoints.appendChild(newEndpointCard);
     });
 
     setBackBtnVisibility();

@@ -18,6 +18,14 @@ function defineEndpointCard(html) {
             this.attachShadow({ mode: "open" });
             this.shadowRoot.appendChild(template.content.cloneNode(true));
         }
+
+        connectedCallback() {
+            let cardTitle = this.shadowRoot.getElementById("card-title");
+            let cardCover = this.shadowRoot.getElementById("card-cover");
+
+            cardTitle.innerHTML = this.cardEndpoint.name;
+            cardCover.setAttribute("src", "/images/pikachu-ph-normal.png");
+        }
     }
 
     customElements.define("endpoint-card", EndpointCard);
