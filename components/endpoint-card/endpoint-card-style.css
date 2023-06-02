@@ -6,6 +6,11 @@
     box-sizing: border-box;
 }
 
+.card-cover-mask {
+    -webkit-mask-image: linear-gradient(black 65%, transparent);
+    mask-image: linear-gradient(black 65%, transparent);
+}
+
 #card-container {
     background-color: var(--onBackground);
     border-radius: var(--borderRadius);
@@ -35,7 +40,7 @@
 
 #card-title {
     position: relative;
-    bottom: 25%;
+    bottom: 5%;
     margin: 0px 15px;
     color: var(--onBackgroundText);
     font-family: "Bebas Neue", sans-serif;
