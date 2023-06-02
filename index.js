@@ -179,6 +179,9 @@ function setCurrentAccessibleEndpoints(endpoints) {
         let newEndpointCard = document.createElement("endpoint-card");
 
         newEndpointCard.cardEndpoint = eP;
+        newEndpointCard.onclick = function () {
+            navigateFromEndpoint(eP);
+        };
 
         accesibleEndpoints.appendChild(newEndpointCard);
     });
