@@ -119,22 +119,12 @@ body.grid-container {
     justify-items: center;
 }
 
-#currAccEPList p {
-    text-decoration: none;
-    text-transform: capitalize;
-    cursor: pointer;
+#currAccEPCards::-webkit-scrollbar {
+    background-color: var(--background);
 }
 
-#currAccEPList p:link {
-    color: var(--onBackgroundText);
-}
-
-#currAccEPList p:hover {
-    color: var(--onBackgroundTextHover);
-}
-
-#currAccEPList p:active {
-    color: var(--onBackgroundTextActive);
+#currAccEPCards::-webkit-scrollbar-thumb {
+    background-color: var(--onBackground);
 }
 /* #endregion */
 /* #endregion */
