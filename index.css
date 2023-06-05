@@ -112,7 +112,6 @@ body.grid-container {
 /* #endregion */
 
 /* #region Current accessible endpoints list (cards) */
-/*TODO: Refactor to be cards*/
 #currAccEPCards.grid-container {
     grid-template-columns: repeat(auto-fill, 20%);
     justify-content: space-between;
@@ -125,6 +124,24 @@ body.grid-container {
 
 #currAccEPCards::-webkit-scrollbar-thumb {
     background-color: var(--onBackground);
+}
+
+@media screen and (max-width: 1550px) {
+    #currAccEPCards.grid-container {
+        grid-template-columns: repeat(auto-fill, 25%);
+    }
+}
+
+@media screen and (max-width: 1225px) {
+    #currAccEPCards.grid-container {
+        grid-template-columns: repeat(auto-fill, 33.33%);
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    #currAccEPCards.grid-container {
+        grid-template-columns: repeat(auto-fill, 50%);
+    }
 }
 /* #endregion */
 /* #endregion */
