@@ -10,7 +10,8 @@
 
 .scroll-container {
     max-height: 72vh;
-    overflow: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 .back-btn {
@@ -132,7 +133,7 @@ body.grid-container {
     }
 }
 
-@media screen and (max-width: 1225px) {
+@media screen and (max-width: 1300px) {
     #currAccEPCards.grid-container {
         grid-template-columns: repeat(auto-fill, 33.33%);
     }
