@@ -13,26 +13,31 @@ const pokeAPI = new API(
 pokeAPI.firstLevelEndPoints = [
     new Endpoint(
         "Berries",
+        "/images/PokeAPI/PokemonsDefault.png",
         pokeAPI.baseEndpoint,
         pokeAPI.baseEndpoint.url + "/berry"
     ),
     new Endpoint(
         "Items",
+        "/images/PokeAPI/PokemonsDefault.png",
         pokeAPI.baseEndpoint,
         pokeAPI.baseEndpoint.url + "/item"
     ),
     new Endpoint(
         "Locations",
+        "/images/PokeAPI/PokemonsDefault.png",
         pokeAPI.baseEndpoint,
         pokeAPI.baseEndpoint.url + "/location"
     ),
     new Endpoint(
         "Moves",
+        "/images/PokeAPI/PokemonsDefault.png",
         pokeAPI.baseEndpoint,
         pokeAPI.baseEndpoint.url + "/move"
     ),
     new Endpoint(
         "Pokemons",
+        "/images/PokeAPI/PokemonsDefault.png",
         pokeAPI.baseEndpoint,
         pokeAPI.baseEndpoint.url + "/pokemon"
     ),

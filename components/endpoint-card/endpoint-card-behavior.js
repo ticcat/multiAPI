@@ -24,7 +24,7 @@ function defineEndpointCard(html) {
             let cardCover = this.shadowRoot.getElementById("card-cover");
 
             cardTitle.innerHTML = this.cardEndpoint.name;
-            cardCover.setAttribute("src", "/images/pikachu-ph-normal.png");
+            cardCover.setAttribute("src", this.cardEndpoint.spriteUrl);
         }
     }
 

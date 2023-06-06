@@ -1,5 +1,6 @@
 export default class Endpoint {
     name = "";
+    spriteUrl = "";
     parent = null;
     url = "";
     childEndpoints = [];
@@ -7,8 +8,9 @@ export default class Endpoint {
     #abortController = null;
     #abortSignal = null;
 
-    constructor(name, parentEP, endpointUrl) {
+    constructor(name, spriteUrl, parentEP, endpointUrl) {
         this.name = name;
+        this.spriteUrl = spriteUrl;
         this.parent = parentEP;
         this.url = endpointUrl;
     }
