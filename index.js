@@ -1,5 +1,6 @@
 import API from "./scripts/API.js";
 import Endpoint from "./scripts/Endpoint.js";
+import PokeAPIEndpoint from "./scripts/pokeAPIEndpoint.js";
 
 /* #region  APIs definitions */
 const accessibleAPIs = [];
@@ -7,35 +8,35 @@ const accessibleAPIs = [];
 const pokeAPI = new API(
     "Pokémon API",
     "/icons/APIs/pokemon.svg",
-    new Endpoint("Base", "", null, "https://pokeapi.co/api/v2")
+    new PokeAPIEndpoint("Base", "", null, "https://pokeapi.co/api/v2")
 );
 
 pokeAPI.firstLevelEndPoints = [
-    new Endpoint(
+    new PokeAPIEndpoint(
         "Berries",
         "/images/PokeAPI/BerriesDefault.png",
         pokeAPI.baseEndpoint,
         pokeAPI.baseEndpoint.url + "/berry"
     ),
-    new Endpoint(
+    new PokeAPIEndpoint(
         "Items",
         "/images/PokeAPI/ItemsDefault.png",
         pokeAPI.baseEndpoint,
         pokeAPI.baseEndpoint.url + "/item"
     ),
-    new Endpoint(
+    new PokeAPIEndpoint(
         "Locations",
         "/images/PokeAPI/LocationsDefault.png",
         pokeAPI.baseEndpoint,
         pokeAPI.baseEndpoint.url + "/location"
     ),
-    new Endpoint(
+    new PokeAPIEndpoint(
         "Moves",
         "/images/PokeAPI/MovesDefault.png",
         pokeAPI.baseEndpoint,
         pokeAPI.baseEndpoint.url + "/move"
     ),
-    new Endpoint(
+    new PokeAPIEndpoint(
         "Pokemons",
         "/images/PokeAPI/PokemonsDefault.png",
         pokeAPI.baseEndpoint,
@@ -221,7 +222,9 @@ function navigateFromEndpoint(endpoint) {
             if (isLastLevel) {
                 showLastLevelInfo(data);
             } else {
-                setCurrentAccessibleEndpoints(data);
+                data.then((endpoints) => {
+                    setCurrentAccessibleEndpoints(endpoints);
+                });
             }
         });
     }

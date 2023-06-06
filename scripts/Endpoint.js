@@ -19,40 +19,16 @@ export default class Endpoint {
         return this.parent.name !== "Base";
     }
 
-    #getChildEndpointsFromData(rawData) {
-        let childEndpoints = [];
-
-        let data = rawData.results !== undefined ? rawData.results : rawData;
-
-        for (const element of data) {
-            let newEPName =
-                element.name !== undefined ? element.name : element.title;
-            let newEPSpriteUrl = "/images/PokeAPI/PokemonsDefault.png";
-            let newEndpoint = new Endpoint(
-                newEPName,
-                newEPSpriteUrl,
-                this,
-                element.url
-            );
-
-            childEndpoints.push(newEndpoint);
-        }
-
-        return childEndpoints;
-    }
-
     async getData() {
         this.#abortController = new AbortController();
         this.#abortSignal = this.#abortController.signal;
 
-        let composedUrl = this.url;
-
-        let result = fetch(composedUrl, { signal: this.#abortSignal })
+        let result = fetch(this.url, { signal: this.#abortSignal })
             .then((response) => response.json())
             .then((data) => {
                 let dataResult = this.#isLastLevel()
                     ? data
-                    : this.#getChildEndpointsFromData(data);
+                    : this.getChildEndpointsFromData(data);
 
                 return {
                     isLastLevel: this.#isLastLevel(),

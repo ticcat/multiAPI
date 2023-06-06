@@ -36,6 +36,7 @@
     height: 100%;
     margin: auto;
     object-fit: cover;
+    image-rendering: pixelated;
 }
 
 #card-title {
