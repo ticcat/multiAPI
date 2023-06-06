@@ -40,7 +40,7 @@
 
 #card-title {
     position: relative;
-    bottom: 5%;
+    bottom: 10%;
     margin: 0px 15px;
     color: var(--onBackgroundText);
     font-family: "Bebas Neue", sans-serif;

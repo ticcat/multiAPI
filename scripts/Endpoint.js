@@ -27,7 +27,13 @@ export default class Endpoint {
         for (const element of data) {
             let newEPName =
                 element.name !== undefined ? element.name : element.title;
-            let newEndpoint = new Endpoint(newEPName, this, element.url);
+            let newEPSpriteUrl = "/images/PokeAPI/PokemonsDefault.png";
+            let newEndpoint = new Endpoint(
+                newEPName,
+                newEPSpriteUrl,
+                this,
+                element.url
+            );
 
             childEndpoints.push(newEndpoint);
         }

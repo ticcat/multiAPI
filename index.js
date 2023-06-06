@@ -7,31 +7,31 @@ const accessibleAPIs = [];
 const pokeAPI = new API(
     "Pokémon API",
     "/icons/APIs/pokemon.svg",
-    new Endpoint("Base", null, "https://pokeapi.co/api/v2")
+    new Endpoint("Base", "", null, "https://pokeapi.co/api/v2")
 );
 
 pokeAPI.firstLevelEndPoints = [
     new Endpoint(
         "Berries",
-        "/images/PokeAPI/PokemonsDefault.png",
+        "/images/PokeAPI/BerriesDefault.png",
         pokeAPI.baseEndpoint,
         pokeAPI.baseEndpoint.url + "/berry"
     ),
     new Endpoint(
         "Items",
-        "/images/PokeAPI/PokemonsDefault.png",
+        "/images/PokeAPI/ItemsDefault.png",
         pokeAPI.baseEndpoint,
         pokeAPI.baseEndpoint.url + "/item"
     ),
     new Endpoint(
         "Locations",
-        "/images/PokeAPI/PokemonsDefault.png",
+        "/images/PokeAPI/LocationsDefault.png",
         pokeAPI.baseEndpoint,
         pokeAPI.baseEndpoint.url + "/location"
     ),
     new Endpoint(
         "Moves",
-        "/images/PokeAPI/PokemonsDefault.png",
+        "/images/PokeAPI/MovesDefault.png",
         pokeAPI.baseEndpoint,
         pokeAPI.baseEndpoint.url + "/move"
     ),
@@ -48,37 +48,43 @@ accessibleAPIs.push(pokeAPI);
 const swAPI = new API(
     "Star Wars API",
     "/icons/APIs/star-wars.svg",
-    new Endpoint("Base", null, "https://swapi.dev/api")
+    new Endpoint("Base", "", null, "https://swapi.dev/api")
 );
 
 swAPI.firstLevelEndPoints = [
     new Endpoint(
         "Films",
+        "/images/PokeAPI/PokemonsDefault.png",
         swAPI.baseEndpoint,
         swAPI.baseEndpoint.url + "/films"
     ),
     new Endpoint(
         "People",
+        "/images/PokeAPI/PokemonsDefault.png",
         swAPI.baseEndpoint,
         swAPI.baseEndpoint.url + "/people"
     ),
     new Endpoint(
         "Planets",
+        "/images/PokeAPI/PokemonsDefault.png",
         swAPI.baseEndpoint,
         swAPI.baseEndpoint.url + "/planets"
     ),
     new Endpoint(
         "Species",
+        "/images/PokeAPI/PokemonsDefault.png",
         swAPI.baseEndpoint,
         swAPI.baseEndpoint.url + "/species"
     ),
     new Endpoint(
         "Starships",
+        "/images/PokeAPI/PokemonsDefault.png",
         swAPI.baseEndpoint,
         swAPI.baseEndpoint.url + "/starships"
     ),
     new Endpoint(
         "Vehicles",
+        "/images/PokeAPI/PokemonsDefault.png",
         swAPI.baseEndpoint,
         swAPI.baseEndpoint.url + "/vehicles"
     ),
@@ -88,17 +94,19 @@ accessibleAPIs.push(swAPI);
 const hpAPI = new API(
     "Harry Potter API",
     "/icons/APIs/harry-potter.svg",
-    new Endpoint("Base", null, "https://hp-api.onrender.com/api")
+    new Endpoint("Base", "", null, "https://hp-api.onrender.com/api")
 );
 
 hpAPI.firstLevelEndPoints = [
     new Endpoint(
         "Characters",
+        "/images/PokeAPI/PokemonsDefault.png",
         hpAPI.baseEndpoint,
         hpAPI.baseEndpoint.url + "/characters"
     ),
     new Endpoint(
         "Spells",
+        "/images/PokeAPI/PokemonsDefault.png",
         hpAPI.baseEndpoint,
         hpAPI.baseEndpoint.url + "/spells"
     ),
