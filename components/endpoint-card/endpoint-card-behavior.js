@@ -20,9 +20,12 @@ function defineEndpointCard(html) {
         }
 
         connectedCallback() {
+            let cardContainer =
+                this.shadowRoot.getElementById("card-container");
             let cardTitle = this.shadowRoot.getElementById("card-title");
             let cardCover = this.shadowRoot.getElementById("card-cover");
 
+            cardContainer.onclick = this.onCardClick;
             cardTitle.innerHTML = this.cardEndpoint.name;
             cardCover.setAttribute("src", this.cardEndpoint.spriteUrl);
         }

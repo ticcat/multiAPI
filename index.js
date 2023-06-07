@@ -194,7 +194,7 @@ function setCurrentAccessibleEndpoints(endpoints) {
         let newEndpointCard = document.createElement("endpoint-card");
 
         newEndpointCard.cardEndpoint = eP;
-        newEndpointCard.onclick = function () {
+        newEndpointCard.onCardClick = function () {
             navigateFromEndpoint(eP);
         };
 
