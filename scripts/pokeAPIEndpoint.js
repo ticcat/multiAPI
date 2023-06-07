@@ -33,6 +33,10 @@ export default class PokeAPIEndpoint extends Endpoint {
                         return data.sprites.default;
                     case "Pokemons":
                         return data.sprites.front_default;
+                    case "Berries":
+                        return fetch(data.item.url)
+                            .then((response) => response.json())
+                            .then((item) => item.sprites.default);
                     default:
                         return this.spriteUrl;
                 }
