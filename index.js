@@ -1,5 +1,4 @@
 import API from "./scripts/API.js";
-import Endpoint from "./scripts/Endpoint.js";
 import PokeAPIEndpoint from "./scripts/pokeAPIEndpoint.js";
 import SWAPIEndpoint from "./scripts/swAPIEndpoint.js";
 import HPAPIEndpoint from "./scripts/hpAPIEndpoint.js";
