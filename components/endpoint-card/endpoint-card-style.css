@@ -40,18 +40,20 @@
     image-rendering: pixelated;
 }
 
-#card-title {
+#title-container {
     position: absolute;
     bottom: 10%;
     left: 0px;
     width: 100%;
+    z-index: 1;
+}
+
+#card-title {
+    padding: 0px 20px;
     color: var(--onBackgroundText);
     font-family: "Bebas Neue", sans-serif;
     font-size: 2rem;
     letter-spacing: 0.1rem;
     text-align: center;
-    text-overflow: clip;
-    overflow: hidden;
-    white-space: nowrap;
-    z-index: 1;
+    white-space: wrap;
 }
