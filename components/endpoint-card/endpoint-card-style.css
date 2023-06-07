@@ -12,6 +12,7 @@
 }
 
 #card-container {
+    position: relative;
     background-color: var(--onBackground);
     border-radius: var(--borderRadius);
     width: 250px;
@@ -40,9 +41,10 @@
 }
 
 #card-title {
-    position: relative;
+    position: absolute;
     bottom: 10%;
-    margin: 0px 15px;
+    left: 0px;
+    width: 100%;
     color: var(--onBackgroundText);
     font-family: "Bebas Neue", sans-serif;
     font-size: 2rem;
