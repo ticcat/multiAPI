@@ -1,5 +1,7 @@
 import API from "./scripts/API.js";
-import Endpoint from "./scripts/Endpoint.js";
+import PokeAPIEndpoint from "./scripts/pokeAPIEndpoint.js";
+import SWAPIEndpoint from "./scripts/swAPIEndpoint.js";
+import HPAPIEndpoint from "./scripts/hpAPIEndpoint.js";
 
 /* #region  APIs definitions */
 const accessibleAPIs = [];
@@ -7,32 +9,37 @@ const accessibleAPIs = [];
 const pokeAPI = new API(
     "Pokémon API",
     "/icons/APIs/pokemon.svg",
-    new Endpoint("Base", null, "https://pokeapi.co/api/v2")
+    new PokeAPIEndpoint("Base", "", null, "https://pokeapi.co/api/v2")
 );
 
 pokeAPI.firstLevelEndPoints = [
-    new Endpoint(
+    new PokeAPIEndpoint(
         "Berries",
+        "/images/PokeAPI/BerriesDefault.png",
         pokeAPI.baseEndpoint,
         pokeAPI.baseEndpoint.url + "/berry"
     ),
-    new Endpoint(
+    new PokeAPIEndpoint(
         "Items",
+        "/images/PokeAPI/ItemsDefault.png",
         pokeAPI.baseEndpoint,
         pokeAPI.baseEndpoint.url + "/item"
     ),
-    new Endpoint(
+    new PokeAPIEndpoint(
         "Locations",
+        "/images/PokeAPI/LocationsDefault.png",
         pokeAPI.baseEndpoint,
         pokeAPI.baseEndpoint.url + "/location"
     ),
-    new Endpoint(
+    new PokeAPIEndpoint(
         "Moves",
+        "/images/PokeAPI/MovesDefault.png",
         pokeAPI.baseEndpoint,
         pokeAPI.baseEndpoint.url + "/move"
     ),
-    new Endpoint(
+    new PokeAPIEndpoint(
         "Pokemons",
+        "/images/PokeAPI/PokemonsDefault.png",
         pokeAPI.baseEndpoint,
         pokeAPI.baseEndpoint.url + "/pokemon"
     ),
@@ -43,37 +50,43 @@ accessibleAPIs.push(pokeAPI);
 const swAPI = new API(
     "Star Wars API",
     "/icons/APIs/star-wars.svg",
-    new Endpoint("Base", null, "https://swapi.dev/api")
+    new SWAPIEndpoint("Base", "", null, "https://swapi.dev/api")
 );
 
 swAPI.firstLevelEndPoints = [
-    new Endpoint(
+    new SWAPIEndpoint(
         "Films",
+        "/images/SWAPI/FilmsDefault.png",
         swAPI.baseEndpoint,
         swAPI.baseEndpoint.url + "/films"
     ),
-    new Endpoint(
+    new SWAPIEndpoint(
         "People",
+        "/images/SWAPI/PeopleDefault.png",
         swAPI.baseEndpoint,
         swAPI.baseEndpoint.url + "/people"
     ),
-    new Endpoint(
+    new SWAPIEndpoint(
         "Planets",
+        "/images/SWAPI/PlanetsDefault.png",
         swAPI.baseEndpoint,
         swAPI.baseEndpoint.url + "/planets"
     ),
-    new Endpoint(
+    new SWAPIEndpoint(
         "Species",
+        "/images/SWAPI/SpeciesDefault.png",
         swAPI.baseEndpoint,
         swAPI.baseEndpoint.url + "/species"
     ),
-    new Endpoint(
+    new SWAPIEndpoint(
         "Starships",
+        "/images/SWAPI/SpaceshipsDefault.png",
         swAPI.baseEndpoint,
         swAPI.baseEndpoint.url + "/starships"
     ),
-    new Endpoint(
+    new SWAPIEndpoint(
         "Vehicles",
+        "/images/SWAPI/VehiclesDefault.png",
         swAPI.baseEndpoint,
         swAPI.baseEndpoint.url + "/vehicles"
     ),
@@ -83,17 +96,19 @@ accessibleAPIs.push(swAPI);
 const hpAPI = new API(
     "Harry Potter API",
     "/icons/APIs/harry-potter.svg",
-    new Endpoint("Base", null, "https://hp-api.onrender.com/api")
+    new HPAPIEndpoint("Base", "", null, "https://hp-api.onrender.com/api")
 );
 
 hpAPI.firstLevelEndPoints = [
-    new Endpoint(
+    new HPAPIEndpoint(
         "Characters",
+        "/images/HPAPI/CharactersDefault.png",
         hpAPI.baseEndpoint,
         hpAPI.baseEndpoint.url + "/characters"
     ),
-    new Endpoint(
+    new HPAPIEndpoint(
         "Spells",
+        "/images/HPAPI/SpellsDefault.png",
         hpAPI.baseEndpoint,
         hpAPI.baseEndpoint.url + "/spells"
     ),
@@ -126,7 +141,7 @@ function loadAccessibleAPIs() {
 }
 
 function clearMainPanelEndpoints() {
-    let accesibleEndpoints = document.getElementById("currAccEPList");
+    let accesibleEndpoints = document.getElementById("currAccEPCards");
     accesibleEndpoints.replaceChildren();
 }
 
@@ -155,7 +170,7 @@ function setCurrentAPIButton(apiName) {
 }
 
 function setCurrentAPITitle(apiName) {
-    let currentAPITitle = document.getElementById("currentAPI");
+    let currentAPITitle = document.getElementById("currentAPITitle");
 
     currentAPITitle.innerHTML = apiName;
 }
@@ -173,19 +188,17 @@ function setBackBtnVisibility() {
 }
 
 function setCurrentAccessibleEndpoints(endpoints) {
-    let accesibleEndpoints = document.getElementById("currAccEPList");
+    let accesibleEndpoints = document.getElementById("currAccEPCards");
 
     endpoints.forEach((eP) => {
-        let newEndpoint = document.createElement("li");
-        let newEndpointButton = document.createElement("p");
+        let newEndpointCard = document.createElement("endpoint-card");
 
-        newEndpointButton.innerHTML = eP.name;
-        newEndpointButton.onclick = function () {
+        newEndpointCard.cardEndpoint = eP;
+        newEndpointCard.onCardClick = function () {
             navigateFromEndpoint(eP);
         };
 
-        newEndpoint.appendChild(newEndpointButton);
-        accesibleEndpoints.appendChild(newEndpoint);
+        accesibleEndpoints.appendChild(newEndpointCard);
     });
 
     setBackBtnVisibility();
@@ -210,7 +223,9 @@ function navigateFromEndpoint(endpoint) {
             if (isLastLevel) {
                 showLastLevelInfo(data);
             } else {
-                setCurrentAccessibleEndpoints(data);
+                data.then((endpoints) => {
+                    setCurrentAccessibleEndpoints(endpoints);
+                });
             }
         });
     }

@@ -11,6 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
 
     <script type="module" src='index.js'></script>
+    <script src="/components/endpoint-card/endpoint-card-behavior.js"></script>
     <script src="/components/api-button/api-button-behavior.js"></script>
 </head>
 
@@ -20,10 +21,10 @@
     
     <div id="mainPanel" class="grid-container">
         <div>
-            <h1 id="currentAPI">CurrentAPI placeholder</h1>
+            <h1 id="currentAPITitle">CurrentAPI placeholder</h1>
         </div>
 
-        <div id="currentAccessibleEndpoints" class="grid-container">
+        <div id="currentAccessibleEndpointsPanel" class="grid-container">
             <div id="currAccEPTopBar" class="grid-container">
                 <img id="currAccEPTopBarBackBtn" class="back-btn" src="./icons/google/arrow_back.svg" alt="back-btn"></img>
 
@@ -34,10 +35,7 @@
                 <div id="currAccEPTopBarPagination"></div>
             </div>
 
-            <!--TODO Make flexbox to support cards-->
-            <div class="scroll-container">
-                <ul id="currAccEPList">
-                </ul>
+            <div id="currAccEPCards" class="grid-container scroll-container">
             </div>
         </div>
     </div>

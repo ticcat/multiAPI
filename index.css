@@ -9,8 +9,9 @@
 }
 
 .scroll-container {
-    max-height: 75vh;
-    overflow: auto;
+    max-height: 72vh;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 .back-btn {
@@ -31,7 +32,6 @@ body {
     background-color: var(--displayBackground);
     box-sizing: border-box;
     padding: 20px;
-    overflow: auto;
 }
 
 body.grid-container {
@@ -59,29 +59,29 @@ body.grid-container {
     grid-template-rows: max-content auto;
 }
 
-#currentAPI {
+#currentAPITitle {
     font-family: "Bebas Neue", sans-serif;
-    font-size: 45px;
+    font-size: 3rem;
     letter-spacing: 0.2rem;
     text-align: center;
     color: var(--onBackgroundText);
 }
 
 /* #region Current accessible endpoints */
-#currentAccessibleEndpoints {
+#currentAccessibleEndpointsPanel {
     background-color: var(--background);
     border-radius: var(--borderRadius);
     color: var(--onBackgroundText);
+    overflow: auto;
 }
 
-#currentAccessibleEndpoints.grid-container {
+#currentAccessibleEndpointsPanel.grid-container {
     grid-template-rows: max-content auto;
 }
 
 /* #region Current accessible endpoints top bar */
 #currAccEPTopBar {
     margin: 40px 10px;
-    position: sticky;
 }
 
 #currAccEPTopBar.grid-container {
@@ -113,28 +113,36 @@ body.grid-container {
 /* #endregion */
 
 /* #region Current accessible endpoints list (cards) */
-/*TODO: Refactor to be cards*/
-
-#currAccEPList {
-    overflow: auto;
+#currAccEPCards.grid-container {
+    grid-template-columns: repeat(auto-fill, 20%);
+    justify-content: space-between;
+    justify-items: center;
 }
 
-#currAccEPList p {
-    text-decoration: none;
-    text-transform: capitalize;
-    cursor: pointer;
+#currAccEPCards::-webkit-scrollbar {
+    background-color: var(--background);
 }
 
-#currAccEPList p:link {
-    color: var(--onBackgroundText);
+#currAccEPCards::-webkit-scrollbar-thumb {
+    background-color: var(--onBackground);
 }
 
-#currAccEPList p:hover {
-    color: var(--onBackgroundTextHover);
+@media screen and (max-width: 1550px) {
+    #currAccEPCards.grid-container {
+        grid-template-columns: repeat(auto-fill, 25%);
+    }
 }
 
-#currAccEPList p:active {
-    color: var(--onBackgroundTextActive);
+@media screen and (max-width: 1300px) {
+    #currAccEPCards.grid-container {
+        grid-template-columns: repeat(auto-fill, 33.33%);
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    #currAccEPCards.grid-container {
+        grid-template-columns: repeat(auto-fill, 50%);
+    }
 }
 /* #endregion */
 /* #endregion */

@@ -1,5 +1,9 @@
 @import url(/globalVariables.css);
 
+* {
+    box-sizing: border-box;
+}
+
 .api-button {
     background-color: var(--onBackground);
     width: 100px;
@@ -8,7 +12,7 @@
     border-radius: var(--borderRadius);
     margin: 13px 20px;
     box-shadow: 0px 10px 15px #252525;
-    transition: box-shadow 0.2s;
+    transition: box-shadow 0.3s ease-in-out, outline 0.2s ease-in-out;
 }
 
 .api-button:hover {
@@ -21,7 +25,6 @@
 
 .api-button.active {
     outline: 5px solid white;
-    box-shadow: 0px 5px 20px #0c0c0c;
 }
 
 .api-button > img {
