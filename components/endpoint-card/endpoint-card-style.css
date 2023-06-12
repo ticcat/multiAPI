@@ -1,9 +1,12 @@
 @import url(/globalVariables.css);
 
 * {
+    visibility: visible;
     margin: 0px;
     padding: 0px;
     box-sizing: border-box;
+    opacity: 1;
+    transition: opacity 0.1s;
 }
 
 .card-cover-mask {
