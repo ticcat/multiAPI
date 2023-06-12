@@ -5,23 +5,33 @@ export default class SWAPIEndpoint extends Endpoint {
         super(name, spriteUrl, parentEP, endpointUrl);
     }
 
-    async getChildEndpointsFromData(data) {
+    getChildEndpointsFromData(data) {
         let childEndpoints = [];
 
-        for (const element of data.results) {
-            let newEPName =
-                element.name !== undefined ? element.name : element.title;
-            let newEPSpriteUrl = this.spriteUrl;
-            let newEndpoint = new Endpoint(
-                newEPName,
-                newEPSpriteUrl,
-                this,
-                element.url
+        let newEndpointsPromise = data.results.map((element) =>
+            this.#createNewEndpointFromRawData(element)
+        );
+
+        return Promise.allSettled(newEndpointsPromise).then((newEndpoints) => {
+            newEndpoints.forEach((newEndpoint) =>
+                childEndpoints.push(newEndpoint.value)
             );
 
-            childEndpoints.push(newEndpoint);
-        }
+            return childEndpoints;
+        });
+    }
 
-        return childEndpoints;
+    async #createNewEndpointFromRawData(rawData) {
+        let newEPName =
+            rawData.name !== undefined ? rawData.name : rawData.title;
+        let newEPSpriteUrl = this.spriteUrl;
+        let newEndpoint = new Endpoint(
+            newEPName,
+            newEPSpriteUrl,
+            this,
+            rawData.url
+        );
+
+        return newEndpoint;
     }
 }

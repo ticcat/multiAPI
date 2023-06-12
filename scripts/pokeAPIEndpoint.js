@@ -5,26 +5,36 @@ export default class PokeAPIEndpoint extends Endpoint {
         super(name, spriteUrl, parentEP, endpointUrl);
     }
 
-    async getChildEndpointsFromData(data) {
+    getChildEndpointsFromData(data) {
         let childEndpoints = [];
 
-        for (const element of data.results) {
-            let newEPName = element.name;
-            let newEPSpriteUrl = await this.#getCoverSprite(element);
-            let newEndpoint = new Endpoint(
-                newEPName,
-                newEPSpriteUrl,
-                this,
-                element.url
+        let newEndpointsPromise = data.results.map((element) =>
+            this.#createNewEndpointFromRawData(element)
+        );
+
+        return Promise.allSettled(newEndpointsPromise).then((newEndpoints) => {
+            newEndpoints.forEach((newEndpoint) =>
+                childEndpoints.push(newEndpoint.value)
             );
 
-            childEndpoints.push(newEndpoint);
-        }
-
-        return childEndpoints;
+            return childEndpoints;
+        });
     }
 
-    async #getCoverSprite(element) {
+    async #createNewEndpointFromRawData(rawData) {
+        let newEPSpriteUrl = await this.#getCoverSprite(rawData);
+        let newEPName = rawData.name;
+        let newEndpoint = new Endpoint(
+            newEPName,
+            newEPSpriteUrl,
+            this,
+            rawData.url
+        );
+
+        return newEndpoint;
+    }
+
+    #getCoverSprite(element) {
         return fetch(element.url)
             .then((response) => response.json())
             .then((data) => {
