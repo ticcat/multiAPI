@@ -1,0 +1,18 @@
+:root {
+    --loadingColor: rgb(185, 185, 185);
+}
+
+.skeleton-loader {
+    height: 100%;
+    width: 100%;
+    animation: skeleton-loading 1s alternate infinite;
+}
+
+@keyframes skeleton-loading {
+    0% {
+        background-color: rgba(185, 185, 185, 0.8);
+    }
+    100% {
+        background-color: rgba(185, 185, 185, 0.2);
+    }
+}

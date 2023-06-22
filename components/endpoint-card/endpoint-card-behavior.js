@@ -22,6 +22,7 @@ function defineEndpointCard(html) {
         connectedCallback() {
             let cardContainer =
                 this.shadowRoot.getElementById("card-container");
+            let cardContent = this.shadowRoot.getElementById("card-content");
             let cardTitle = this.shadowRoot.getElementById("card-title");
 
             if (this.cardEndpoint.isLastLevel()) {
@@ -29,11 +30,13 @@ function defineEndpointCard(html) {
                     cardTitle.innerHTML = this.cardEndpoint.name;
                     this.#setCardCover(url);
                     cardContainer.onclick = this.onCardClick;
+                    cardContainer.replaceChildren(cardContent);
                 });
             } else {
                 cardTitle.innerHTML = this.cardEndpoint.name;
                 this.#setCardCover(this.cardEndpoint.spriteUrl);
                 cardContainer.onclick = this.onCardClick;
+                cardContainer.replaceChildren(cardContent);
             }
         }
 

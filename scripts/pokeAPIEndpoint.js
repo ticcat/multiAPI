@@ -1,3 +1,4 @@
+import { randomSleep } from "./util/util.js";
 import Endpoint from "./../scripts/Endpoint.js";
 
 export default class PokeAPIEndpoint extends Endpoint {
