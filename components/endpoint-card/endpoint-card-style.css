@@ -43,6 +43,14 @@
     image-rendering: pixelated;
 }
 
+#card-cover.loading {
+    visibility: hidden;
+}
+
+#card-cover.loaded {
+    visibility: visible;
+}
+
 #title-container {
     position: absolute;
     bottom: 10%;
