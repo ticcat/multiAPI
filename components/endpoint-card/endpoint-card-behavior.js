@@ -25,9 +25,17 @@ function defineEndpointCard(html) {
             let cardTitle = this.shadowRoot.getElementById("card-title");
             let cardCover = this.shadowRoot.getElementById("card-cover");
 
-            cardContainer.onclick = this.onCardClick;
-            cardTitle.innerHTML = this.cardEndpoint.name;
-            cardCover.setAttribute("src", this.cardEndpoint.spriteUrl);
+            if (this.cardEndpoint.isLastLevel()) {
+                this.cardEndpoint.getSprite().then((url) => {
+                    cardTitle.innerHTML = this.cardEndpoint.name;
+                    cardCover.setAttribute("src", url);
+                    cardContainer.onclick = this.onCardClick;
+                });
+            } else {
+                cardTitle.innerHTML = this.cardEndpoint.name;
+                cardCover.setAttribute("src", this.cardEndpoint.spriteUrl);
+                cardContainer.onclick = this.onCardClick;
+            }
         }
     }
 

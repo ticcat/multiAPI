@@ -25,7 +25,7 @@ export default class SWAPIEndpoint extends Endpoint {
         let newEPName =
             rawData.name !== undefined ? rawData.name : rawData.title;
         let newEPSpriteUrl = this.spriteUrl;
-        let newEndpoint = new Endpoint(
+        let newEndpoint = new SWAPIEndpoint(
             newEPName,
             newEPSpriteUrl,
             this,

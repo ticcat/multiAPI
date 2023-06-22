@@ -15,7 +15,7 @@ export default class Endpoint {
         this.url = endpointUrl;
     }
 
-    #isLastLevel() {
+    isLastLevel() {
         return this.parent.name !== "Base";
     }
 
@@ -26,12 +26,12 @@ export default class Endpoint {
         let result = fetch(this.url, { signal: this.#abortSignal })
             .then((response) => response.json())
             .then((data) => {
-                let dataResult = this.#isLastLevel()
+                let dataResult = this.isLastLevel()
                     ? data
                     : this.getChildEndpointsFromData(data);
 
                 return {
-                    isLastLevel: this.#isLastLevel(),
+                    isLastLevel: this.isLastLevel(),
                     data: dataResult,
                 };
             })
@@ -43,6 +43,10 @@ export default class Endpoint {
             });
 
         return result;
+    }
+
+    async getSprite() {
+        return this.spriteUrl;
     }
 
     abortFetch() {

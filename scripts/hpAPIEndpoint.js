@@ -24,7 +24,7 @@ export default class HPAPIEndpoint extends Endpoint {
     async #createNewEndpointFromRawData(rawData) {
         let newEPName = rawData.name;
         let newEPSpriteUrl = this.spriteUrl;
-        let newEndpoint = new Endpoint(
+        let newEndpoint = new HPAPIEndpoint(
             newEPName,
             newEPSpriteUrl,
             this,

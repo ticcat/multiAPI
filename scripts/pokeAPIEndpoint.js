@@ -22,9 +22,9 @@ export default class PokeAPIEndpoint extends Endpoint {
     }
 
     async #createNewEndpointFromRawData(rawData) {
-        let newEPSpriteUrl = await this.#getCoverSprite(rawData);
+        let newEPSpriteUrl = "";
         let newEPName = rawData.name;
-        let newEndpoint = new Endpoint(
+        let newEndpoint = new PokeAPIEndpoint(
             newEPName,
             newEPSpriteUrl,
             this,
@@ -34,11 +34,15 @@ export default class PokeAPIEndpoint extends Endpoint {
         return newEndpoint;
     }
 
-    #getCoverSprite(element) {
-        return fetch(element.url)
+    async getSprite() {
+        return await this.#getCoverSprite();
+    }
+
+    #getCoverSprite() {
+        return fetch(this.url)
             .then((response) => response.json())
             .then((data) => {
-                switch (this.name) {
+                switch (this.parent.name) {
                     case "Items":
                         return data.sprites.default;
                     case "Pokemons":
@@ -48,7 +52,7 @@ export default class PokeAPIEndpoint extends Endpoint {
                             .then((response) => response.json())
                             .then((item) => item.sprites.default);
                     default:
-                        return this.spriteUrl;
+                        return this.parent.spriteUrl;
                 }
             });
     }
