@@ -145,6 +145,12 @@ function clearMainPanelEndpoints() {
     accesibleEndpoints.replaceChildren();
 }
 
+function clearLastLevelScreen() {
+    let mainPanelData = document.getElementById("main-panel-data");
+    let lastLevelScreen = document.getElementById("last-level-screen");
+    if (lastLevelScreen !== null) mainPanelData.removeChild(lastLevelScreen);
+}
+
 function setCurrentAPI(api) {
     abortCurrentEndpointCall();
     clearMainPanelEndpoints();
@@ -188,6 +194,8 @@ function setBackBtnVisibility() {
 }
 
 function setCurrentAccessibleEndpoints(endpoints) {
+    clearLastLevelScreen();
+
     let accesibleEndpoints = document.getElementById("currAccEPCards");
 
     endpoints.forEach((eP) => {
@@ -204,9 +212,15 @@ function setCurrentAccessibleEndpoints(endpoints) {
     setBackBtnVisibility();
 }
 
-function showLastLevelInfo(data) {
-    console.log("TODO: Implement info page.");
+function showLastLevelInfo(data, endpoint) {
+    let mainPanelData = document.getElementById("main-panel-data");
+    let screen = document.createElement("last-level-screen");
+
+    screen.id = "last-level-screen";
+    screen.endpoint = endpoint;
+    console.log("TODO: Show data.");
     console.log(data);
+    mainPanelData.appendChild(screen);
 }
 
 function navigateFromEndpoint(endpoint) {
@@ -221,7 +235,7 @@ function navigateFromEndpoint(endpoint) {
         currentEndpoint.getData().then((result) => {
             const { isLastLevel, data } = result;
             if (isLastLevel) {
-                showLastLevelInfo(data);
+                showLastLevelInfo(data, endpoint);
             } else {
                 data.then((endpoints) => {
                     setCurrentAccessibleEndpoints(endpoints);
@@ -231,7 +245,7 @@ function navigateFromEndpoint(endpoint) {
     }
 }
 
-export function navigateBack() {
+function navigateBack() {
     navigateFromEndpoint(currentEndpoint.parent);
 }
 
