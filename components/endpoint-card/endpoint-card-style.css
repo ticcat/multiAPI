@@ -23,7 +23,7 @@
     height: 300px;
     margin: 20px;
     overflow: hidden;
-    box-shadow: 0px 10px 15px #252525;
+    box-shadow: -2px 5px 15px #252525;
     transition: box-shadow 0.2s ease-in-out;
 }
 
