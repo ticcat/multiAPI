@@ -63,7 +63,15 @@
     text-align: center;
 }
 
-#data-table {
+#data-table tr td {
+    width: 50%;
+    text-align: start;
+    font-family: "Segoe UI", Tahoma;
+    font-size: 1.2rem;
+}
+
+#data-table tr td:first-child {
+    font-weight: bold;
 }
 
 @keyframes show-cover {
