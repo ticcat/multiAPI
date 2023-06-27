@@ -218,8 +218,7 @@ function showLastLevelInfo(data, endpoint) {
 
     screen.id = "last-level-screen";
     screen.endpoint = endpoint;
-    console.log("TODO: Show data.");
-    console.log(data);
+    screen.data = data;
     mainPanelData.appendChild(screen);
 }
 
