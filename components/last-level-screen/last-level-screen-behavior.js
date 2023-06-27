@@ -16,13 +16,32 @@ function defineLastLevelScreen(html) {
         }
 
         connectedCallback() {
-            let entryCover = this.shadowRoot.getElementById("entry-cover");
+            let entryCoverImage =
+                this.shadowRoot.getElementById("entry-cover-image");
             let entryTitle = this.shadowRoot.getElementById("entry-title");
 
             this.endpoint.getSprite().then((spriteUrl) => {
-                entryCover.setAttribute("src", spriteUrl);
+                entryCoverImage.setAttribute("src", spriteUrl);
             });
             entryTitle.innerHTML = this.endpoint.name;
+            this.#setTableData(this.data);
+        }
+
+        #setTableData(data) {
+            let dataTable = this.shadowRoot.getElementById("data-table");
+
+            for (const key in data) {
+                let dataRow = document.createElement("tr");
+                let dataKey = document.createElement("td");
+                let dataValue = document.createElement("td");
+
+                dataKey.innerHTML = key;
+                dataValue.innerHTML = data[key];
+                dataRow.appendChild(dataKey);
+                dataRow.appendChild(dataValue);
+
+                dataTable.appendChild(dataRow);
+            }
         }
     }
 
