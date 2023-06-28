@@ -63,11 +63,17 @@
     text-align: center;
 }
 
+#data-table {
+    border-collapse: collapse;
+}
+
 #data-table tr td {
+    padding-bottom: 10px;
     width: 50%;
+    border-bottom: 4px solid var(--onBackground);
     text-align: start;
     font-family: "Segoe UI", Tahoma;
-    font-size: 1.2rem;
+    font-size: 2rem;
 }
 
 #data-table tr td:first-child {
