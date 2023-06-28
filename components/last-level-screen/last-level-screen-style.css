@@ -64,12 +64,14 @@
 }
 
 #data-table {
+    width: 100%;
+    max-width: 100%;
     border-collapse: collapse;
     transition: 0.2s ease-in 0.2s;
 }
 
 #data-table tr td {
-    padding-bottom: 10px;
+    padding: 0px 15px 10px 15px;
     width: 50%;
     border-bottom: 4px solid var(--onBackground);
     text-align: start;
