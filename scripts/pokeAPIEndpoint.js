@@ -6,7 +6,7 @@ export default class PokeAPIEndpoint extends Endpoint {
     }
 
     getChildEndpointsFromData(data) {
-        let childEndpoints = [];
+        this.childEndpoints = [];
 
         let newEndpointsPromise = data.results.map((element) =>
             this.#createNewEndpointFromRawData(element)
@@ -14,10 +14,10 @@ export default class PokeAPIEndpoint extends Endpoint {
 
         return Promise.allSettled(newEndpointsPromise).then((newEndpoints) => {
             newEndpoints.forEach((newEndpoint) =>
-                childEndpoints.push(newEndpoint.value)
+                this.childEndpoints.push(newEndpoint.value)
             );
 
-            return childEndpoints;
+            return this.childEndpoints;
         });
     }
 
@@ -35,7 +35,7 @@ export default class PokeAPIEndpoint extends Endpoint {
     }
 
     async getSprite() {
-        return await this.#getCoverSprite();
+        return this.spriteUrl !== "" ? this.spriteUrl : this.#getCoverSprite();
     }
 
     #getCoverSprite() {

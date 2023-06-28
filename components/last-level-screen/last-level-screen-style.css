@@ -1,0 +1,108 @@
+@import url(/globalVariables.css);
+
+:root {
+    --coverShowDuration: 3s;
+}
+
+* {
+    visibility: visible;
+    box-sizing: border-box;
+    margin: 0px;
+    padding: 0px;
+    opacity: 1;
+    z-index: 10;
+    opacity: 1;
+}
+
+.grid-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.entry-cover-mask {
+    -webkit-mask-image: linear-gradient(black 55%, transparent);
+    mask-image: linear-gradient(black 55%, transparent);
+    display: flex;
+    justify-content: center;
+}
+
+#last-level-screen-container {
+    background-color: var(---background);
+    width: 100%;
+    height: 100%;
+    padding: 0px 80px 30px 80px;
+    transition: opacity 0.2s ease;
+}
+
+#entry-cover {
+    height: 400px;
+    margin-bottom: 40px;
+}
+
+#entry-cover-image {
+    width: 400px;
+    height: 400px;
+    object-fit: contain;
+    image-rendering: pixelated;
+    animation: show-cover 0.3s ease-in-out forwards;
+}
+
+#entry-title-container {
+    opacity: 0;
+    position: relative;
+    bottom: 7rem;
+    animation: show-title 0.2s ease-in 0.2s forwards;
+}
+
+#entry-title {
+    color: var(--onBackgroundText);
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 7rem;
+    letter-spacing: 0.5rem;
+    text-align: center;
+}
+
+#data-table {
+    width: 100%;
+    max-width: 100%;
+    border-collapse: collapse;
+    transition: 0.2s ease-in 0.2s;
+}
+
+#data-table tr td {
+    padding: 0px 15px 10px 15px;
+    width: 50%;
+    border-bottom: 4px solid var(--onBackground);
+    text-align: start;
+    font-family: "Segoe UI", Tahoma;
+    font-size: 2rem;
+}
+
+#data-table tr td:first-child {
+    font-weight: bold;
+}
+
+@keyframes show-cover {
+    from {
+        opacity: 0;
+        height: 0;
+        width: 0;
+    }
+
+    to {
+        opacity: 1;
+        width: 400px;
+        height: 400px;
+    }
+}
+
+@keyframes show-title {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}

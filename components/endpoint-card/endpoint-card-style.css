@@ -7,7 +7,6 @@
     padding: 0px;
     box-sizing: border-box;
     opacity: 1;
-    transition: opacity 0.1s;
 }
 
 .card-cover-mask {
@@ -24,7 +23,7 @@
     margin: 20px;
     overflow: hidden;
     box-shadow: -2px 5px 15px #252525;
-    transition: box-shadow 0.2s ease-in-out;
+    transition: box-shadow 0.2s ease-in-out, opacity 0.3s;
 }
 
 #card-container:hover {
