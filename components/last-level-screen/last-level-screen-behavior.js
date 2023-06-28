@@ -1,3 +1,5 @@
+import filterRawData from "../../scripts/last-level/lastLevelDataFilter.js";
+
 fetch("/components/last-level-screen/last-level-screen-template.html")
     .then((stream) => stream.text())
     .then((text) => defineLastLevelScreen(text));
@@ -30,17 +32,20 @@ function defineLastLevelScreen(html) {
         #setTableData(data) {
             let dataTable = this.shadowRoot.getElementById("data-table");
 
-            for (const key in data) {
-                let dataRow = document.createElement("tr");
-                let dataKey = document.createElement("td");
-                let dataValue = document.createElement("td");
+            let filteredData = filterRawData(data, this.endpoint);
 
-                dataKey.innerHTML = key;
-                dataValue.innerHTML = data[key];
-                dataRow.appendChild(dataKey);
-                dataRow.appendChild(dataValue);
+            for (let data in filteredData) {
+                let dataRowElement = document.createElement("tr");
+                let dataKeyElement = document.createElement("td");
+                let dataValueElement = document.createElement("td");
+                let dataEntry = filteredData[data];
 
-                dataTable.appendChild(dataRow);
+                dataKeyElement.innerHTML = dataEntry.key;
+                dataValueElement.innerHTML = dataEntry.value;
+                dataRowElement.appendChild(dataKeyElement);
+                dataRowElement.appendChild(dataValueElement);
+
+                dataTable.appendChild(dataRowElement);
             }
         }
     }
