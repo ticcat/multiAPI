@@ -187,7 +187,7 @@ function filterPokemonData(rawData) {
             }
             case "stats": {
                 filteredData[key].value = rawData[key].map(
-                    (it) => it.stat.name + ": " + it.base_stat
+                    (it) => " <b>" + it.stat.name + "</b>: " + it.base_stat
                 );
                 break;
             }
