@@ -20,7 +20,7 @@ export default function swAPIDataFilter(rawData, endpointType) {
     }
 }
 
-async function filterFilmData(rawData) {
+function filterFilmData(rawData) {
     const filmDataModel = {
         episode_id: { key: "Episode Id", value: 0 },
         opening_crawl: { key: "Opening crawl", value: "" },
