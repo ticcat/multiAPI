@@ -3,16 +3,13 @@ export default function pokeAPIDataFilter(rawData, endpointType) {
         case "Berries":
             return filterBerryData(rawData);
         case "Items":
-            console.log(2);
-            break;
+            return filterItemData(rawData);
         case "Locations":
             return filterLocationData(rawData);
         case "Moves":
-            console.log(4);
-            break;
+            return filterMoveData(rawData);
         case "Pokemons":
-            console.log(5);
-            break;
+            return filterPokemonData(rawData);
         default:
             break;
     }
@@ -55,6 +52,46 @@ function filterBerryData(rawData) {
     return filteredData;
 }
 
+function filterItemData(rawData) {
+    const itemDataModel = {
+        id: { key: "Id", value: 0 },
+        cost: { key: "Cost", value: 0 },
+        effect_entries: { key: "Effect", value: "" },
+        flavor_text_entries: { key: "Flavor", value: "" },
+        attributes: { key: "Attributes", value: [] },
+    };
+
+    let filteredData = itemDataModel;
+
+    for (let data in filteredData) {
+        switch (data) {
+            case "effect_entries": {
+                filteredData[data].value = rawData[data].find(
+                    (it) => it.language.name === "en"
+                ).effect;
+                break;
+            }
+            case "flavor_text_entries": {
+                filteredData[data].value = rawData[data].find(
+                    (it) => it.language.name === "en"
+                ).text;
+                break;
+            }
+            case "attributes": {
+                filteredData[data].value = rawData[data].map(
+                    (it) => " " + it.name
+                );
+                break;
+            }
+            default: {
+                filteredData[data].value = rawData[data];
+            }
+        }
+    }
+
+    return filteredData;
+}
+
 function filterLocationData(rawData) {
     const locationDataModel = {
         id: { key: "Id", value: 0 },
@@ -73,6 +110,96 @@ function filterLocationData(rawData) {
             case "areas": {
                 filteredData[data].value = rawData[data].map(
                     (it) => " " + it.name
+                );
+                break;
+            }
+            default: {
+                filteredData[data].value = rawData[data];
+            }
+        }
+    }
+
+    return filteredData;
+}
+
+function filterMoveData(rawData) {
+    const moveDataModel = {
+        id: { key: "Id", value: 0 },
+        type: { key: "Type", value: "" },
+        effect_entries: { key: "Effect", value: "" },
+        accuracy: { key: "Accuracy", value: 0 },
+        power: { key: "Power", value: 0 },
+        pp: { key: "PP", value: 0 },
+        priority: { key: "Priority", value: 0 },
+        learned_by_pokemon: { key: "Learned by", value: [] },
+    };
+
+    let filteredData = moveDataModel;
+
+    for (let data in filteredData) {
+        switch (data) {
+            case "type": {
+                filteredData[data].value = rawData[data].name;
+                break;
+            }
+            case "effect_entries": {
+                filteredData[data].value = rawData[data].find(
+                    (it) => it.language.name === "en"
+                ).effect;
+                break;
+            }
+            case "learned_by_pokemon": {
+                filteredData[data].value = rawData[data].map(
+                    (it) => " " + it.name
+                );
+                break;
+            }
+            default: {
+                filteredData[data].value = rawData[data];
+            }
+        }
+    }
+
+    return filteredData;
+}
+
+function filterPokemonData(rawData) {
+    const pokemonDataModel = {
+        id: { key: "Id", value: 0 },
+        height: { key: "Height", value: 0 },
+        weight: { key: "Weight", value: 0 },
+        base_experience: { key: "Base exp", value: 0 },
+        types: { key: "Types", value: [] },
+        stats: { key: "Stats", value: [] },
+        abilities: { key: "Abilities", value: [] },
+        moves: { key: "Moves", value: [] },
+    };
+
+    let filteredData = pokemonDataModel;
+
+    for (let data in filteredData) {
+        switch (data) {
+            case "types": {
+                filteredData[data].value = rawData[data].map(
+                    (it) => " " + it.type.name
+                );
+                break;
+            }
+            case "stats": {
+                filteredData[data].value = rawData[data].map(
+                    (it) => it.stat.name + ": " + it.base_stat
+                );
+                break;
+            }
+            case "abilities": {
+                filteredData[data].value = rawData[data].map(
+                    (it) => " " + it.ability.name
+                );
+                break;
+            }
+            case "moves": {
+                filteredData[data].value = rawData[data].map(
+                    (it) => " " + it.move.name
                 );
                 break;
             }
