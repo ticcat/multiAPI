@@ -2,6 +2,7 @@ import PokeAPIEndpoint from "./../pokeAPIEndpoint.js";
 import SWAPIEndpoint from "../swAPIEndpoint.js";
 import HPAPIEndpoint from "../hpAPIEndpoint.js";
 import pokeAPIDataFilter from "./pokeAPIFilters.js";
+import swAPIDataFilter from "./swAPIFilters.js";
 
 export default function filterRawData(rawData, endpoint) {
     let endpointPrototype = Object.getPrototypeOf(endpoint);
@@ -11,8 +12,7 @@ export default function filterRawData(rawData, endpoint) {
             return pokeAPIDataFilter(rawData, endpoint.parent.name);
         }
         case SWAPIEndpoint.prototype: {
-            console.log("star wars");
-            break;
+            return swAPIDataFilter(rawData, endpoint.parent.name);
         }
         case HPAPIEndpoint.prototype: {
             console.log("harry potter");

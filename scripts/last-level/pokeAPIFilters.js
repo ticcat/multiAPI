@@ -30,21 +30,21 @@ function filterBerryData(rawData) {
     let filteredData = berryDataModel;
 
     // Format each data as we please, reusing code as much as possible
-    for (let data in filteredData) {
-        switch (data) {
+    for (let key in filteredData) {
+        switch (key) {
             case "flavors": {
-                filteredData[data].value = rawData[data]
+                filteredData[key].value = rawData[key]
                     .filter((it) => it.potency > 0)
                     .map((it) => " " + it.flavor.name);
                 break;
             }
             case "natural_gift_type":
             case "firmness": {
-                filteredData[data].value = rawData[data].name;
+                filteredData[key].value = rawData[key].name;
                 break;
             }
             default: {
-                filteredData[data].value = rawData[data];
+                filteredData[key].value = rawData[key];
             }
         }
     }
@@ -63,28 +63,28 @@ function filterItemData(rawData) {
 
     let filteredData = itemDataModel;
 
-    for (let data in filteredData) {
-        switch (data) {
+    for (let key in filteredData) {
+        switch (key) {
             case "effect_entries": {
-                filteredData[data].value = rawData[data].find(
+                filteredData[key].value = rawData[key].find(
                     (it) => it.language.name === "en"
                 ).effect;
                 break;
             }
             case "flavor_text_entries": {
-                filteredData[data].value = rawData[data].find(
+                filteredData[key].value = rawData[key].find(
                     (it) => it.language.name === "en"
                 ).text;
                 break;
             }
             case "attributes": {
-                filteredData[data].value = rawData[data].map(
+                filteredData[key].value = rawData[key].map(
                     (it) => " " + it.name
                 );
                 break;
             }
             default: {
-                filteredData[data].value = rawData[data];
+                filteredData[key].value = rawData[key];
             }
         }
     }
@@ -101,20 +101,20 @@ function filterLocationData(rawData) {
 
     let filteredData = locationDataModel;
 
-    for (let data in filteredData) {
-        switch (data) {
+    for (let key in filteredData) {
+        switch (key) {
             case "region": {
-                filteredData[data].value = rawData[data].name;
+                filteredData[key].value = rawData[key].name;
                 break;
             }
             case "areas": {
-                filteredData[data].value = rawData[data].map(
+                filteredData[key].value = rawData[key].map(
                     (it) => " " + it.name
                 );
                 break;
             }
             default: {
-                filteredData[data].value = rawData[data];
+                filteredData[key].value = rawData[key];
             }
         }
     }
@@ -136,26 +136,26 @@ function filterMoveData(rawData) {
 
     let filteredData = moveDataModel;
 
-    for (let data in filteredData) {
-        switch (data) {
+    for (let key in filteredData) {
+        switch (key) {
             case "type": {
-                filteredData[data].value = rawData[data].name;
+                filteredData[key].value = rawData[key].name;
                 break;
             }
             case "effect_entries": {
-                filteredData[data].value = rawData[data].find(
+                filteredData[key].value = rawData[key].find(
                     (it) => it.language.name === "en"
                 ).effect;
                 break;
             }
             case "learned_by_pokemon": {
-                filteredData[data].value = rawData[data].map(
+                filteredData[key].value = rawData[key].map(
                     (it) => " " + it.name
                 );
                 break;
             }
             default: {
-                filteredData[data].value = rawData[data];
+                filteredData[key].value = rawData[key];
             }
         }
     }
@@ -177,34 +177,34 @@ function filterPokemonData(rawData) {
 
     let filteredData = pokemonDataModel;
 
-    for (let data in filteredData) {
-        switch (data) {
+    for (let key in filteredData) {
+        switch (key) {
             case "types": {
-                filteredData[data].value = rawData[data].map(
+                filteredData[key].value = rawData[key].map(
                     (it) => " " + it.type.name
                 );
                 break;
             }
             case "stats": {
-                filteredData[data].value = rawData[data].map(
-                    (it) => it.stat.name + ": " + it.base_stat
+                filteredData[key].value = rawData[key].map(
+                    (it) => " <b>" + it.stat.name + "</b>: " + it.base_stat
                 );
                 break;
             }
             case "abilities": {
-                filteredData[data].value = rawData[data].map(
+                filteredData[key].value = rawData[key].map(
                     (it) => " " + it.ability.name
                 );
                 break;
             }
             case "moves": {
-                filteredData[data].value = rawData[data].map(
+                filteredData[key].value = rawData[key].map(
                     (it) => " " + it.move.name
                 );
                 break;
             }
             default: {
-                filteredData[data].value = rawData[data];
+                filteredData[key].value = rawData[key];
             }
         }
     }
