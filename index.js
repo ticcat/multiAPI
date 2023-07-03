@@ -113,7 +113,7 @@ hpAPI.firstLevelEndPoints = [
         hpAPI.baseEndpoint.url + "/spells"
     ),
 ];
-accessibleAPIs.push(hpAPI);
+// accessibleAPIs.push(hpAPI);
 /* #endregion */
 
 let currentAPI = null;
