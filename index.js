@@ -182,15 +182,10 @@ function setCurrentAPITitle(apiName) {
 }
 
 function setBackBtnVisibility() {
-    let backBtn = document.getElementById("currAccEPTopBarBackBtn");
+    let mainpanelTopbar = document.getElementById("mainpanel-topbar");
 
-    backBtn.onclick = () => navigateBack();
-
-    if (currentEndpoint.name !== "Base") {
-        backBtn.style = "visibility: visible;";
-    } else {
-        backBtn.style = "visibility: hidden;";
-    }
+    //mainpanelTopbar.setBackButtonVisibility();
+    //backBtn.onclick = () => navigateBack();
 }
 
 function setCurrentAccessibleEndpoints(endpoints) {

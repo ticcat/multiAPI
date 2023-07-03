@@ -14,6 +14,7 @@
     <script type="module" src="/components/endpoint-card/endpoint-card-behavior.js"></script>
     <script type="module" src="/components/api-button/api-button-behavior.js"></script>
     <script type="module" src="/components/last-level-screen/last-level-screen-behavior.js"></script>
+    <script type="module" src="/components/topbar/topbar-behavior.js"></script>
 </head>
 
 <body class="grid-container">
@@ -26,15 +27,7 @@
         </div>
 
         <div id="currentAccessibleEndpointsPanel" class="grid-container">
-            <div id="currAccEPTopBar" class="grid-container">
-                <img id="currAccEPTopBarBackBtn" class="back-btn" src="./icons/google/arrow_back.svg" alt="back-btn"></img>
-
-                <div id="currAccEPTopBarCenterCol">
-                    <div id="currAccEPTopBarSearchBar">Placeholder search bar</div>
-                </div>
-
-                <div id="currAccEPTopBarPagination"></div>
-            </div>
+            <main-topbar id="mainpanel-topbar"></main-topbar>
 
             <div id="main-panel-data">
                 <div id="currAccEPCards" class="grid-container scroll-container">

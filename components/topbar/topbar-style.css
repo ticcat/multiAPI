@@ -1,0 +1,45 @@
+@import url(/globalVariables.css);
+
+* {
+    box-sizing: border-box;
+    margin: 0px;
+    padding: 0px;
+}
+
+.grid-container {
+    display: grid;
+}
+
+#topbar-container {
+    margin: 40px 10px;
+}
+
+#topbar-container.grid-container {
+    grid-template-columns: max-content auto 1fr;
+    align-items: center;
+}
+
+#back-button {
+    filter: var(--onBackgroundSVGFilter);
+    height: 30px;
+    width: 30px;
+    margin-left: 10px;
+    position: relative;
+    visibility: hidden;
+}
+
+#currAccEPTopBarCenterCol {
+    width: 1000px;
+    position: absolute;
+    justify-self: center;
+}
+
+#currAccEPTopBarSearchBar {
+    background-color: var(--backgroundTextInput);
+    border: 3px solid var(--onBackgroundTextInput);
+    border-radius: 20px;
+    height: 40px;
+    width: 100%;
+    text-align: center;
+    color: var(--onBackgroundTextInput);
+}
