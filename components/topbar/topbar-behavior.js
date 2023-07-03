@@ -41,6 +41,7 @@ function defineTopbar(html) {
                         case topBarState.OnlyBackBtn:
                         case topBarState.Pagination:
                             backButton.style = "opacity: 1;";
+                            backButton.onclick = this.onBackButtonClick;
                             break;
                         case topBarState.Full:
                             backButton.style = "opacity: 0;";

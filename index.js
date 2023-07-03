@@ -183,12 +183,16 @@ function setCurrentAPITitle(apiName) {
 }
 
 function setBackBtnVisibility() {
-    let mainpanelTopbar = document.getElementById("mainpanel-topbar");
+    let mainPanelTopbar = document.getElementById("mainpanel-topbar");
 
     if (currentEndpoint.name !== "Base") {
-        mainpanelTopbar.setAttribute("state", topBarState.Pagination);
+        mainPanelTopbar.onBackButtonClick = function () {
+            navigateBack();
+        };
+        mainPanelTopbar.setAttribute("state", topBarState.Pagination);
     } else {
-        mainpanelTopbar.setAttribute("state", topBarState.Full);
+        mainPanelTopbar.onBackButtonClick = function () {};
+        mainPanelTopbar.setAttribute("state", topBarState.Full);
     }
 }
 
