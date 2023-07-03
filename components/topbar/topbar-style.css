@@ -25,7 +25,8 @@
     width: 30px;
     margin-left: 10px;
     position: relative;
-    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.2s;
 }
 
 #currAccEPTopBarCenterCol {

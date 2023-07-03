@@ -16,7 +16,7 @@ export default class Endpoint {
     }
 
     isLastLevel() {
-        return this.parent.name !== "Base";
+        return this.parent !== null && this.parent.name !== "Base";
     }
 
     async getData() {

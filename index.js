@@ -2,6 +2,7 @@ import API from "./scripts/API.js";
 import PokeAPIEndpoint from "./scripts/pokeAPIEndpoint.js";
 import SWAPIEndpoint from "./scripts/swAPIEndpoint.js";
 import HPAPIEndpoint from "./scripts/hpAPIEndpoint.js";
+import { topBarState } from "./components/topbar/topbar-behavior.js";
 
 /* #region  APIs definitions */
 const accessibleAPIs = [];
@@ -184,8 +185,11 @@ function setCurrentAPITitle(apiName) {
 function setBackBtnVisibility() {
     let mainpanelTopbar = document.getElementById("mainpanel-topbar");
 
-    //mainpanelTopbar.setBackButtonVisibility();
-    //backBtn.onclick = () => navigateBack();
+    if (currentEndpoint.name !== "Base") {
+        mainpanelTopbar.setAttribute("state", topBarState.Pagination);
+    } else {
+        mainpanelTopbar.setAttribute("state", topBarState.Full);
+    }
 }
 
 function setCurrentAccessibleEndpoints(endpoints) {
