@@ -31,28 +31,45 @@ function defineTopbar(html) {
                 .setAttribute("state", topBarState.Full);
         }
 
-        attributeChangedCallback(name, oldValue, newValue) {
+        attributeChangedCallback(name, _, newValue) {
             switch (name) {
                 case "state": {
-                    let backButton =
-                        this.shadowRoot.getElementById("back-button");
-
                     switch (newValue) {
-                        case topBarState.OnlyBackBtn:
                         case topBarState.Pagination:
-                            backButton.style = "opacity: 1;";
-                            backButton.onclick = this.onBackButtonClick;
+                            this.#setBackButton(true, this.onBackButtonClick);
+                            this.#setPaginationInfo(true, "test", 1, 100);
+                            break;
+                        case topBarState.OnlyBackBtn:
+                            this.#setBackButton(true, this.onBackButtonClick);
+                            this.#setPaginationInfo(false);
                             break;
                         case topBarState.Full:
-                            backButton.style = "opacity: 0;";
+                            this.#setBackButton(false, undefined);
+                            this.#setPaginationInfo(false);
                             break;
                     }
                     break;
                 }
             }
-            console.log(
-                name + " changed to: " + newValue + " from " + oldValue
-            );
+        }
+
+        #setBackButton(visible, onClickHandler) {
+            const shadow = this.shadowRoot;
+            let backButton = shadow.getElementById("back-button");
+
+            backButton.onclick = onClickHandler;
+            backButton.style = visible ? "opacity: 1;" : "opacity: 0";
+        }
+
+        #setPaginationInfo(visible, endpointName, initValue, finalValue) {
+            const shadow = this.shadowRoot;
+            let paginationElem = shadow.getElementById("pagination-info");
+            let pagTextElem = shadow.getElementById("pagination-info-text");
+
+            paginationElem.style = visible ? "opacity: 1;" : "opacity: 0";
+            pagTextElem.innerHTML = visible
+                ? endpointName + " " + initValue + "-" + finalValue
+                : "";
         }
     }
 

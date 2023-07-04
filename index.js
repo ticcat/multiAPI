@@ -216,12 +216,14 @@ function setCurrentAccessibleEndpoints(endpoints) {
 }
 
 function showLastLevelInfo(data, endpoint) {
+    let mainPanelTopbar = document.getElementById("mainpanel-topbar");
     let mainPanelData = document.getElementById("main-panel-data");
     let screen = document.createElement("last-level-screen");
 
     screen.id = "last-level-screen";
     screen.endpoint = endpoint;
     screen.data = data;
+    mainPanelTopbar.setAttribute("state", topBarState.OnlyBackBtn);
     mainPanelData.appendChild(screen);
 }
 

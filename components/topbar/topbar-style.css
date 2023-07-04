@@ -11,7 +11,8 @@
 }
 
 #topbar-container {
-    margin: 35px 10px 20px 10px;
+    height: 70px;
+    margin: 30px 10px 20px 10px;
 }
 
 #topbar-container.grid-container {
@@ -47,6 +48,8 @@
 
 #pagination-info {
     margin-right: 80px;
+    opacity: 0;
+    transition: opacity 0.15s;
 }
 
 #pagination-info-text {
