@@ -11,11 +11,11 @@
 }
 
 #topbar-container {
-    margin: 40px 10px;
+    margin: 35px 10px 20px 10px;
 }
 
 #topbar-container.grid-container {
-    grid-template-columns: max-content auto 1fr;
+    grid-template-columns: max-content 1fr max-content;
     align-items: center;
 }
 
@@ -29,7 +29,7 @@
     transition: opacity 0.15s;
 }
 
-#currAccEPTopBarCenterCol {
+/* #currAccEPTopBarCenterCol {
     width: 1000px;
     position: absolute;
     justify-self: center;
@@ -43,4 +43,15 @@
     width: 100%;
     text-align: center;
     color: var(--onBackgroundTextInput);
+} */
+
+#pagination-info {
+    margin-right: 80px;
+}
+
+#pagination-info-text {
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 3rem;
+    letter-spacing: 0.2rem;
+    text-align: right;
 }
