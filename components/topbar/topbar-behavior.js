@@ -37,7 +37,7 @@ function defineTopbar(html) {
                     switch (newValue) {
                         case topBarState.Pagination:
                             this.#setBackButton(true, this.onBackButtonClick);
-                            this.#setPaginationInfo(true, "test", 1, 100);
+                            this.#setPaginationInfo(true, this.pagInfo);
                             break;
                         case topBarState.OnlyBackBtn:
                             this.#setBackButton(true, this.onBackButtonClick);
@@ -61,15 +61,19 @@ function defineTopbar(html) {
             backButton.style = visible ? "opacity: 1;" : "opacity: 0";
         }
 
-        #setPaginationInfo(visible, endpointName, initValue, finalValue) {
+        #setPaginationInfo(visible, paginationInfo = {}) {
             const shadow = this.shadowRoot;
             let paginationElem = shadow.getElementById("pagination-info");
             let pagTextElem = shadow.getElementById("pagination-info-text");
 
-            paginationElem.style = visible ? "opacity: 1;" : "opacity: 0";
-            pagTextElem.innerHTML = visible
-                ? endpointName + " " + initValue + "-" + finalValue
-                : "";
+            if (visible) {
+                let { ePName, init, final } = paginationInfo;
+                pagTextElem.innerHTML = ePName + " " + init + "-" + final;
+                paginationElem.style = "opacity: 1;";
+            } else {
+                pagTextElem.innerHTML = "";
+                paginationElem.style = "opacity: 0;";
+            }
         }
     }
 
