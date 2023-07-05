@@ -34,4 +34,8 @@ export default class SWAPIEndpoint extends Endpoint {
 
         return newEndpoint;
     }
+
+    getPaginationUrl(_) {
+        return this.url + `?page=${this.pagInfo.page}`;
+    }
 }

@@ -196,6 +196,17 @@ function setBackBtnVisibility() {
     }
 }
 
+function setPaginationInfo(pagInfo) {
+    let mainPanelTopbar = document.getElementById("mainpanel-topbar");
+
+    mainPanelTopbar.pagInfo = {
+        ePName: currentEndpoint.name,
+        init:
+            pagInfo.page * pagInfo.entriesPerPage - pagInfo.entriesPerPage + 1,
+        final: pagInfo.page * pagInfo.entriesPerPage,
+    };
+}
+
 function setCurrentAccessibleEndpoints(endpoints) {
     clearLastLevelScreen();
 
@@ -237,10 +248,11 @@ function navigateFromEndpoint(endpoint) {
         setCurrentAccessibleEndpoints(currentAPI.firstLevelEndPoints);
     } else {
         currentEndpoint.getData().then((result) => {
-            const { isLastLevel, data } = result;
+            const { isLastLevel, data, pagInfo } = result;
             if (isLastLevel) {
                 showLastLevelInfo(data, endpoint);
             } else {
+                setPaginationInfo(pagInfo);
                 data.then((endpoints) => {
                     setCurrentAccessibleEndpoints(endpoints);
                 });
