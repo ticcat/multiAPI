@@ -65,7 +65,8 @@ export default class PokeAPIEndpoint extends Endpoint {
             });
     }
 
-    getPaginationUrl(entriesNumber, offset) {
-        return this.url + `?offset=0&limit=${entriesNumber}`;
+    getPaginationUrl(entriesNumber) {
+        let offset = this.pagInfo.page * entriesNumber - entriesNumber;
+        return this.url + `?offset=${offset}&limit=${entriesNumber}`;
     }
 }

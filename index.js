@@ -199,11 +199,13 @@ function setBackBtnVisibility() {
 function setPaginationInfo(pagInfo) {
     let mainPanelTopbar = document.getElementById("mainpanel-topbar");
 
+    let initValue = (pagInfo.page - 1) * pagInfo.entriesPerPage + 1;
+    let finalValue = initValue - 1 + pagInfo.entriesOnPage;
+
     mainPanelTopbar.pagInfo = {
         ePName: currentEndpoint.name,
-        init:
-            pagInfo.page * pagInfo.entriesPerPage - pagInfo.entriesPerPage + 1,
-        final: pagInfo.page * pagInfo.entriesPerPage,
+        init: initValue,
+        final: finalValue,
     };
 }
 
@@ -238,6 +240,10 @@ function showLastLevelInfo(data, endpoint) {
     mainPanelData.appendChild(screen);
 }
 
+function navigateBack() {
+    navigateFromEndpoint(currentEndpoint.parent);
+}
+
 function navigateFromEndpoint(endpoint) {
     abortCurrentEndpointCall();
     clearMainPanelEndpoints();
@@ -247,22 +253,40 @@ function navigateFromEndpoint(endpoint) {
     if (currentEndpoint.name === "Base") {
         setCurrentAccessibleEndpoints(currentAPI.firstLevelEndPoints);
     } else {
-        currentEndpoint.getData().then((result) => {
-            const { isLastLevel, data, pagInfo } = result;
-            if (isLastLevel) {
-                showLastLevelInfo(data, endpoint);
-            } else {
-                setPaginationInfo(pagInfo);
-                data.then((endpoints) => {
-                    setCurrentAccessibleEndpoints(endpoints);
-                });
-            }
-        });
+        currentEndpoint
+            .getData()
+            .then((result) => endpointDataFetchHandler(result));
     }
 }
 
-function navigateBack() {
-    navigateFromEndpoint(currentEndpoint.parent);
+function navigateToNextPage() {
+    abortCurrentEndpointCall();
+    clearMainPanelEndpoints();
+
+    currentEndpoint
+        .getNextData()
+        .then((result) => endpointDataFetchHandler(result));
+}
+
+function navigateToPreviousPage() {
+    abortCurrentEndpointCall();
+    clearMainPanelEndpoints();
+
+    currentEndpoint
+        .getPrevData()
+        .then((result) => endpointDataFetchHandler(result));
+}
+
+function endpointDataFetchHandler(result) {
+    const { isLastLevel, data, pagInfo } = result;
+    if (isLastLevel) {
+        showLastLevelInfo(data, currentEndpoint);
+    } else {
+        setPaginationInfo(pagInfo);
+        data.then((endpoints) => {
+            setCurrentAccessibleEndpoints(endpoints);
+        });
+    }
 }
 
 function abortCurrentEndpointCall() {

@@ -4,13 +4,15 @@ export default class Endpoint {
     parent = null;
     url = "";
 
+    numberOfChildren = 0;
     childEndpoints = [];
     defaultEntriesNumber = 10;
     pagInfo = {
         page: 1,
-        entriesPerPage: this.defaultEntriesNumber,
         nextUrl: "",
         previousUrl: "",
+        entriesPerPage: this.defaultEntriesNumber,
+        entriesOnPage: 0,
     };
 
     #abortController = null;
@@ -28,18 +30,17 @@ export default class Endpoint {
     }
 
     async getNextData() {
-        this.setPaginationInfo(pagInfo.page++, this.defaultEntriesNumber);
-        return this.getData((fetchUrl = this.pagInfo.nextUrl));
+        return this.getData(this.pagInfo.nextUrl, false, 1);
     }
 
     async getPrevData() {
-        this.setPaginationInfo(pagInfo.page--, this.defaultEntriesNumber);
-        return this.getData((fetchUrl = this.pagInfo.previousUrl));
+        return this.getData(this.pagInfo.previousUrl, false, -1);
     }
 
     async getData(
-        entryNumber = this.defaultEntriesNumber,
-        fetchUrl = this.getPaginationUrl(entryNumber)
+        fetchUrl = this.getPaginationUrl(this.defaultEntriesNumber),
+        intialFetch = true,
+        pageChange = 0
     ) {
         this.#abortController = new AbortController();
         this.#abortSignal = this.#abortController.signal;
@@ -53,13 +54,24 @@ export default class Endpoint {
                     ? data
                     : this.getChildEndpointsFromData(data);
 
+                if (!this.isLastLevel()) {
+                    this.numberOfChildren = data.results.length;
+
+                    this.#setPaginationInfo(
+                        intialFetch ? 1 : this.pagInfo.page + pageChange,
+                        data.next,
+                        data.previous
+                    );
+                }
+
                 return {
                     isLastLevel: this.isLastLevel(),
                     data: dataResult,
                     pagInfo: this.pagInfo,
                 };
             })
-            .catch((_) => {
+            .catch((error) => {
+                console.log(`Error: ${error}`);
                 return {
                     isLastLevel: false,
                     data: [],
@@ -78,12 +90,10 @@ export default class Endpoint {
         if (this.#abortController !== null) this.#abortController.abort();
     }
 
-    setPaginationInfo(pageNumber, entriesPerPage) {
-        pagInfo = {
-            entriesPerPage: entriesPerPage,
-            page: pageNumber,
-            nextUrl: data.next,
-            previousUrl: data.previous,
-        };
+    #setPaginationInfo(page = 1, nextUrl = "", previousUrl = "") {
+        this.pagInfo.page = page;
+        this.pagInfo.nextUrl = nextUrl;
+        this.pagInfo.previousUrl = previousUrl;
+        this.pagInfo.entriesOnPage = this.numberOfChildren;
     }
 }
