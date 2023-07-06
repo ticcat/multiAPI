@@ -52,7 +52,7 @@
     opacity: 0;
     position: relative;
     bottom: 7rem;
-    animation: show-title 0.2s ease-in 0.2s forwards;
+    animation: show-element 0.2s ease-in 0.2s forwards;
 }
 
 #entry-title {
@@ -64,11 +64,12 @@
 }
 
 #data-table {
+    opacity: 0;
     width: 100%;
     max-width: 100%;
     border-collapse: collapse;
     table-layout: fixed;
-    transition: 0.2s ease-in 0.2s;
+    animation: show-element 0.2s ease-in 0.2s forwards;
 }
 
 #data-table tr td {
@@ -99,7 +100,7 @@
     }
 }
 
-@keyframes show-title {
+@keyframes show-element {
     from {
         opacity: 0;
     }
