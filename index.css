@@ -9,7 +9,7 @@
 }
 
 .scroll-container {
-    max-height: 72vh;
+    max-height: 68vh;
     overflow-x: hidden;
     overflow-y: auto;
 }
