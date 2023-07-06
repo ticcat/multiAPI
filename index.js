@@ -148,7 +148,10 @@ function clearMainPanelEndpoints() {
 
 function clearLastLevelScreen() {
     let mainPanelData = document.getElementById("main-panel-data");
+    let mainPanelDataScroll = document.getElementById("main-panel-data-scroll");
     let lastLevelScreen = document.getElementById("last-level-screen");
+
+    mainPanelDataScroll.style = "height: 70vh";
     if (lastLevelScreen !== null) mainPanelData.removeChild(lastLevelScreen);
 }
 
@@ -231,12 +234,14 @@ function setCurrentAccessibleEndpoints(endpoints) {
 function showLastLevelInfo(data, endpoint) {
     let mainPanelTopbar = document.getElementById("mainpanel-topbar");
     let mainPanelData = document.getElementById("main-panel-data");
+    let mainPanelDataScroll = document.getElementById("main-panel-data-scroll");
     let screen = document.createElement("last-level-screen");
 
     screen.id = "last-level-screen";
     screen.endpoint = endpoint;
     screen.data = data;
     mainPanelTopbar.setAttribute("state", topBarState.OnlyBackBtn);
+    mainPanelDataScroll.style = "height: 0";
     mainPanelData.appendChild(screen);
 }
 

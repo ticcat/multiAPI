@@ -15,6 +15,7 @@
     <script type="module" src="/components/api-button/api-button-behavior.js"></script>
     <script type="module" src="/components/last-level-screen/last-level-screen-behavior.js"></script>
     <script type="module" src="/components/topbar/topbar-behavior.js"></script>
+    <script type="module" src="/components/pagination-footer/pagination-footer-behavior.js"></script>
 </head>
 
 <body class="grid-container">
@@ -30,9 +31,13 @@
             <main-topbar id="mainpanel-topbar"></main-topbar>
 
             <div id="main-panel-data">
-                <div id="currAccEPCards" class="grid-container scroll-container">
+                <div id="main-panel-data-scroll" class="scroll-container">
+                    <div id="currAccEPCards" class="grid-container">
+                    </div>
                 </div>
             </div>
+
+            <pagination-footer id="pagination-footer"></pagination-footer>
         </div>
     </div>
 </body>
