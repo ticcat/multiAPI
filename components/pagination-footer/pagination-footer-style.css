@@ -5,3 +5,29 @@
     margin: 0px;
     padding: 0px;
 }
+
+#pagination-container {
+    bottom: 40vh;
+    width: 100%;
+}
+
+.center {
+    text-align: center;
+}
+
+#pagination {
+    display: inline-block;
+    width: max-content;
+    height: max-content;
+    transition: opacity 0.15s;
+}
+
+#pagination > * {
+    float: left;
+}
+
+.button {
+    filter: var(--onBackgroundSVGFilter);
+    height: 30px;
+    width: 30px;
+}
