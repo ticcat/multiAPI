@@ -20,7 +20,7 @@ function definePaginationFooter(html) {
 
     class PaginationFooter extends HTMLElement {
         static get observedAttributes() {
-            return ["visibility", "state"];
+            return ["state"];
         }
 
         constructor() {
@@ -33,18 +33,15 @@ function definePaginationFooter(html) {
 
         attributeChangedCallback(name, _, newValue) {
             switch (name) {
-                case "visibility":
-                    this.#setupPrevBtn(true, this.prevBtnOnclick);
-                    this.#setupNextBtn(true, this.nextBtnOnclick);
-                    this.#setContainerOpacity(newValue);
-                    break;
                 case "state":
                     switch (newValue) {
                         case paginationState.onlyPrev:
+                            this.#setupPrevBtn(true, this.prevBtnOnclick);
                             this.#setupNextBtn(false, () => {});
                             break;
                         case paginationState.onlyNext:
                             this.#setupPrevBtn(false, () => {});
+                            this.#setupNextBtn(true, this.nextBtnOnclick);
                             break;
                         case paginationState.none:
                             this.#setupPrevBtn(false, () => {});
@@ -55,17 +52,6 @@ function definePaginationFooter(html) {
                             this.#setupNextBtn(true, this.nextBtnOnclick);
                             break;
                     }
-            }
-        }
-
-        #setContainerOpacity(visibility) {
-            let shadow = this.shadowRoot;
-            let container = shadow.getElementById("pagination-container");
-
-            if (visibility === paginationVisibility.visible) {
-                container.style = "opacity: 1;";
-            } else {
-                container.style = "opacity: 0;";
             }
         }
 

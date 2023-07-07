@@ -126,7 +126,7 @@ let currentEndpoint = null;
 
 window.onload = () => {
     setTopbarState(topBarState.Full);
-    setPaginationFotterVisibility(paginationVisibility.hidden);
+    setupPaginationFooter(false);
     loadAccessibleAPIs();
     setCurrentAPI(accessibleAPIs[0]);
 };
@@ -199,7 +199,7 @@ function setTopbarState(newState, pagInfo) {
             mainPanelTopbar.onBackButtonClick = function () {};
             break;
         case topBarState.Pagination:
-            setPaginationInfo(pagInfo);
+            setTopBarPaginationInfo(pagInfo);
             mainPanelTopbar.onBackButtonClick = function () {
                 navigateBack();
             };
@@ -211,20 +211,12 @@ function setTopbarState(newState, pagInfo) {
     mainPanelTopbar.setAttribute("state", newState);
 }
 
-function setPaginationInfo(pagInfo) {
+function setTopBarPaginationInfo(pagInfo) {
     let mainPanelTopbar = document.getElementById("mainpanel-topbar");
     let paginationFooter = document.getElementById("pagination-footer");
 
     let initValue = (pagInfo.page - 1) * pagInfo.entriesPerPage + 1;
     let finalValue = initValue - 1 + pagInfo.entriesOnPage;
-
-    if (pagInfo.previousUrl == null && pagInfo.nextUrl == null) {
-        paginationFooter.setAttribute("state", paginationState.none);
-    } else if (pagInfo.previousUrl == null) {
-        paginationFooter.setAttribute("state", paginationState.onlyNext);
-    } else if (pagInfo.nextUrl == null) {
-        paginationFooter.setAttribute("state", paginationState.onlyPrev);
-    }
 
     mainPanelTopbar.pagInfo = {
         ePName: currentEndpoint.name,
@@ -233,22 +225,34 @@ function setPaginationInfo(pagInfo) {
     };
 }
 
-function setPaginationFotterVisibility(newVisibility) {
+function setupPaginationFooter(visible, pagInfo) {
     let paginationFooter = document.getElementById("pagination-footer");
 
-    if (newVisibility === paginationVisibility.visible) {
+    if (visible) {
         paginationFooter.prevBtnOnclick = function () {
             navigateToPreviousPage();
         };
         paginationFooter.nextBtnOnclick = function () {
             navigateToNextPage();
         };
-    } else {
-        paginationFooter.prevBtnOnClick = function () {};
-        paginationFooter.nextBtnOnClick = function () {};
     }
 
-    paginationFooter.setAttribute("visibility", newVisibility);
+    switch (true) {
+        case pagInfo == null:
+        case pagInfo.previousUrl == null && pagInfo.nextUrl == null:
+            paginationFooter.setAttribute("state", paginationState.none);
+            break;
+        case pagInfo.previousUrl == null:
+            paginationFooter.setAttribute("state", paginationState.onlyNext);
+            break;
+        case pagInfo.nextUrl == null:
+            paginationFooter.setAttribute("state", paginationState.onlyPrev);
+            break;
+        default:
+            paginationFooter.setAttribute("state", paginationState.both);
+            break;
+    }
+    paginationFooter.style = visible ? "opacity: 1;" : "opacity: 0;";
 }
 
 function setCurrentAccessibleEndpoints(endpoints) {
@@ -274,7 +278,7 @@ function showLastLevelInfo(data, endpoint) {
     let screen = document.createElement("last-level-screen");
 
     setTopbarState(topBarState.OnlyBackBtn);
-    setPaginationFotterVisibility(paginationVisibility.hidden);
+    setupPaginationFooter(false);
 
     screen.id = "last-level-screen";
     screen.endpoint = endpoint;
@@ -295,7 +299,7 @@ function navigateFromEndpoint(endpoint) {
 
     if (currentEndpoint.name === "Base") {
         setTopbarState(topBarState.Full);
-        setPaginationFotterVisibility(paginationVisibility.hidden);
+        setupPaginationFooter(false);
         setCurrentAccessibleEndpoints(currentAPI.firstLevelEndPoints);
     } else {
         currentEndpoint
@@ -327,7 +331,7 @@ function endpointDataFetchHandler(result) {
     if (isLastLevel) {
         showLastLevelInfo(data, currentEndpoint);
     } else {
-        setPaginationFotterVisibility(paginationVisibility.visible);
+        setupPaginationFooter(true, pagInfo);
         setTopbarState(topBarState.Pagination, pagInfo);
         data.then((endpoints) => {
             setCurrentAccessibleEndpoints(endpoints);

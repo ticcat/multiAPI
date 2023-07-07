@@ -32,6 +32,7 @@
     height: 30px;
     width: 30px;
     margin: 0 40px;
+    transition: opacity 0.15s;
 }
 
 #next-btn {
