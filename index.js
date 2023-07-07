@@ -121,6 +121,7 @@ let currentAPI = null;
 let currentEndpoint = null;
 
 window.onload = () => {
+    setTopbarState(topBarState.Full);
     setPaginationFotterVisibility(false);
     loadAccessibleAPIs();
     setCurrentAPI(accessibleAPIs[0]);
@@ -165,7 +166,7 @@ function setCurrentAPI(api) {
 
     setCurrentAPIButton(currentAPI.name);
     setCurrentAPITitle(currentAPI.name);
-    setCurrentAccessibleEndpoints(currentAPI.firstLevelEndPoints);
+    navigateFromEndpoint(currentEndpoint);
 }
 
 function setCurrentAPIButton(apiName) {
@@ -186,18 +187,24 @@ function setCurrentAPITitle(apiName) {
     currentAPITitle.innerHTML = apiName;
 }
 
-function setTopbarState() {
+function setTopbarState(newState, pagInfo) {
     let mainPanelTopbar = document.getElementById("mainpanel-topbar");
 
-    if (currentEndpoint.name !== "Base") {
-        mainPanelTopbar.onBackButtonClick = function () {
-            navigateBack();
-        };
-        mainPanelTopbar.setAttribute("state", topBarState.Pagination);
-    } else {
-        mainPanelTopbar.onBackButtonClick = function () {};
-        mainPanelTopbar.setAttribute("state", topBarState.Full);
+    switch (newState) {
+        case topBarState.Full:
+            mainPanelTopbar.onBackButtonClick = function () {};
+            break;
+        case topBarState.Pagination:
+            setPaginationInfo(pagInfo);
+            mainPanelTopbar.onBackButtonClick = function () {
+                navigateBack();
+            };
+            break;
+        case topBarState.OnlyBackBtn:
+            break;
     }
+
+    mainPanelTopbar.setAttribute("state", newState);
 }
 
 function setPaginationFotterVisibility(visible) {
@@ -239,17 +246,16 @@ function setCurrentAccessibleEndpoints(endpoints) {
 }
 
 function showLastLevelInfo(data, endpoint) {
-    let mainPanelTopbar = document.getElementById("mainpanel-topbar");
     let mainPanelData = document.getElementById("main-panel-data");
     let mainPanelDataScroll = document.getElementById("main-panel-data-scroll");
     let screen = document.createElement("last-level-screen");
 
+    setTopbarState(topBarState.OnlyBackBtn);
     setPaginationFotterVisibility(false);
 
     screen.id = "last-level-screen";
     screen.endpoint = endpoint;
     screen.data = data;
-    mainPanelTopbar.setAttribute("state", topBarState.OnlyBackBtn);
     mainPanelDataScroll.style = "height: 0";
     mainPanelData.appendChild(screen);
 }
@@ -265,6 +271,7 @@ function navigateFromEndpoint(endpoint) {
     currentEndpoint = endpoint;
 
     if (currentEndpoint.name === "Base") {
+        setTopbarState(topBarState.Full);
         setPaginationFotterVisibility(false);
         setCurrentAccessibleEndpoints(currentAPI.firstLevelEndPoints);
     } else {
@@ -298,7 +305,7 @@ function endpointDataFetchHandler(result) {
     if (isLastLevel) {
         showLastLevelInfo(data, currentEndpoint);
     } else {
-        setPaginationInfo(pagInfo);
+        setTopbarState(topBarState.Pagination, pagInfo);
         data.then((endpoints) => {
             setCurrentAccessibleEndpoints(endpoints);
         });
