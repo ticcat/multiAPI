@@ -90,7 +90,7 @@ export default class Endpoint {
         if (this.#abortController !== null) this.#abortController.abort();
     }
 
-    #setPaginationInfo(page = 1, nextUrl = "", previousUrl = "") {
+    #setPaginationInfo(page = 1, nextUrl = null, previousUrl = null) {
         this.pagInfo.page = page;
         this.pagInfo.nextUrl = nextUrl;
         this.pagInfo.previousUrl = previousUrl;
