@@ -8,6 +8,7 @@
 
 #pagination-container {
     width: 100%;
+    transition: opacity 0.15s;
 }
 
 .center {
@@ -18,7 +19,6 @@
     display: inline-block;
     width: max-content;
     height: max-content;
-    transition: opacity 0.15s;
 }
 
 #pagination > * {
