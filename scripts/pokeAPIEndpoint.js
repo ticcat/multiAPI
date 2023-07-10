@@ -17,7 +17,10 @@ export default class PokeAPIEndpoint extends Endpoint {
         if (data.results.length === this.entriesPerPage) {
             return data.previous;
         } else {
-            return this.getPaginationUrl();
+            return this.getPaginationUrl(
+                this.entriesPerPage,
+                Math.ceil(data.count / this.entriesPerPage) - 1
+            );
         }
     }
 

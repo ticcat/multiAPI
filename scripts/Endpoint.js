@@ -55,7 +55,7 @@ export default class Endpoint {
 
     async getData(
         fetchUrl = this.getPaginationUrl(),
-        intialFetch = true,
+        intialFetch = this.pagInfo.page === 1,
         pageChange = 0
     ) {
         this.#abortController = new AbortController();
@@ -76,7 +76,8 @@ export default class Endpoint {
                     this.#setPaginationInfo(
                         intialFetch ? 1 : this.pagInfo.page + pageChange,
                         this.getNextUrl(data),
-                        this.getPrevUrl(data)
+                        this.getPrevUrl(data),
+                        this.numberOfChildren
                     );
                 }
 
@@ -99,10 +100,15 @@ export default class Endpoint {
         return this.spriteUrl;
     }
 
-    #setPaginationInfo(page = 1, nextUrl = null, previousUrl = null) {
+    #setPaginationInfo(
+        page = 1,
+        nextUrl = null,
+        previousUrl = null,
+        entriesOnPage = 0
+    ) {
         this.pagInfo.page = page;
         this.pagInfo.nextUrl = nextUrl;
         this.pagInfo.previousUrl = previousUrl;
-        this.pagInfo.entriesOnPage = this.numberOfChildren;
+        this.pagInfo.entriesOnPage = entriesOnPage;
     }
 }

@@ -213,7 +213,6 @@ function setTopbarState(newState, pagInfo) {
 
 function setTopBarPaginationInfo(pagInfo) {
     let mainPanelTopbar = document.getElementById("mainpanel-topbar");
-    let paginationFooter = document.getElementById("pagination-footer");
 
     let initValue = (pagInfo.page - 1) * pagInfo.entriesPerPage + 1;
     let finalValue = initValue - 1 + pagInfo.entriesOnPage;
@@ -288,7 +287,9 @@ function showLastLevelInfo(data, endpoint) {
 }
 
 function navigateBack() {
-    currentEndpoint.resetPaginationInfo();
+    if (!currentEndpoint.isLastLevel()) {
+        currentEndpoint.resetPaginationInfo();
+    }
     navigateFromEndpoint(currentEndpoint.parent);
 }
 
