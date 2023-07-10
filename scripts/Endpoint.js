@@ -46,7 +46,7 @@ export default class Endpoint {
     }
 
     async getData(
-        fetchUrl = this.getPaginationUrl(this.entriesPerPage),
+        fetchUrl = this.getPaginationUrl(),
         intialFetch = true,
         pageChange = 0
     ) {
