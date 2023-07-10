@@ -4,10 +4,10 @@ export default class PokeAPIEndpoint extends Endpoint {
     constructor(name, spriteUrl, parentEP, endpointUrl) {
         super(name, spriteUrl, parentEP, endpointUrl);
 
-        this.defaultEntriesNumber = 20;
+        this.entriesPerPage = 20;
         this.pagInfo = {
             page: 1,
-            entriesPerPage: this.defaultEntriesNumber,
+            entriesPerPage: this.entriesPerPage,
             nextUrl: "",
             previousUrl: "",
         };

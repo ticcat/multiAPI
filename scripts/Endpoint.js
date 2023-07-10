@@ -6,12 +6,12 @@ export default class Endpoint {
 
     numberOfChildren = 0;
     childEndpoints = [];
-    defaultEntriesNumber = 10;
+    entriesPerPage = 10;
     pagInfo = {
         page: 1,
         nextUrl: "",
         previousUrl: "",
-        entriesPerPage: this.defaultEntriesNumber,
+        entriesPerPage: this.entriesPerPage,
         entriesOnPage: 0,
     };
 
@@ -46,7 +46,7 @@ export default class Endpoint {
     }
 
     async getData(
-        fetchUrl = this.getPaginationUrl(this.defaultEntriesNumber),
+        fetchUrl = this.getPaginationUrl(this.entriesPerPage),
         intialFetch = true,
         pageChange = 0
     ) {
