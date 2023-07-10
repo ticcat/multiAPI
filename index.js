@@ -288,6 +288,7 @@ function showLastLevelInfo(data, endpoint) {
 }
 
 function navigateBack() {
+    currentEndpoint.resetPaginationInfo();
     navigateFromEndpoint(currentEndpoint.parent);
 }
 

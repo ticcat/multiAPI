@@ -29,6 +29,10 @@ export default class Endpoint {
         return this.parent !== null && this.parent.name !== "Base";
     }
 
+    resetPaginationInfo() {
+        this.#setPaginationInfo();
+    }
+
     async getNextData() {
         return this.getData(this.pagInfo.nextUrl, false, 1);
     }
