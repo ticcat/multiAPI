@@ -37,6 +37,14 @@ export default class Endpoint {
         this.#setPaginationInfo();
     }
 
+    getNextUrl(data) {
+        return data.next;
+    }
+
+    getPrevUrl(data) {
+        return data.previous;
+    }
+
     async getNextData() {
         return this.getData(this.pagInfo.nextUrl, false, 1);
     }
@@ -67,8 +75,8 @@ export default class Endpoint {
 
                     this.#setPaginationInfo(
                         intialFetch ? 1 : this.pagInfo.page + pageChange,
-                        data.next,
-                        data.previous
+                        this.getNextUrl(data),
+                        this.getPrevUrl(data)
                     );
                 }
 

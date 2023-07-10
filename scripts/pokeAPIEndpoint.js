@@ -13,6 +13,14 @@ export default class PokeAPIEndpoint extends Endpoint {
         };
     }
 
+    getPrevUrl(data) {
+        if (data.results.length === this.entriesPerPage) {
+            return data.previous;
+        } else {
+            return this.getPaginationUrl();
+        }
+    }
+
     getChildEndpointsFromData(data) {
         this.childEndpoints = [];
 
@@ -65,8 +73,11 @@ export default class PokeAPIEndpoint extends Endpoint {
             });
     }
 
-    getPaginationUrl(entriesNumber = this.entriesPerPage) {
-        let offset = this.pagInfo.page * entriesNumber - entriesNumber;
+    getPaginationUrl(
+        entriesNumber = this.entriesPerPage,
+        page = this.pagInfo.page
+    ) {
+        let offset = page * entriesNumber - entriesNumber;
         return this.url + `?offset=${offset}&limit=${entriesNumber}`;
     }
 }
