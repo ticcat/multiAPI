@@ -328,6 +328,8 @@ function navigateToPreviousPage() {
 }
 
 function endpointDataFetchHandler(result) {
+    if (result.aborted) return;
+
     const { isLastLevel, data, pagInfo } = result;
     if (isLastLevel) {
         showLastLevelInfo(data, currentEndpoint);

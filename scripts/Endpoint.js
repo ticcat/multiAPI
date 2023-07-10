@@ -29,6 +29,10 @@ export default class Endpoint {
         return this.parent !== null && this.parent.name !== "Base";
     }
 
+    abortFetch() {
+        if (this.#abortController !== null) this.#abortController.abort();
+    }
+
     resetPaginationInfo() {
         this.#setPaginationInfo();
     }
@@ -74,12 +78,9 @@ export default class Endpoint {
                     pagInfo: this.pagInfo,
                 };
             })
-            .catch((error) => {
-                console.log(`Error: ${error}`);
+            .catch((_) => {
                 return {
-                    isLastLevel: false,
-                    data: [],
-                    pagInfo: {},
+                    aborted: true,
                 };
             });
 
@@ -88,10 +89,6 @@ export default class Endpoint {
 
     async getSprite() {
         return this.spriteUrl;
-    }
-
-    abortFetch() {
-        if (this.#abortController !== null) this.#abortController.abort();
     }
 
     #setPaginationInfo(page = 1, nextUrl = null, previousUrl = null) {
