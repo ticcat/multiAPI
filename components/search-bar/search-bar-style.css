@@ -1,0 +1,28 @@
+@import url(/globalVariables.css);
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.grid-flex {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#search-bar-container {
+    background-color: var(--onBackgroundText);
+    border: 3px solid var(--onBackgroundTextInput);
+    border-radius: 20px;
+    width: 1000px;
+    height: 40px;
+    margin: auto;
+}
+
+#search-bar-container p {
+    color: var(--onBackgroundTextInput);
+    text-align: center;
+    font-size: 1rem;
+}
