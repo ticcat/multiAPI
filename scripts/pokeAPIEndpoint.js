@@ -3,6 +3,25 @@ import Endpoint from "./../scripts/Endpoint.js";
 export default class PokeAPIEndpoint extends Endpoint {
     constructor(name, spriteUrl, parentEP, endpointUrl) {
         super(name, spriteUrl, parentEP, endpointUrl);
+
+        this.entriesPerPage = 20;
+        this.pagInfo = {
+            page: 1,
+            entriesPerPage: this.entriesPerPage,
+            nextUrl: "",
+            previousUrl: "",
+        };
+    }
+
+    getPrevUrl(data) {
+        if (data.results.length === this.entriesPerPage) {
+            return data.previous;
+        } else {
+            return this.getPaginationUrl(
+                this.entriesPerPage,
+                Math.ceil(data.count / this.entriesPerPage) - 1
+            );
+        }
     }
 
     getChildEndpointsFromData(data) {
@@ -55,5 +74,13 @@ export default class PokeAPIEndpoint extends Endpoint {
                         return this.parent.spriteUrl;
                 }
             });
+    }
+
+    getPaginationUrl(
+        entriesNumber = this.entriesPerPage,
+        page = this.pagInfo.page
+    ) {
+        let offset = page * entriesNumber - entriesNumber;
+        return this.url + `?offset=${offset}&limit=${entriesNumber}`;
     }
 }

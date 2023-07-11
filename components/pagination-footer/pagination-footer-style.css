@@ -1,0 +1,40 @@
+@import url(/globalVariables.css);
+
+* {
+    box-sizing: border-box;
+    margin: 0px;
+    padding: 0px;
+}
+
+#pagination-container {
+    width: 100%;
+    height: 40px;
+    margin-top: 20px;
+    transition: opacity 0.15s;
+}
+
+.center {
+    text-align: center;
+}
+
+#pagination {
+    display: inline-block;
+    width: max-content;
+    height: max-content;
+}
+
+#pagination > * {
+    float: left;
+}
+
+.button {
+    filter: var(--onBackgroundSVGFilter);
+    height: 30px;
+    width: 30px;
+    margin: 0 40px;
+    transition: opacity 0.15s;
+}
+
+#next-btn {
+    rotate: 180deg;
+}

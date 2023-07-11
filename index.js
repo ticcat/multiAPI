@@ -2,6 +2,11 @@ import API from "./scripts/API.js";
 import PokeAPIEndpoint from "./scripts/pokeAPIEndpoint.js";
 import SWAPIEndpoint from "./scripts/swAPIEndpoint.js";
 import HPAPIEndpoint from "./scripts/hpAPIEndpoint.js";
+import { topBarState } from "./components/topbar/topbar-behavior.js";
+import {
+    paginationVisibility,
+    paginationState,
+} from "./components/pagination-footer/pagination-footer-behavior.js";
 
 /* #region  APIs definitions */
 const accessibleAPIs = [];
@@ -120,6 +125,8 @@ let currentAPI = null;
 let currentEndpoint = null;
 
 window.onload = () => {
+    setTopbarState(topBarState.Full);
+    setupPaginationFooter(false);
     loadAccessibleAPIs();
     setCurrentAPI(accessibleAPIs[0]);
 };
@@ -147,7 +154,10 @@ function clearMainPanelEndpoints() {
 
 function clearLastLevelScreen() {
     let mainPanelData = document.getElementById("main-panel-data");
+    let mainPanelDataScroll = document.getElementById("main-panel-data-scroll");
     let lastLevelScreen = document.getElementById("last-level-screen");
+
+    mainPanelDataScroll.style = "height: 70vh";
     if (lastLevelScreen !== null) mainPanelData.removeChild(lastLevelScreen);
 }
 
@@ -160,7 +170,7 @@ function setCurrentAPI(api) {
 
     setCurrentAPIButton(currentAPI.name);
     setCurrentAPITitle(currentAPI.name);
-    setCurrentAccessibleEndpoints(currentAPI.firstLevelEndPoints);
+    navigateFromEndpoint(currentEndpoint);
 }
 
 function setCurrentAPIButton(apiName) {
@@ -181,16 +191,67 @@ function setCurrentAPITitle(apiName) {
     currentAPITitle.innerHTML = apiName;
 }
 
-function setBackBtnVisibility() {
-    let backBtn = document.getElementById("currAccEPTopBarBackBtn");
+function setTopbarState(newState, pagInfo) {
+    let mainPanelTopbar = document.getElementById("mainpanel-topbar");
 
-    backBtn.onclick = () => navigateBack();
-
-    if (currentEndpoint.name !== "Base") {
-        backBtn.style = "visibility: visible;";
-    } else {
-        backBtn.style = "visibility: hidden;";
+    switch (newState) {
+        case topBarState.Full:
+            mainPanelTopbar.onBackButtonClick = function () {};
+            break;
+        case topBarState.Pagination:
+            setTopBarPaginationInfo(pagInfo);
+            mainPanelTopbar.onBackButtonClick = function () {
+                navigateBack();
+            };
+            break;
+        case topBarState.OnlyBackBtn:
+            break;
     }
+
+    mainPanelTopbar.setAttribute("state", newState);
+}
+
+function setTopBarPaginationInfo(pagInfo) {
+    let mainPanelTopbar = document.getElementById("mainpanel-topbar");
+
+    let initValue = (pagInfo.page - 1) * pagInfo.entriesPerPage + 1;
+    let finalValue = initValue - 1 + pagInfo.entriesOnPage;
+
+    mainPanelTopbar.pagInfo = {
+        ePName: currentEndpoint.name,
+        init: initValue,
+        final: finalValue,
+    };
+}
+
+function setupPaginationFooter(visible, pagInfo) {
+    let paginationFooter = document.getElementById("pagination-footer");
+
+    if (visible) {
+        paginationFooter.prevBtnOnclick = function () {
+            navigateToPreviousPage();
+        };
+        paginationFooter.nextBtnOnclick = function () {
+            navigateToNextPage();
+        };
+    }
+
+    switch (true) {
+        case pagInfo == null:
+        case pagInfo.previousUrl == null && pagInfo.nextUrl == null:
+            paginationFooter.setAttribute("state", paginationState.none);
+            break;
+        case pagInfo.previousUrl == null:
+            paginationFooter.setAttribute("state", paginationState.onlyNext);
+            break;
+        case pagInfo.nextUrl == null:
+            paginationFooter.setAttribute("state", paginationState.onlyPrev);
+            break;
+        default:
+            paginationFooter.setAttribute("state", paginationState.both);
+            break;
+    }
+    paginationFooter.style = visible ? "opacity: 1;" : "opacity: 0;";
 }
 
 function setCurrentAccessibleEndpoints(endpoints) {
@@ -208,18 +269,28 @@ function setCurrentAccessibleEndpoints(endpoints) {
 
         accesibleEndpoints.appendChild(newEndpointCard);
     });
-
-    setBackBtnVisibility();
 }
 
 function showLastLevelInfo(data, endpoint) {
     let mainPanelData = document.getElementById("main-panel-data");
+    let mainPanelDataScroll = document.getElementById("main-panel-data-scroll");
     let screen = document.createElement("last-level-screen");
+
+    setTopbarState(topBarState.OnlyBackBtn);
+    setupPaginationFooter(false);
 
     screen.id = "last-level-screen";
     screen.endpoint = endpoint;
     screen.data = data;
+    mainPanelDataScroll.style = "height: 0";
     mainPanelData.appendChild(screen);
+}
+
+function navigateBack() {
+    if (!currentEndpoint.isLastLevel()) {
+        currentEndpoint.resetPaginationInfo();
+    }
+    navigateFromEndpoint(currentEndpoint.parent);
 }
 
 function navigateFromEndpoint(endpoint) {
@@ -229,23 +300,47 @@ function navigateFromEndpoint(endpoint) {
     currentEndpoint = endpoint;
 
     if (currentEndpoint.name === "Base") {
+        setTopbarState(topBarState.Full);
+        setupPaginationFooter(false);
         setCurrentAccessibleEndpoints(currentAPI.firstLevelEndPoints);
     } else {
-        currentEndpoint.getData().then((result) => {
-            const { isLastLevel, data } = result;
-            if (isLastLevel) {
-                showLastLevelInfo(data, endpoint);
-            } else {
-                data.then((endpoints) => {
-                    setCurrentAccessibleEndpoints(endpoints);
-                });
-            }
-        });
+        currentEndpoint
+            .getData()
+            .then((result) => endpointDataFetchHandler(result));
     }
 }
 
-function navigateBack() {
-    navigateFromEndpoint(currentEndpoint.parent);
+function navigateToNextPage() {
+    abortCurrentEndpointCall();
+    clearMainPanelEndpoints();
+
+    currentEndpoint
+        .getNextData()
+        .then((result) => endpointDataFetchHandler(result));
+}
+
+function navigateToPreviousPage() {
+    abortCurrentEndpointCall();
+    clearMainPanelEndpoints();
+
+    currentEndpoint
+        .getPrevData()
+        .then((result) => endpointDataFetchHandler(result));
+}
+
+function endpointDataFetchHandler(result) {
+    if (result.aborted) return;
+
+    const { isLastLevel, data, pagInfo } = result;
+    if (isLastLevel) {
+        showLastLevelInfo(data, currentEndpoint);
+    } else {
+        setupPaginationFooter(true, pagInfo);
+        setTopbarState(topBarState.Pagination, pagInfo);
+        data.then((endpoints) => {
+            setCurrentAccessibleEndpoints(endpoints);
+        });
+    }
 }
 
 function abortCurrentEndpointCall() {

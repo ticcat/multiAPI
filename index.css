@@ -9,15 +9,9 @@
 }
 
 .scroll-container {
-    max-height: 72vh;
+    height: 70vh;
     overflow-x: hidden;
     overflow-y: auto;
-}
-
-.back-btn {
-    filter: var(--onBackgroundSVGFilter);
-    height: 30px;
-    width: 30px;
 }
 
 html,
@@ -80,36 +74,7 @@ body.grid-container {
 }
 
 /* #region Current accessible endpoints top bar */
-#currAccEPTopBar {
-    margin: 40px 10px;
-}
 
-#currAccEPTopBar.grid-container {
-    grid-template-columns: max-content auto max-content;
-    align-items: center;
-}
-
-#currAccEPTopBar .back-btn {
-    margin-left: 10px;
-    position: relative;
-    visibility: hidden;
-}
-
-#currAccEPTopBarCenterCol {
-    width: 1000px;
-    position: absolute;
-    justify-self: center;
-}
-
-#currAccEPTopBarSearchBar {
-    background-color: var(--backgroundTextInput);
-    border: 3px solid var(--onBackgroundTextInput);
-    border-radius: 20px;
-    height: 40px;
-    width: 100%;
-    text-align: center;
-    color: var(--onBackgroundTextInput);
-}
 /* #endregion */
 
 /* #region Current accessible endpoints list (cards) */

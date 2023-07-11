@@ -3,7 +3,17 @@ export default class Endpoint {
     spriteUrl = "";
     parent = null;
     url = "";
+
+    numberOfChildren = 0;
     childEndpoints = [];
+    entriesPerPage = 10;
+    pagInfo = {
+        page: 1,
+        nextUrl: "",
+        previousUrl: "",
+        entriesPerPage: this.entriesPerPage,
+        entriesOnPage: 0,
+    };
 
     #abortController = null;
     #abortSignal = null;
@@ -16,29 +26,70 @@ export default class Endpoint {
     }
 
     isLastLevel() {
-        return this.parent.name !== "Base";
+        return this.parent !== null && this.parent.name !== "Base";
     }
 
-    async getData() {
+    abortFetch() {
+        if (this.#abortController !== null) this.#abortController.abort();
+    }
+
+    resetPaginationInfo() {
+        this.#setPaginationInfo();
+    }
+
+    getNextUrl(data) {
+        return data.next;
+    }
+
+    getPrevUrl(data) {
+        return data.previous;
+    }
+
+    async getNextData() {
+        return this.getData(this.pagInfo.nextUrl, false, 1);
+    }
+
+    async getPrevData() {
+        return this.getData(this.pagInfo.previousUrl, false, -1);
+    }
+
+    async getData(
+        fetchUrl = this.getPaginationUrl(),
+        intialFetch = this.pagInfo.page === 1,
+        pageChange = 0
+    ) {
         this.#abortController = new AbortController();
         this.#abortSignal = this.#abortController.signal;
 
-        let result = fetch(this.url, { signal: this.#abortSignal })
+        let result = fetch(fetchUrl, {
+            signal: this.#abortSignal,
+        })
             .then((response) => response.json())
             .then((data) => {
                 let dataResult = this.isLastLevel()
                     ? data
                     : this.getChildEndpointsFromData(data);
 
+                if (!this.isLastLevel()) {
+                    this.numberOfChildren = data.results.length;
+
+                    this.#setPaginationInfo(
+                        intialFetch ? 1 : this.pagInfo.page + pageChange,
+                        this.getNextUrl(data),
+                        this.getPrevUrl(data),
+                        this.numberOfChildren
+                    );
+                }
+
                 return {
                     isLastLevel: this.isLastLevel(),
                     data: dataResult,
+                    pagInfo: this.pagInfo,
                 };
             })
             .catch((_) => {
                 return {
-                    isLastLevel: false,
-                    data: [],
+                    aborted: true,
                 };
             });
 
@@ -49,7 +100,15 @@ export default class Endpoint {
         return this.spriteUrl;
     }
 
-    abortFetch() {
-        if (this.#abortController !== null) this.#abortController.abort();
+    #setPaginationInfo(
+        page = 1,
+        nextUrl = null,
+        previousUrl = null,
+        entriesOnPage = 0
+    ) {
+        this.pagInfo.page = page;
+        this.pagInfo.nextUrl = nextUrl;
+        this.pagInfo.previousUrl = previousUrl;
+        this.pagInfo.entriesOnPage = entriesOnPage;
     }
 }
