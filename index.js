@@ -8,10 +8,14 @@ import { topBarState } from "./components/topbar/topbar-behavior.js";
 /* #region  APIs definitions */
 const accessibleAPIs = [];
 
-const pokeAPI = new API(
-    "Pokémon API",
-    "/icons/APIs/pokemon.svg",
-    new PokeAPIEndpoint("Base", "", null, "https://pokeapi.co/api/v2")
+const pokeAPI = new API("Pokémon API", "/icons/APIs/pokemon.svg");
+
+pokeAPI.baseEndpoint = new PokeAPIEndpoint(
+    "Base",
+    "",
+    null,
+    "https://pokeapi.co/api/v2",
+    pokeAPI
 );
 
 pokeAPI.firstLevelEndPoints = [
@@ -19,40 +23,49 @@ pokeAPI.firstLevelEndPoints = [
         "Berries",
         "/images/PokeAPI/BerriesDefault.png",
         pokeAPI.baseEndpoint,
-        pokeAPI.baseEndpoint.url + "/berry"
+        pokeAPI.baseEndpoint.url + "/berry",
+        pokeAPI
     ),
     new PokeAPIEndpoint(
         "Items",
         "/images/PokeAPI/ItemsDefault.png",
         pokeAPI.baseEndpoint,
-        pokeAPI.baseEndpoint.url + "/item"
+        pokeAPI.baseEndpoint.url + "/item",
+        pokeAPI
     ),
     new PokeAPIEndpoint(
         "Locations",
         "/images/PokeAPI/LocationsDefault.png",
         pokeAPI.baseEndpoint,
-        pokeAPI.baseEndpoint.url + "/location"
+        pokeAPI.baseEndpoint.url + "/location",
+        pokeAPI
     ),
     new PokeAPIEndpoint(
         "Moves",
         "/images/PokeAPI/MovesDefault.png",
         pokeAPI.baseEndpoint,
-        pokeAPI.baseEndpoint.url + "/move"
+        pokeAPI.baseEndpoint.url + "/move",
+        pokeAPI
     ),
     new PokeAPIEndpoint(
         "Pokemons",
         "/images/PokeAPI/PokemonsDefault.png",
         pokeAPI.baseEndpoint,
-        pokeAPI.baseEndpoint.url + "/pokemon"
+        pokeAPI.baseEndpoint.url + "/pokemon",
+        pokeAPI
     ),
 ];
 
 accessibleAPIs.push(pokeAPI);
 
-const swAPI = new API(
-    "Star Wars API",
-    "/icons/APIs/star-wars.svg",
-    new SWAPIEndpoint("Base", "", null, "https://swapi.dev/api")
+const swAPI = new API("Star Wars API", "/icons/APIs/star-wars.svg");
+
+swAPI.baseEndpoint = new SWAPIEndpoint(
+    "Base",
+    "",
+    null,
+    "https://swapi.dev/api",
+    swAPI
 );
 
 swAPI.firstLevelEndPoints = [
@@ -60,37 +73,43 @@ swAPI.firstLevelEndPoints = [
         "Films",
         "/images/SWAPI/FilmsDefault.png",
         swAPI.baseEndpoint,
-        swAPI.baseEndpoint.url + "/films"
+        swAPI.baseEndpoint.url + "/films",
+        swAPI
     ),
     new SWAPIEndpoint(
         "People",
         "/images/SWAPI/PeopleDefault.png",
         swAPI.baseEndpoint,
-        swAPI.baseEndpoint.url + "/people"
+        swAPI.baseEndpoint.url + "/people",
+        swAPI
     ),
     new SWAPIEndpoint(
         "Planets",
         "/images/SWAPI/PlanetsDefault.png",
         swAPI.baseEndpoint,
-        swAPI.baseEndpoint.url + "/planets"
+        swAPI.baseEndpoint.url + "/planets",
+        swAPI
     ),
     new SWAPIEndpoint(
         "Species",
         "/images/SWAPI/SpeciesDefault.png",
         swAPI.baseEndpoint,
-        swAPI.baseEndpoint.url + "/species"
+        swAPI.baseEndpoint.url + "/species",
+        swAPI
     ),
     new SWAPIEndpoint(
         "Starships",
         "/images/SWAPI/SpaceshipsDefault.png",
         swAPI.baseEndpoint,
-        swAPI.baseEndpoint.url + "/starships"
+        swAPI.baseEndpoint.url + "/starships",
+        swAPI
     ),
     new SWAPIEndpoint(
         "Vehicles",
         "/images/SWAPI/VehiclesDefault.png",
         swAPI.baseEndpoint,
-        swAPI.baseEndpoint.url + "/vehicles"
+        swAPI.baseEndpoint.url + "/vehicles",
+        swAPI
     ),
 ];
 accessibleAPIs.push(swAPI);

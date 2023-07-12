@@ -1,8 +1,8 @@
 import Endpoint from "./../scripts/Endpoint.js";
 
 export default class SWAPIEndpoint extends Endpoint {
-    constructor(name, spriteUrl, parentEP, endpointUrl) {
-        super(name, spriteUrl, parentEP, endpointUrl);
+    constructor(name, spriteUrl, parentEP, endpointUrl, api) {
+        super(name, spriteUrl, parentEP, endpointUrl, api);
     }
 
     getChildEndpointsFromData(data) {
@@ -29,7 +29,8 @@ export default class SWAPIEndpoint extends Endpoint {
             newEPName,
             newEPSpriteUrl,
             this,
-            rawData.url
+            rawData.url,
+            this.api
         );
 
         return newEndpoint;
@@ -37,5 +38,19 @@ export default class SWAPIEndpoint extends Endpoint {
 
     getPaginationUrl(_) {
         return this.url + `?page=${this.pagInfo.page}`;
+    }
+
+    getSearchUrls(searchTerm) {
+        let result = [];
+
+        if (this.isBaseEndpoint()) {
+            this.api.firstLevelEndPoints.forEach((endpoint) => {
+                result.push(endpoint.getSearchUrls(searchTerm));
+            });
+        } else {
+            result.push(this.url + "/?search=" + searchTerm);
+        }
+
+        return result;
     }
 }

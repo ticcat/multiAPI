@@ -1,8 +1,8 @@
 import Endpoint from "./../scripts/Endpoint.js";
 
 export default class PokeAPIEndpoint extends Endpoint {
-    constructor(name, spriteUrl, parentEP, endpointUrl) {
-        super(name, spriteUrl, parentEP, endpointUrl);
+    constructor(name, spriteUrl, parentEP, endpointUrl, api) {
+        super(name, spriteUrl, parentEP, endpointUrl, api);
 
         this.entriesPerPage = 20;
         this.pagInfo = {
@@ -47,7 +47,8 @@ export default class PokeAPIEndpoint extends Endpoint {
             newEPName,
             newEPSpriteUrl,
             this,
-            rawData.url
+            rawData.url,
+            this.api
         );
 
         return newEndpoint;
@@ -82,5 +83,19 @@ export default class PokeAPIEndpoint extends Endpoint {
     ) {
         let offset = page * entriesNumber - entriesNumber;
         return this.url + `?offset=${offset}&limit=${entriesNumber}`;
+    }
+
+    getSearchUrls(searchTerm) {
+        let result = [];
+
+        if (this.isBaseEndpoint()) {
+            this.api.firstLevelEndPoints.forEach((endpoint) => {
+                result.push(endpoint.getSearchUrls(searchTerm));
+            });
+        } else {
+            result.push(this.url + "/" + searchTerm);
+        }
+
+        return result;
     }
 }

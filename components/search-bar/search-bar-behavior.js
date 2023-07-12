@@ -15,19 +15,30 @@ function defineSearchBar(html) {
             // Create shadow root and append fetched html
             this.attachShadow({ mode: "open" });
             this.shadowRoot.appendChild(template.content.cloneNode(true));
+
+            this.#setUpSearchBar();
         }
 
-        connectedCallBack() {
+        #setUpSearchBar() {
             const shadow = this.shadowRoot;
-            const searchBarContainer = shadow.getElementById(
-                "search-bar-container"
-            );
+            const barTextInput = shadow.getElementById("search-bar-input");
 
-            searchBarContainer.onclick = () => this.#testLog();
+            barTextInput.addEventListener("keypress", (event) => {
+                if (event.key === "Enter") {
+                    const currentEP = getVarState("currentEndpoint");
+                    const searchUrls = currentEP.getSearchUrls(
+                        barTextInput.value
+                    );
+
+                    barTextInput.value = "";
+                    console.log(searchUrls);
+                }
+            });
         }
 
         #testLog() {
             console.log(getVarState("currentAPI"));
+            console.log(getVarState("currentEndpoint"));
         }
     }
 
