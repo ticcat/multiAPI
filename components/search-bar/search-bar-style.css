@@ -6,23 +6,35 @@
     padding: 0;
 }
 
-.grid-flex {
+.flex-container {
     display: flex;
     align-items: center;
+}
+
+.center {
     justify-content: center;
 }
 
-#search-bar-container {
-    background-color: var(--onBackgroundText);
-    border: 3px solid var(--onBackgroundTextInput);
-    border-radius: 20px;
-    width: 1000px;
-    height: 40px;
-    margin: auto;
+.start {
+    justify-content: start;
 }
 
-#search-bar-container p {
-    color: var(--onBackgroundTextInput);
-    text-align: center;
-    font-size: 1rem;
+.search-icon {
+    background-color: var(--onBackgroundText);
+    background-image: url(/icons/google/search.svg);
+    background-repeat: no-repeat;
+    background-position: 10px;
+    background-size: 35px;
+}
+
+#search-bar-input {
+    min-width: 200px;
+    width: 80%;
+    height: 50px;
+    padding: 0 30px 0 50px;
+    border: 3px solid var(--onBackgroundTextInput);
+    border-radius: 20px;
+    margin: 0 20px;
+    font-family: "Segoe UI Emoji", Helvetica;
+    font-size: 1.3rem;
 }

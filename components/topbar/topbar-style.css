@@ -11,12 +11,12 @@
 }
 
 #topbar-container {
-    height: 50px;
-    margin: 30px 10px 20px 10px;
+    max-height: 50px;
+    margin: 30px 10px 0 10px;
 }
 
 #topbar-container.grid-container {
-    grid-template-columns: max-content 1fr max-content;
+    grid-template-columns: 50px 1fr max-content;
     align-items: center;
 }
 
@@ -30,24 +30,10 @@
     transition: opacity 0.15s;
 }
 
-/* #currAccEPTopBarCenterCol {
-    width: 1000px;
-    position: absolute;
-    justify-self: center;
-}
-
-#currAccEPTopBarSearchBar {
-    background-color: var(--backgroundTextInput);
-    border: 3px solid var(--onBackgroundTextInput);
-    border-radius: 20px;
-    height: 40px;
-    width: 100%;
-    text-align: center;
-    color: var(--onBackgroundTextInput);
-} */
-
 #pagination-info {
-    margin-right: 30px;
+    height: 3rem;
+    min-width: 50px;
+    padding-right: 30px;
     opacity: 0;
     transition: opacity 0.15s;
 }
