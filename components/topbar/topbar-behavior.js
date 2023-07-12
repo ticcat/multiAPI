@@ -1,3 +1,5 @@
+import { getVarState } from "../../scripts/stateManager.js";
+
 fetch("/components/topbar/topbar-template.html")
     .then((stream) => stream.text())
     .then((text) => defineTopbar(text));
@@ -37,7 +39,7 @@ function defineTopbar(html) {
                     switch (newValue) {
                         case topBarState.Pagination:
                             this.#setBackButton(true, this.onBackButtonClick);
-                            this.#setPaginationInfo(true, this.pagInfo);
+                            this.#setPaginationInfo();
                             break;
                         case topBarState.OnlyBackBtn:
                             this.#setBackButton(true, this.onBackButtonClick);
@@ -61,19 +63,34 @@ function defineTopbar(html) {
             backButton.style = visible ? "opacity: 1;" : "opacity: 0";
         }
 
-        #setPaginationInfo(visible, paginationInfo = {}) {
+        #setPaginationInfo(visible = true) {
             const shadow = this.shadowRoot;
             let paginationElem = shadow.getElementById("pagination-info");
             let pagTextElem = shadow.getElementById("pagination-info-text");
 
+            let paginationInfo = getVarState("paginationInfo");
+
             if (visible) {
-                let { ePName, init, final } = paginationInfo;
+                let { ePName, init, final } =
+                    this.#formatPaginationInfo(paginationInfo);
                 pagTextElem.innerHTML = ePName + " " + init + "-" + final;
                 paginationElem.style = "opacity: 1;";
             } else {
                 pagTextElem.innerHTML = "";
                 paginationElem.style = "opacity: 0;";
             }
+        }
+
+        #formatPaginationInfo(pagInfo) {
+            let initValue = (pagInfo.page - 1) * pagInfo.entriesPerPage + 1;
+            let finalValue = initValue - 1 + pagInfo.entriesOnPage;
+
+            return {
+                ePName: getVarState("currentEndpoint").name,
+                page: pagInfo.page,
+                init: initValue,
+                final: finalValue,
+            };
         }
     }
 

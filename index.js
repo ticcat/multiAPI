@@ -122,8 +122,8 @@ setVarState("accessibleAPIs", accessibleAPIs);
 /* #endregion */
 
 window.onload = () => {
-    setTopbarState(topBarState.Full);
-    setupPaginationFooter(false);
+    setUpTopbar();
+    setUpPaginationFooter(false);
     loadAccessibleAPIs();
     setCurrentAPI(accessibleAPIs[0]);
 };
@@ -188,40 +188,17 @@ function setCurrentAPITitle(apiName) {
     currentAPITitle.innerHTML = apiName;
 }
 
-function setTopbarState(newState, pagInfo) {
+function setUpTopbar() {
     let mainPanelTopbar = document.getElementById("mainpanel-topbar");
 
-    switch (newState) {
-        case topBarState.Full:
-            mainPanelTopbar.onBackButtonClick = function () {};
-            break;
-        case topBarState.Pagination:
-            setTopBarPaginationInfo(pagInfo);
-            mainPanelTopbar.onBackButtonClick = function () {
-                navigateBack();
-            };
-            break;
-        case topBarState.OnlyBackBtn:
-            break;
-    }
-
-    mainPanelTopbar.setAttribute("state", newState);
-}
-
-function setTopBarPaginationInfo(pagInfo) {
-    let mainPanelTopbar = document.getElementById("mainpanel-topbar");
-
-    let initValue = (pagInfo.page - 1) * pagInfo.entriesPerPage + 1;
-    let finalValue = initValue - 1 + pagInfo.entriesOnPage;
-
-    mainPanelTopbar.pagInfo = {
-        ePName: getVarState("currentEndpoint").name,
-        init: initValue,
-        final: finalValue,
+    mainPanelTopbar.onBackButtonClick = function () {
+        navigateBack();
     };
+
+    mainPanelTopbar.setAttribute("state", topBarState.Full);
 }
 
-function setupPaginationFooter(visible, pagInfo) {
+function setUpPaginationFooter(visible, pagInfo) {
     let paginationFooter = document.getElementById("pagination-footer");
 
     if (visible) {
@@ -269,12 +246,13 @@ function setCurrentAccessibleEndpoints(endpoints) {
 }
 
 function showLastLevelInfo(data, endpoint) {
+    let mainPanelTopbar = document.getElementById("mainpanel-topbar");
     let mainPanelData = document.getElementById("main-panel-data");
     let mainPanelDataScroll = document.getElementById("main-panel-data-scroll");
     let screen = document.createElement("last-level-screen");
 
-    setTopbarState(topBarState.OnlyBackBtn);
-    setupPaginationFooter(false);
+    setUpPaginationFooter(false);
+    mainPanelTopbar.setAttribute("state", topBarState.OnlyBackBtn);
 
     screen.id = "last-level-screen";
     screen.endpoint = endpoint;
@@ -296,11 +274,13 @@ function navigateFromEndpoint(endpoint) {
     abortCurrentEndpointCall();
     clearMainPanelEndpoints();
 
+    let mainPanelTopBar = document.getElementById("mainpanel-topbar");
+
     let currentEP = setVarState("currentEndpoint", endpoint);
 
     if (currentEP.name === "Base") {
-        setTopbarState(topBarState.Full);
-        setupPaginationFooter(false);
+        mainPanelTopBar.setAttribute("state", topBarState.Full);
+        setUpPaginationFooter(false);
         setCurrentAccessibleEndpoints(
             getVarState("currentAPI").firstLevelEndPoints
         );
@@ -330,12 +310,15 @@ function navigateToPreviousPage() {
 function endpointDataFetchHandler(result) {
     if (result.aborted) return;
 
+    let mainPanelTopBar = document.getElementById("mainpanel-topbar");
+
     const { isLastLevel, data, pagInfo } = result;
     if (isLastLevel) {
         showLastLevelInfo(data, getVarState("currentEndpoint"));
     } else {
-        setupPaginationFooter(true, pagInfo);
-        setTopbarState(topBarState.Pagination, pagInfo);
+        setVarState("paginationInfo", pagInfo);
+        setUpPaginationFooter(true, pagInfo);
+        mainPanelTopBar.setAttribute("state", topBarState.Pagination);
         data.then((endpoints) => {
             setCurrentAccessibleEndpoints(endpoints);
         });
