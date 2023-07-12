@@ -1,11 +1,9 @@
-export default class StateManager {
-    #globalVariables = {};
+let globalVariables = {};
 
-    setVarState(name, value) {
-        this.#globalVariables[name] = value;
-    }
+export function setVarState(name, value) {
+    return (globalVariables[name] = value);
+}
 
-    getVarState(name) {
-        return this.#globalVariables[name];
-    }
+export function getVarState(name) {
+    return globalVariables[name];
 }

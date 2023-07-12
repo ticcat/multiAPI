@@ -2,11 +2,9 @@ import API from "./scripts/API.js";
 import PokeAPIEndpoint from "./scripts/pokeAPIEndpoint.js";
 import SWAPIEndpoint from "./scripts/swAPIEndpoint.js";
 import HPAPIEndpoint from "./scripts/hpAPIEndpoint.js";
+import { setVarState, getVarState } from "./scripts/stateManager.js";
 import { topBarState } from "./components/topbar/topbar-behavior.js";
-import {
-    paginationVisibility,
-    paginationState,
-} from "./components/pagination-footer/pagination-footer-behavior.js";
+import { paginationState } from "./components/pagination-footer/pagination-footer-behavior.js";
 
 /* #region  APIs definitions */
 const accessibleAPIs = [];
@@ -119,10 +117,9 @@ hpAPI.firstLevelEndPoints = [
     ),
 ];
 // accessibleAPIs.push(hpAPI);
-/* #endregion */
 
-let currentAPI = null;
-let currentEndpoint = null;
+setVarState("accessibleAPIs", accessibleAPIs);
+/* #endregion */
 
 window.onload = () => {
     setTopbarState(topBarState.Full);
@@ -165,12 +162,12 @@ function setCurrentAPI(api) {
     abortCurrentEndpointCall();
     clearMainPanelEndpoints();
 
-    currentAPI = api;
-    currentEndpoint = currentAPI.baseEndpoint;
+    let currentAPI = setVarState("currentAPI", api);
+    let currentEP = setVarState("currentEndpoint", currentAPI.baseEndpoint);
 
     setCurrentAPIButton(currentAPI.name);
     setCurrentAPITitle(currentAPI.name);
-    navigateFromEndpoint(currentEndpoint);
+    navigateFromEndpoint(currentEP);
 }
 
 function setCurrentAPIButton(apiName) {
@@ -218,7 +215,7 @@ function setTopBarPaginationInfo(pagInfo) {
     let finalValue = initValue - 1 + pagInfo.entriesOnPage;
 
     mainPanelTopbar.pagInfo = {
-        ePName: currentEndpoint.name,
+        ePName: getVarState("currentEndpoint").name,
         init: initValue,
         final: finalValue,
     };
@@ -287,26 +284,28 @@ function showLastLevelInfo(data, endpoint) {
 }
 
 function navigateBack() {
-    if (!currentEndpoint.isLastLevel()) {
-        currentEndpoint.resetPaginationInfo();
+    let currentEP = getVarState("currentEndpoint");
+
+    if (!currentEP.isLastLevel()) {
+        currentEP.resetPaginationInfo();
     }
-    navigateFromEndpoint(currentEndpoint.parent);
+    navigateFromEndpoint(currentEP.parent);
 }
 
 function navigateFromEndpoint(endpoint) {
     abortCurrentEndpointCall();
     clearMainPanelEndpoints();
 
-    currentEndpoint = endpoint;
+    let currentEP = setVarState("currentEndpoint", endpoint);
 
-    if (currentEndpoint.name === "Base") {
+    if (currentEP.name === "Base") {
         setTopbarState(topBarState.Full);
         setupPaginationFooter(false);
-        setCurrentAccessibleEndpoints(currentAPI.firstLevelEndPoints);
+        setCurrentAccessibleEndpoints(
+            getVarState("currentAPI").firstLevelEndPoints
+        );
     } else {
-        currentEndpoint
-            .getData()
-            .then((result) => endpointDataFetchHandler(result));
+        currentEP.getData().then((result) => endpointDataFetchHandler(result));
     }
 }
 
@@ -314,7 +313,7 @@ function navigateToNextPage() {
     abortCurrentEndpointCall();
     clearMainPanelEndpoints();
 
-    currentEndpoint
+    getVarState("currentEndpoint")
         .getNextData()
         .then((result) => endpointDataFetchHandler(result));
 }
@@ -323,7 +322,7 @@ function navigateToPreviousPage() {
     abortCurrentEndpointCall();
     clearMainPanelEndpoints();
 
-    currentEndpoint
+    getVarState("currentEndpoint")
         .getPrevData()
         .then((result) => endpointDataFetchHandler(result));
 }
@@ -333,7 +332,7 @@ function endpointDataFetchHandler(result) {
 
     const { isLastLevel, data, pagInfo } = result;
     if (isLastLevel) {
-        showLastLevelInfo(data, currentEndpoint);
+        showLastLevelInfo(data, getVarState("currentEndpoint"));
     } else {
         setupPaginationFooter(true, pagInfo);
         setTopbarState(topBarState.Pagination, pagInfo);
@@ -344,6 +343,7 @@ function endpointDataFetchHandler(result) {
 }
 
 function abortCurrentEndpointCall() {
-    if (currentEndpoint !== null && currentEndpoint?.name !== "Base")
-        currentEndpoint.abortFetch();
+    let currentEP = getVarState("currentEndpoint");
+
+    if (currentEP != null && currentEP?.name !== "Base") currentEP.abortFetch();
 }
