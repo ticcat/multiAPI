@@ -153,8 +153,8 @@ window.onload = () => {
                 // TODO: Show nothing found screen
                 console.log("Nothing found");
             } else {
-                console.log();
-                showLastLevelInfo(searchItem, getVarState("currentEndpoint"));
+                // TODO: Show last-lvl-screen with res info
+                console.log(searchItem);
             }
         });
     });
