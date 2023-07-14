@@ -28,32 +28,34 @@ function defineSearchBar(html) {
             barTextInput.addEventListener("keypress", (event) => {
                 if (event.key === "Enter") {
                     const currentEP = getVarState("currentEndpoint");
-                    const searchUrls = currentEP.getSearchUrls(
-                        barTextInput.value.toLowerCase()
-                    );
+                    const searchInfo = currentEP
+                        .getSearchUrls(barTextInput.value.toLowerCase())
+                        .flat();
 
                     barTextInput.value = "";
                     this.#searchSubmit = new CustomEvent("search", {
-                        detail: this.#fetchSearchData(searchUrls),
+                        detail: this.#fetchSearchData(searchInfo),
                     });
                     document.dispatchEvent(this.#searchSubmit);
                 }
             });
         }
 
-        #fetchSearchData(searchUrls) {
+        #fetchSearchData(searchInfo) {
             let dataFetchList = [];
 
-            searchUrls.forEach((url) => {
+            searchInfo.forEach((info) => {
                 dataFetchList.push(
-                    fetch(url)
+                    fetch(info.url)
                         .then((response) => {
                             if (!response.ok)
                                 throw new Error("Entry not found");
 
                             return response.json();
                         })
-                        .then((result) => result)
+                        .then((result) => {
+                            return { result: result, type: info.type };
+                        })
                         .catch(() => {})
                 );
             });

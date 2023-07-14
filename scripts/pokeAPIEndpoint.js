@@ -93,7 +93,9 @@ export default class PokeAPIEndpoint extends Endpoint {
                 result.push(endpoint.getSearchUrls(searchTerm));
             });
         } else {
-            result.push(this.url + "/" + searchTerm);
+            let url = this.url + "/" + searchTerm;
+            let endpointType = this.name;
+            result.push({ url: url, type: endpointType });
         }
 
         return result;
