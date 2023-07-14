@@ -26,13 +26,13 @@ function defineLastLevelScreen(html) {
                 entryCoverImage.setAttribute("src", spriteUrl);
             });
             entryTitle.innerHTML = this.endpoint.name;
-            this.#setTableData(this.data);
+            this.#setTableData(this.data, this.endpoint);
         }
 
-        #setTableData(data) {
+        #setTableData(data, endpoint) {
             let dataTable = this.shadowRoot.getElementById("data-table");
 
-            let filteredData = filterRawData(data, this.endpoint);
+            let filteredData = filterRawData(data, endpoint);
 
             for (let data in filteredData) {
                 let dataRowElement = document.createElement("tr");

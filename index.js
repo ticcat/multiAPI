@@ -144,6 +144,20 @@ window.onload = () => {
     setUpPaginationFooter();
     loadAccessibleAPIs();
     setCurrentAPI(accessibleAPIs[0]);
+
+    document.addEventListener("search", (event) => {
+        event.detail.then((result) => {
+            let searchItem = result.find((it) => it !== null);
+
+            if (searchItem == null) {
+                // TODO: Show nothing found screen
+                console.log("Nothing found");
+            } else {
+                console.log();
+                showLastLevelInfo(searchItem, getVarState("currentEndpoint"));
+            }
+        });
+    });
 };
 
 function loadAccessibleAPIs() {

@@ -9,6 +9,8 @@ function defineSearchBar(html) {
     template.innerHTML = html;
 
     class SearchBar extends HTMLElement {
+        #searchSubmit;
+
         constructor() {
             super();
 
@@ -27,18 +29,36 @@ function defineSearchBar(html) {
                 if (event.key === "Enter") {
                     const currentEP = getVarState("currentEndpoint");
                     const searchUrls = currentEP.getSearchUrls(
-                        barTextInput.value
+                        barTextInput.value.toLowerCase()
                     );
 
                     barTextInput.value = "";
-                    console.log(searchUrls);
+                    this.#searchSubmit = new CustomEvent("search", {
+                        detail: this.#fetchSearchData(searchUrls),
+                    });
+                    document.dispatchEvent(this.#searchSubmit);
                 }
             });
         }
 
-        #testLog() {
-            console.log(getVarState("currentAPI"));
-            console.log(getVarState("currentEndpoint"));
+        #fetchSearchData(searchUrls) {
+            let dataFetchList = [];
+
+            searchUrls.forEach((url) => {
+                dataFetchList.push(
+                    fetch(url)
+                        .then((response) => {
+                            if (!response.ok)
+                                throw new Error("Entry not found");
+
+                            return response.json();
+                        })
+                        .then((result) => result)
+                        .catch(() => {})
+                );
+            });
+
+            return Promise.all(dataFetchList);
         }
     }
 
