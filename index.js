@@ -147,7 +147,16 @@ window.onload = () => {
 
     document.addEventListener("search", (event) => {
         event.detail.then((result) => {
-            let searchItem = result.find((it) => it !== null);
+            let searchItem = undefined;
+
+            switch (getVarState("currentAPI")) {
+                case pokeAPI:
+                    searchItem = result.find((it) => it != null);
+                    break;
+                case swAPI:
+                    searchItem = result.find((it) => it.result.count > 0);
+                    break;
+            }
 
             if (searchItem == null) {
                 // TODO: Show nothing found screen
