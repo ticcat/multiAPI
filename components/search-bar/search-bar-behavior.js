@@ -1,4 +1,8 @@
+import PokeAPIEndpoint, {
+    getPokeEPSprite,
+} from "../../scripts/pokeAPIEndpoint.js";
 import { getVarState } from "../../scripts/stateManager.js";
+import SWAPIEndpoint from "../../scripts/swAPIEndpoint.js";
 
 fetch("/components/search-bar/search-bar-template.html")
     .then((stream) => stream.text())
@@ -54,13 +58,46 @@ function defineSearchBar(html) {
                             return response.json();
                         })
                         .then((result) => {
-                            return { result: result, type: info.type };
+                            return {
+                                resultData: result,
+                                endpoint: this.#getResultEndpoint(
+                                    result,
+                                    info.parent
+                                ),
+                            };
                         })
                         .catch(() => {})
                 );
             });
 
             return Promise.all(dataFetchList);
+        }
+
+        #getResultEndpoint(result, parentEP) {
+            switch (getVarState("currentAPI").name) {
+                case "Pokémon API":
+                    let sprite = getPokeEPSprite(
+                        result,
+                        parentEP.name,
+                        parentEP.spriteUrl
+                    );
+                    return new PokeAPIEndpoint(
+                        result.name,
+                        sprite,
+                        parentEP,
+                        "",
+                        parentEP.api
+                    );
+                case "Star Wars API":
+                    let item = result.count > 0 ? result.results[0] : "";
+                    return new SWAPIEndpoint(
+                        item.name !== undefined ? item.name : item.title,
+                        parentEP.spriteUrl,
+                        parentEP,
+                        "",
+                        parentEP.api
+                    );
+            }
         }
     }
 

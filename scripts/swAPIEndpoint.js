@@ -49,8 +49,7 @@ export default class SWAPIEndpoint extends Endpoint {
             });
         } else {
             let url = this.url + "/?search=" + searchTerm;
-            let endpointType = this.name;
-            result.push({ url: url, type: endpointType });
+            result.push({ url: url, parent: this });
         }
 
         return result;

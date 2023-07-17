@@ -62,18 +62,11 @@ export default class PokeAPIEndpoint extends Endpoint {
         return fetch(this.url)
             .then((response) => response.json())
             .then((data) => {
-                switch (this.parent.name) {
-                    case "Items":
-                        return data.sprites.default;
-                    case "Pokemons":
-                        return data.sprites.front_default;
-                    case "Berries":
-                        return fetch(data.item.url)
-                            .then((response) => response.json())
-                            .then((item) => item.sprites.default);
-                    default:
-                        return this.parent.spriteUrl;
-                }
+                return getPokeEPSprite(
+                    data,
+                    this.parent.name,
+                    this.parent.spriteUrl
+                );
             });
     }
 
@@ -94,10 +87,24 @@ export default class PokeAPIEndpoint extends Endpoint {
             });
         } else {
             let url = this.url + "/" + searchTerm;
-            let endpointType = this.name;
-            result.push({ url: url, type: endpointType });
+            result.push({ url: url, parent: this });
         }
 
         return result;
+    }
+}
+
+export function getPokeEPSprite(data, epType, defaultSprite) {
+    switch (epType) {
+        case "Items":
+            return data.sprites.default;
+        case "Pokemons":
+            return data.sprites.front_default;
+        case "Berries":
+            return fetch(data.item.url)
+                .then((response) => response.json())
+                .then((item) => item.sprites.default);
+        default:
+            return defaultSprite;
     }
 }

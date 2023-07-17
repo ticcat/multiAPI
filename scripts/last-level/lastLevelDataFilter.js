@@ -4,7 +4,7 @@ import HPAPIEndpoint from "../hpAPIEndpoint.js";
 import pokeAPIDataFilter from "./pokeAPIFilters.js";
 import swAPIDataFilter from "./swAPIFilters.js";
 
-export default function filterRawData(rawData, endpoint) {
+export function filterRawData(rawData, endpoint) {
     let endpointPrototype = Object.getPrototypeOf(endpoint);
 
     switch (endpointPrototype) {
@@ -20,5 +20,14 @@ export default function filterRawData(rawData, endpoint) {
         }
         default:
             return [];
+    }
+}
+
+export default function filterDataFromSearch(rawData, endpointType, api) {
+    switch (api.name) {
+        case "Pokémon API":
+            return pokeAPIDataFilter(rawData, endpointType);
+        case "Star Wars API":
+            return swAPIDataFilter(rawData, endpointType);
     }
 }

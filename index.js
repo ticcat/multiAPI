@@ -154,7 +154,8 @@ window.onload = () => {
                     searchItem = result.find((it) => it != null);
                     break;
                 case swAPI:
-                    searchItem = result.find((it) => it.result.count > 0);
+                    searchItem = result.find((it) => it.resultData.count > 0);
+                    searchItem.resultData = searchItem.resultData.results[0];
                     break;
             }
 
@@ -163,7 +164,10 @@ window.onload = () => {
                 console.log("Nothing found");
             } else {
                 // TODO: Show last-lvl-screen with res info
-                console.log(searchItem);
+                showLastLevelInfoFromEndpoint(
+                    searchItem.resultData,
+                    searchItem.endpoint
+                );
             }
         });
     });
@@ -269,7 +273,7 @@ function setCurrentAccessibleEndpoints(endpoints) {
     });
 }
 
-function showLastLevelInfo(data, endpoint) {
+function showLastLevelInfoFromEndpoint(data, endpoint) {
     let mainPanelTopbar = document.getElementById("mainpanel-topbar");
     let mainPanelData = document.getElementById("main-panel-data");
     let mainPanelDataScroll = document.getElementById("main-panel-data-scroll");
@@ -341,7 +345,7 @@ function endpointDataFetchHandler(result) {
 
     const { isLastLevel, data, pagInfo } = result;
     if (isLastLevel) {
-        showLastLevelInfo(data, getVarState("currentEndpoint"));
+        showLastLevelInfoFromEndpoint(data, getVarState("currentEndpoint"));
     } else {
         setVarState("paginationInfo", pagInfo);
         paginationFooter.setAttribute("visible", true);

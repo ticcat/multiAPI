@@ -1,4 +1,4 @@
-import filterRawData from "../../scripts/last-level/lastLevelDataFilter.js";
+import filterDataFromSearch from "../../scripts/last-level/lastLevelDataFilter.js";
 
 fetch("/components/last-level-screen/last-level-screen-template.html")
     .then((stream) => stream.text())
@@ -26,13 +26,18 @@ function defineLastLevelScreen(html) {
                 entryCoverImage.setAttribute("src", spriteUrl);
             });
             entryTitle.innerHTML = this.endpoint.name;
-            this.#setTableData(this.data, this.endpoint);
+
+            this.#setTableData(
+                this.data,
+                this.endpoint.parent.name,
+                this.endpoint.api
+            );
         }
 
-        #setTableData(data, endpoint) {
+        #setTableData(data, endpointType, api) {
             let dataTable = this.shadowRoot.getElementById("data-table");
 
-            let filteredData = filterRawData(data, endpoint);
+            let filteredData = filterDataFromSearch(data, endpointType, api);
 
             for (let data in filteredData) {
                 let dataRowElement = document.createElement("tr");
