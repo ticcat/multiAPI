@@ -257,7 +257,6 @@ function showLastLevelInfoFromEndpoint(data, endpoint) {
     let screen = document.createElement("last-level-screen");
     let paginationFooter = document.getElementById("pagination-footer");
 
-    setVarState("currentEndpoint", endpoint);
     paginationFooter.setAttribute("visible", false);
     mainPanelTopbar.setAttribute("state", topBarState.OnlyBackBtn);
 
@@ -286,6 +285,7 @@ function searchEventHandler(event) {
             // TODO: Show nothing found screen
             console.log("Nothing found");
         } else {
+            setVarState("isSearch", true);
             showLastLevelInfoFromEndpoint(
                 searchItem.resultData,
                 searchItem.endpoint
@@ -296,11 +296,18 @@ function searchEventHandler(event) {
 
 function navigateBack() {
     let currentEP = getVarState("currentEndpoint");
+    let isSearch = getVarState("isSearch");
 
-    if (!currentEP.isLastLevel()) {
+    if (!currentEP.isLastLevel() && !isSearch) {
         currentEP.resetPaginationInfo();
     }
-    navigateFromEndpoint(currentEP.parent);
+
+    if (isSearch) {
+        navigateFromEndpoint(currentEP);
+        setVarState("isSearch", false);
+    } else {
+        navigateFromEndpoint(currentEP.parent);
+    }
 }
 
 function navigateFromEndpoint(endpoint) {
