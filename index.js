@@ -146,29 +146,7 @@ window.onload = () => {
     setCurrentAPI(accessibleAPIs[0]);
 
     document.addEventListener("search", (event) => {
-        event.detail.then((result) => {
-            let searchItem = undefined;
-
-            switch (getVarState("currentAPI")) {
-                case pokeAPI:
-                    searchItem = result.find((it) => it != null);
-                    break;
-                case swAPI:
-                    searchItem = result.find((it) => it.resultData.count > 0);
-                    searchItem.resultData = searchItem.resultData.results[0];
-                    break;
-            }
-
-            if (searchItem == null) {
-                // TODO: Show nothing found screen
-                console.log("Nothing found");
-            } else {
-                showLastLevelInfoFromEndpoint(
-                    searchItem.resultData,
-                    searchItem.endpoint
-                );
-            }
-        });
+        searchEventHandler(event);
     });
 };
 
@@ -288,6 +266,32 @@ function showLastLevelInfoFromEndpoint(data, endpoint) {
     screen.data = data;
     mainPanelDataScroll.style = "height: 0";
     mainPanelData.appendChild(screen);
+}
+
+function searchEventHandler(event) {
+    event.detail.then((result) => {
+        let searchItem = undefined;
+
+        switch (getVarState("currentAPI")) {
+            case pokeAPI:
+                searchItem = result.find((it) => it != null);
+                break;
+            case swAPI:
+                searchItem = result.find((it) => it.resultData.count > 0);
+                searchItem.resultData = searchItem.resultData.results[0];
+                break;
+        }
+
+        if (searchItem == null) {
+            // TODO: Show nothing found screen
+            console.log("Nothing found");
+        } else {
+            showLastLevelInfoFromEndpoint(
+                searchItem.resultData,
+                searchItem.endpoint
+            );
+        }
+    });
 }
 
 function navigateBack() {
