@@ -1,18 +1,8 @@
+import { getVarState } from "../../scripts/stateManager.js";
+
 fetch("/components/pagination-footer/pagination-footer-template.html")
     .then((stream) => stream.text())
     .then((text) => definePaginationFooter(text));
-
-export const paginationVisibility = {
-    visible: "visible",
-    hidden: "hidden",
-};
-
-export const paginationState = {
-    both: "both",
-    onlyPrev: "onlyPrev",
-    onlyNext: "onlyNext",
-    none: "none",
-};
 
 function definePaginationFooter(html) {
     const template = document.createElement("template");
@@ -20,7 +10,7 @@ function definePaginationFooter(html) {
 
     class PaginationFooter extends HTMLElement {
         static get observedAttributes() {
-            return ["state"];
+            return ["visible"];
         }
 
         constructor() {
@@ -31,27 +21,47 @@ function definePaginationFooter(html) {
             this.shadowRoot.appendChild(template.content.cloneNode(true));
         }
 
+        connectedCallback() {
+            this.#updateState();
+        }
+
         attributeChangedCallback(name, _, newValue) {
+            let shadow = this.shadowRoot;
+            let container = shadow.getElementById("pagination-container");
+
             switch (name) {
-                case "state":
-                    switch (newValue) {
-                        case paginationState.onlyPrev:
-                            this.#setupPrevBtn(true, this.prevBtnOnclick);
-                            this.#setupNextBtn(false, () => {});
-                            break;
-                        case paginationState.onlyNext:
-                            this.#setupPrevBtn(false, () => {});
-                            this.#setupNextBtn(true, this.nextBtnOnclick);
-                            break;
-                        case paginationState.none:
-                            this.#setupPrevBtn(false, () => {});
-                            this.#setupNextBtn(false, () => {});
-                            break;
-                        default:
-                            this.#setupPrevBtn(true, this.prevBtnOnclick);
-                            this.#setupNextBtn(true, this.nextBtnOnclick);
-                            break;
+                case "visible":
+                    if (newValue === "true") {
+                        container.style = "opacity: 1;";
+                    } else {
+                        container.style = "opacity: 0;";
                     }
+                    this.#updateState();
+                    break;
+            }
+        }
+
+        #updateState() {
+            let pagInfo = getVarState("paginationInfo");
+
+            switch (true) {
+                case pagInfo == null:
+                case pagInfo.previousUrl == null && pagInfo.nextUrl == null:
+                    this.#setupPrevBtn(false, () => {});
+                    this.#setupNextBtn(false, () => {});
+                    break;
+                case pagInfo.previousUrl == null:
+                    this.#setupPrevBtn(false, () => {});
+                    this.#setupNextBtn(true, this.nextBtnOnclick);
+                    break;
+                case pagInfo.nextUrl == null:
+                    this.#setupPrevBtn(true, this.prevBtnOnclick);
+                    this.#setupNextBtn(false, () => {});
+                    break;
+                default:
+                    this.#setupPrevBtn(true, this.prevBtnOnclick);
+                    this.#setupNextBtn(true, this.nextBtnOnclick);
+                    break;
             }
         }
 
@@ -69,7 +79,10 @@ function definePaginationFooter(html) {
         #setPrevBtnOnClick(handler) {
             let prevBtn = this.shadowRoot.getElementById("previous-btn");
 
-            prevBtn.onclick = handler;
+            prevBtn.onclick = () => {
+                handler();
+                this.#updateState();
+            };
         }
 
         #setupNextBtn(visible, handler) {
@@ -86,7 +99,10 @@ function definePaginationFooter(html) {
         #setNextBtnOnClick(handler) {
             let nextBtn = this.shadowRoot.getElementById("next-btn");
 
-            nextBtn.onclick = handler;
+            nextBtn.onclick = () => {
+                handler();
+                this.#updateState();
+            };
         }
     }
 

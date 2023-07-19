@@ -11,50 +11,41 @@
 }
 
 #topbar-container {
-    height: 50px;
+    max-height: 50px;
     margin: 30px 10px 20px 10px;
 }
 
 #topbar-container.grid-container {
-    grid-template-columns: max-content 1fr max-content;
+    grid-template-columns: 50px 1fr max-content;
     align-items: center;
 }
 
 #back-button {
     filter: var(--onBackgroundSVGFilter);
     height: 30px;
-    width: 30px;
-    margin-left: 10px;
+    width: 50px;
+    padding-left: 10px;
     position: relative;
     opacity: 0;
     transition: opacity 0.15s;
 }
 
-/* #currAccEPTopBarCenterCol {
-    width: 1000px;
-    position: absolute;
-    justify-self: center;
-}
-
-#currAccEPTopBarSearchBar {
-    background-color: var(--backgroundTextInput);
-    border: 3px solid var(--onBackgroundTextInput);
-    border-radius: 20px;
-    height: 40px;
-    width: 100%;
-    text-align: center;
-    color: var(--onBackgroundTextInput);
-} */
-
 #pagination-info {
-    margin-right: 30px;
+    height: 3rem;
+    min-width: 50px;
+    padding-right: 30px;
     opacity: 0;
     transition: opacity 0.15s;
 }
 
 #pagination-info-text {
+    width: 300px;
     font-family: "Bebas Neue", sans-serif;
     font-size: 3rem;
     letter-spacing: 0.2rem;
     text-align: right;
+}
+
+.empty {
+    width: 0;
 }

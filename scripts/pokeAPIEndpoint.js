@@ -1,8 +1,8 @@
 import Endpoint from "./../scripts/Endpoint.js";
 
 export default class PokeAPIEndpoint extends Endpoint {
-    constructor(name, spriteUrl, parentEP, endpointUrl) {
-        super(name, spriteUrl, parentEP, endpointUrl);
+    constructor(name, spriteUrl, parentEP, endpointUrl, api) {
+        super(name, spriteUrl, parentEP, endpointUrl, api);
 
         this.entriesPerPage = 20;
         this.pagInfo = {
@@ -47,7 +47,8 @@ export default class PokeAPIEndpoint extends Endpoint {
             newEPName,
             newEPSpriteUrl,
             this,
-            rawData.url
+            rawData.url,
+            this.api
         );
 
         return newEndpoint;
@@ -61,18 +62,11 @@ export default class PokeAPIEndpoint extends Endpoint {
         return fetch(this.url)
             .then((response) => response.json())
             .then((data) => {
-                switch (this.parent.name) {
-                    case "Items":
-                        return data.sprites.default;
-                    case "Pokemons":
-                        return data.sprites.front_default;
-                    case "Berries":
-                        return fetch(data.item.url)
-                            .then((response) => response.json())
-                            .then((item) => item.sprites.default);
-                    default:
-                        return this.parent.spriteUrl;
-                }
+                return getPokeEPSprite(
+                    data,
+                    this.parent.name,
+                    this.parent.spriteUrl
+                );
             });
     }
 
@@ -82,5 +76,35 @@ export default class PokeAPIEndpoint extends Endpoint {
     ) {
         let offset = page * entriesNumber - entriesNumber;
         return this.url + `?offset=${offset}&limit=${entriesNumber}`;
+    }
+
+    getSearchUrls(searchTerm) {
+        let result = [];
+
+        if (this.isBaseEndpoint()) {
+            this.api.firstLevelEndPoints.forEach((endpoint) => {
+                result.push(endpoint.getSearchUrls(searchTerm));
+            });
+        } else {
+            let url = this.url + "/" + searchTerm;
+            result.push({ url: url, parent: this });
+        }
+
+        return result;
+    }
+}
+
+export function getPokeEPSprite(data, epType, defaultSprite) {
+    switch (epType) {
+        case "Items":
+            return data.sprites.default;
+        case "Pokemons":
+            return data.sprites.front_default;
+        case "Berries":
+            return fetch(data.item.url)
+                .then((response) => response.json())
+                .then((item) => item.sprites.default);
+        default:
+            return defaultSprite;
     }
 }

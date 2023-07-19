@@ -2,19 +2,20 @@ import API from "./scripts/API.js";
 import PokeAPIEndpoint from "./scripts/pokeAPIEndpoint.js";
 import SWAPIEndpoint from "./scripts/swAPIEndpoint.js";
 import HPAPIEndpoint from "./scripts/hpAPIEndpoint.js";
+import { setVarState, getVarState } from "./scripts/stateManager.js";
 import { topBarState } from "./components/topbar/topbar-behavior.js";
-import {
-    paginationVisibility,
-    paginationState,
-} from "./components/pagination-footer/pagination-footer-behavior.js";
 
 /* #region  APIs definitions */
 const accessibleAPIs = [];
 
-const pokeAPI = new API(
-    "Pokémon API",
-    "/icons/APIs/pokemon.svg",
-    new PokeAPIEndpoint("Base", "", null, "https://pokeapi.co/api/v2")
+const pokeAPI = new API("Pokémon API", "/icons/APIs/pokemon.svg");
+
+pokeAPI.baseEndpoint = new PokeAPIEndpoint(
+    "Base",
+    "",
+    null,
+    "https://pokeapi.co/api/v2",
+    pokeAPI
 );
 
 pokeAPI.firstLevelEndPoints = [
@@ -22,40 +23,49 @@ pokeAPI.firstLevelEndPoints = [
         "Berries",
         "/images/PokeAPI/BerriesDefault.png",
         pokeAPI.baseEndpoint,
-        pokeAPI.baseEndpoint.url + "/berry"
+        pokeAPI.baseEndpoint.url + "/berry",
+        pokeAPI
     ),
     new PokeAPIEndpoint(
         "Items",
         "/images/PokeAPI/ItemsDefault.png",
         pokeAPI.baseEndpoint,
-        pokeAPI.baseEndpoint.url + "/item"
+        pokeAPI.baseEndpoint.url + "/item",
+        pokeAPI
     ),
     new PokeAPIEndpoint(
         "Locations",
         "/images/PokeAPI/LocationsDefault.png",
         pokeAPI.baseEndpoint,
-        pokeAPI.baseEndpoint.url + "/location"
+        pokeAPI.baseEndpoint.url + "/location",
+        pokeAPI
     ),
     new PokeAPIEndpoint(
         "Moves",
         "/images/PokeAPI/MovesDefault.png",
         pokeAPI.baseEndpoint,
-        pokeAPI.baseEndpoint.url + "/move"
+        pokeAPI.baseEndpoint.url + "/move",
+        pokeAPI
     ),
     new PokeAPIEndpoint(
         "Pokemons",
         "/images/PokeAPI/PokemonsDefault.png",
         pokeAPI.baseEndpoint,
-        pokeAPI.baseEndpoint.url + "/pokemon"
+        pokeAPI.baseEndpoint.url + "/pokemon",
+        pokeAPI
     ),
 ];
 
 accessibleAPIs.push(pokeAPI);
 
-const swAPI = new API(
-    "Star Wars API",
-    "/icons/APIs/star-wars.svg",
-    new SWAPIEndpoint("Base", "", null, "https://swapi.dev/api")
+const swAPI = new API("Star Wars API", "/icons/APIs/star-wars.svg");
+
+swAPI.baseEndpoint = new SWAPIEndpoint(
+    "Base",
+    "",
+    null,
+    "https://swapi.dev/api",
+    swAPI
 );
 
 swAPI.firstLevelEndPoints = [
@@ -63,37 +73,43 @@ swAPI.firstLevelEndPoints = [
         "Films",
         "/images/SWAPI/FilmsDefault.png",
         swAPI.baseEndpoint,
-        swAPI.baseEndpoint.url + "/films"
+        swAPI.baseEndpoint.url + "/films",
+        swAPI
     ),
     new SWAPIEndpoint(
         "People",
         "/images/SWAPI/PeopleDefault.png",
         swAPI.baseEndpoint,
-        swAPI.baseEndpoint.url + "/people"
+        swAPI.baseEndpoint.url + "/people",
+        swAPI
     ),
     new SWAPIEndpoint(
         "Planets",
         "/images/SWAPI/PlanetsDefault.png",
         swAPI.baseEndpoint,
-        swAPI.baseEndpoint.url + "/planets"
+        swAPI.baseEndpoint.url + "/planets",
+        swAPI
     ),
     new SWAPIEndpoint(
         "Species",
         "/images/SWAPI/SpeciesDefault.png",
         swAPI.baseEndpoint,
-        swAPI.baseEndpoint.url + "/species"
+        swAPI.baseEndpoint.url + "/species",
+        swAPI
     ),
     new SWAPIEndpoint(
         "Starships",
         "/images/SWAPI/SpaceshipsDefault.png",
         swAPI.baseEndpoint,
-        swAPI.baseEndpoint.url + "/starships"
+        swAPI.baseEndpoint.url + "/starships",
+        swAPI
     ),
     new SWAPIEndpoint(
         "Vehicles",
         "/images/SWAPI/VehiclesDefault.png",
         swAPI.baseEndpoint,
-        swAPI.baseEndpoint.url + "/vehicles"
+        swAPI.baseEndpoint.url + "/vehicles",
+        swAPI
     ),
 ];
 accessibleAPIs.push(swAPI);
@@ -119,16 +135,19 @@ hpAPI.firstLevelEndPoints = [
     ),
 ];
 // accessibleAPIs.push(hpAPI);
+
+setVarState("accessibleAPIs", accessibleAPIs);
 /* #endregion */
 
-let currentAPI = null;
-let currentEndpoint = null;
-
 window.onload = () => {
-    setTopbarState(topBarState.Full);
-    setupPaginationFooter(false);
+    setUpTopbar();
+    setUpPaginationFooter();
     loadAccessibleAPIs();
     setCurrentAPI(accessibleAPIs[0]);
+
+    document.addEventListener("search", (event) => {
+        searchEventHandler(event);
+    });
 };
 
 function loadAccessibleAPIs() {
@@ -165,12 +184,12 @@ function setCurrentAPI(api) {
     abortCurrentEndpointCall();
     clearMainPanelEndpoints();
 
-    currentAPI = api;
-    currentEndpoint = currentAPI.baseEndpoint;
+    let currentAPI = setVarState("currentAPI", api);
+    let currentEP = setVarState("currentEndpoint", currentAPI.baseEndpoint);
 
     setCurrentAPIButton(currentAPI.name);
     setCurrentAPITitle(currentAPI.name);
-    navigateFromEndpoint(currentEndpoint);
+    navigateFromEndpoint(currentEP);
 }
 
 function setCurrentAPIButton(apiName) {
@@ -191,67 +210,27 @@ function setCurrentAPITitle(apiName) {
     currentAPITitle.innerHTML = apiName;
 }
 
-function setTopbarState(newState, pagInfo) {
+function setUpTopbar() {
     let mainPanelTopbar = document.getElementById("mainpanel-topbar");
 
-    switch (newState) {
-        case topBarState.Full:
-            mainPanelTopbar.onBackButtonClick = function () {};
-            break;
-        case topBarState.Pagination:
-            setTopBarPaginationInfo(pagInfo);
-            mainPanelTopbar.onBackButtonClick = function () {
-                navigateBack();
-            };
-            break;
-        case topBarState.OnlyBackBtn:
-            break;
-    }
-
-    mainPanelTopbar.setAttribute("state", newState);
-}
-
-function setTopBarPaginationInfo(pagInfo) {
-    let mainPanelTopbar = document.getElementById("mainpanel-topbar");
-
-    let initValue = (pagInfo.page - 1) * pagInfo.entriesPerPage + 1;
-    let finalValue = initValue - 1 + pagInfo.entriesOnPage;
-
-    mainPanelTopbar.pagInfo = {
-        ePName: currentEndpoint.name,
-        init: initValue,
-        final: finalValue,
+    mainPanelTopbar.onBackButtonClick = function () {
+        navigateBack();
     };
+
+    mainPanelTopbar.setAttribute("state", topBarState.Full);
 }
 
-function setupPaginationFooter(visible, pagInfo) {
+function setUpPaginationFooter() {
     let paginationFooter = document.getElementById("pagination-footer");
 
-    if (visible) {
-        paginationFooter.prevBtnOnclick = function () {
-            navigateToPreviousPage();
-        };
-        paginationFooter.nextBtnOnclick = function () {
-            navigateToNextPage();
-        };
-    }
+    paginationFooter.prevBtnOnclick = function () {
+        navigateToPreviousPage();
+    };
+    paginationFooter.nextBtnOnclick = function () {
+        navigateToNextPage();
+    };
 
-    switch (true) {
-        case pagInfo == null:
-        case pagInfo.previousUrl == null && pagInfo.nextUrl == null:
-            paginationFooter.setAttribute("state", paginationState.none);
-            break;
-        case pagInfo.previousUrl == null:
-            paginationFooter.setAttribute("state", paginationState.onlyNext);
-            break;
-        case pagInfo.nextUrl == null:
-            paginationFooter.setAttribute("state", paginationState.onlyPrev);
-            break;
-        default:
-            paginationFooter.setAttribute("state", paginationState.both);
-            break;
-    }
-    paginationFooter.style = visible ? "opacity: 1;" : "opacity: 0;";
+    paginationFooter.setAttribute("visible", false);
 }
 
 function setCurrentAccessibleEndpoints(endpoints) {
@@ -271,13 +250,15 @@ function setCurrentAccessibleEndpoints(endpoints) {
     });
 }
 
-function showLastLevelInfo(data, endpoint) {
+function showLastLevelInfoFromEndpoint(data, endpoint) {
+    let mainPanelTopbar = document.getElementById("mainpanel-topbar");
     let mainPanelData = document.getElementById("main-panel-data");
     let mainPanelDataScroll = document.getElementById("main-panel-data-scroll");
     let screen = document.createElement("last-level-screen");
+    let paginationFooter = document.getElementById("pagination-footer");
 
-    setTopbarState(topBarState.OnlyBackBtn);
-    setupPaginationFooter(false);
+    paginationFooter.setAttribute("visible", false);
+    mainPanelTopbar.setAttribute("state", topBarState.OnlyBackBtn);
 
     screen.id = "last-level-screen";
     screen.endpoint = endpoint;
@@ -286,27 +267,66 @@ function showLastLevelInfo(data, endpoint) {
     mainPanelData.appendChild(screen);
 }
 
+function searchEventHandler(event) {
+    event.detail.then((result) => {
+        let searchItem = undefined;
+
+        switch (getVarState("currentAPI")) {
+            case pokeAPI:
+                searchItem = result.find((it) => it != null);
+                break;
+            case swAPI:
+                searchItem = result.find((it) => it.resultData.count > 0);
+                searchItem.resultData = searchItem.resultData.results[0];
+                break;
+        }
+
+        if (searchItem == null) {
+            // TODO: Show nothing found screen
+            console.log("Nothing found");
+        } else {
+            setVarState("isSearch", true);
+            showLastLevelInfoFromEndpoint(
+                searchItem.resultData,
+                searchItem.endpoint
+            );
+        }
+    });
+}
+
 function navigateBack() {
-    if (!currentEndpoint.isLastLevel()) {
-        currentEndpoint.resetPaginationInfo();
+    let currentEP = getVarState("currentEndpoint");
+    let isSearch = getVarState("isSearch");
+
+    if (!currentEP.isLastLevel() && !isSearch) {
+        currentEP.resetPaginationInfo();
     }
-    navigateFromEndpoint(currentEndpoint.parent);
+
+    if (isSearch) {
+        navigateFromEndpoint(currentEP);
+        setVarState("isSearch", false);
+    } else {
+        navigateFromEndpoint(currentEP.parent);
+    }
 }
 
 function navigateFromEndpoint(endpoint) {
     abortCurrentEndpointCall();
     clearMainPanelEndpoints();
 
-    currentEndpoint = endpoint;
+    let mainPanelTopBar = document.getElementById("mainpanel-topbar");
+    let paginationFooter = document.getElementById("pagination-footer");
 
-    if (currentEndpoint.name === "Base") {
-        setTopbarState(topBarState.Full);
-        setupPaginationFooter(false);
-        setCurrentAccessibleEndpoints(currentAPI.firstLevelEndPoints);
+    let currentEP = setVarState("currentEndpoint", endpoint);
+
+    if (currentEP.name === "Base") {
+        mainPanelTopBar.setAttribute("state", topBarState.Full);
+        paginationFooter.setAttribute("visible", false);
+        setCurrentAccessibleEndpoints(
+            getVarState("currentAPI").firstLevelEndPoints
+        );
     } else {
-        currentEndpoint
-            .getData()
-            .then((result) => endpointDataFetchHandler(result));
+        currentEP.getData().then((result) => endpointDataFetchHandler(result));
     }
 }
 
@@ -314,7 +334,7 @@ function navigateToNextPage() {
     abortCurrentEndpointCall();
     clearMainPanelEndpoints();
 
-    currentEndpoint
+    getVarState("currentEndpoint")
         .getNextData()
         .then((result) => endpointDataFetchHandler(result));
 }
@@ -323,7 +343,7 @@ function navigateToPreviousPage() {
     abortCurrentEndpointCall();
     clearMainPanelEndpoints();
 
-    currentEndpoint
+    getVarState("currentEndpoint")
         .getPrevData()
         .then((result) => endpointDataFetchHandler(result));
 }
@@ -331,12 +351,16 @@ function navigateToPreviousPage() {
 function endpointDataFetchHandler(result) {
     if (result.aborted) return;
 
+    let mainPanelTopBar = document.getElementById("mainpanel-topbar");
+    let paginationFooter = document.getElementById("pagination-footer");
+
     const { isLastLevel, data, pagInfo } = result;
     if (isLastLevel) {
-        showLastLevelInfo(data, currentEndpoint);
+        showLastLevelInfoFromEndpoint(data, getVarState("currentEndpoint"));
     } else {
-        setupPaginationFooter(true, pagInfo);
-        setTopbarState(topBarState.Pagination, pagInfo);
+        setVarState("paginationInfo", pagInfo);
+        paginationFooter.setAttribute("visible", true);
+        mainPanelTopBar.setAttribute("state", topBarState.Pagination);
         data.then((endpoints) => {
             setCurrentAccessibleEndpoints(endpoints);
         });
@@ -344,6 +368,7 @@ function endpointDataFetchHandler(result) {
 }
 
 function abortCurrentEndpointCall() {
-    if (currentEndpoint !== null && currentEndpoint?.name !== "Base")
-        currentEndpoint.abortFetch();
+    let currentEP = getVarState("currentEndpoint");
+
+    if (currentEP != null && currentEP?.name !== "Base") currentEP.abortFetch();
 }

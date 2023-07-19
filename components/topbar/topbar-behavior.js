@@ -1,3 +1,6 @@
+import { getVarState } from "../../scripts/stateManager.js";
+import { searchBarState } from "../search-bar/search-bar-behavior.js";
+
 fetch("/components/topbar/topbar-template.html")
     .then((stream) => stream.text())
     .then((text) => defineTopbar(text));
@@ -37,14 +40,23 @@ function defineTopbar(html) {
                     switch (newValue) {
                         case topBarState.Pagination:
                             this.#setBackButton(true, this.onBackButtonClick);
-                            this.#setPaginationInfo(true, this.pagInfo);
+                            this.#setSearchBarState(
+                                true,
+                                searchBarState.leftSide
+                            );
+                            this.#setPaginationInfo();
                             break;
                         case topBarState.OnlyBackBtn:
                             this.#setBackButton(true, this.onBackButtonClick);
+                            this.#setSearchBarState(false);
                             this.#setPaginationInfo(false);
                             break;
                         case topBarState.Full:
                             this.#setBackButton(false, undefined);
+                            this.#setSearchBarState(
+                                true,
+                                searchBarState.centered
+                            );
                             this.#setPaginationInfo(false);
                             break;
                     }
@@ -61,19 +73,46 @@ function defineTopbar(html) {
             backButton.style = visible ? "opacity: 1;" : "opacity: 0";
         }
 
-        #setPaginationInfo(visible, paginationInfo = {}) {
+        #setSearchBarState(visible = true, state) {
+            let shadow = this.shadowRoot;
+            let searchBar = shadow.getElementById("search-bar");
+
+            if (visible) {
+                searchBar.style = "opacity: 1;";
+                searchBar.setAttribute("state", state);
+            } else {
+                searchBar.style = "opacity: 0;";
+            }
+        }
+
+        #setPaginationInfo(visible = true) {
             const shadow = this.shadowRoot;
             let paginationElem = shadow.getElementById("pagination-info");
             let pagTextElem = shadow.getElementById("pagination-info-text");
 
+            let paginationInfo = getVarState("paginationInfo");
+
             if (visible) {
-                let { ePName, init, final } = paginationInfo;
+                let { ePName, init, final } =
+                    this.#formatPaginationInfo(paginationInfo);
                 pagTextElem.innerHTML = ePName + " " + init + "-" + final;
                 paginationElem.style = "opacity: 1;";
             } else {
                 pagTextElem.innerHTML = "";
-                paginationElem.style = "opacity: 0;";
+                paginationElem.style = "opacity: 0; width: 0px";
             }
+        }
+
+        #formatPaginationInfo(pagInfo) {
+            let initValue = (pagInfo.page - 1) * pagInfo.entriesPerPage + 1;
+            let finalValue = initValue - 1 + pagInfo.entriesOnPage;
+
+            return {
+                ePName: getVarState("currentEndpoint").name,
+                page: pagInfo.page,
+                init: initValue,
+                final: finalValue,
+            };
         }
     }
 

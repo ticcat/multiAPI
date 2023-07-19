@@ -3,6 +3,7 @@ export default class Endpoint {
     spriteUrl = "";
     parent = null;
     url = "";
+    api = null;
 
     numberOfChildren = 0;
     childEndpoints = [];
@@ -18,11 +19,16 @@ export default class Endpoint {
     #abortController = null;
     #abortSignal = null;
 
-    constructor(name, spriteUrl, parentEP, endpointUrl) {
+    constructor(name, spriteUrl, parentEP, endpointUrl, api) {
         this.name = name;
         this.spriteUrl = spriteUrl;
         this.parent = parentEP;
         this.url = endpointUrl;
+        this.api = api;
+    }
+
+    isBaseEndpoint() {
+        return this.name === "Base";
     }
 
     isLastLevel() {
