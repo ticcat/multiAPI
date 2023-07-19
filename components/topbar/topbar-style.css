@@ -12,7 +12,7 @@
 
 #topbar-container {
     max-height: 50px;
-    margin: 30px 10px 0 10px;
+    margin: 30px 10px 20px 10px;
 }
 
 #topbar-container.grid-container {
@@ -23,8 +23,8 @@
 #back-button {
     filter: var(--onBackgroundSVGFilter);
     height: 30px;
-    width: 30px;
-    margin-left: 10px;
+    width: 50px;
+    padding-left: 10px;
     position: relative;
     opacity: 0;
     transition: opacity 0.15s;
@@ -39,8 +39,13 @@
 }
 
 #pagination-info-text {
+    width: 300px;
     font-family: "Bebas Neue", sans-serif;
     font-size: 3rem;
     letter-spacing: 0.2rem;
     text-align: right;
+}
+
+.empty {
+    width: 0;
 }

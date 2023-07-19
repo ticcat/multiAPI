@@ -99,7 +99,7 @@ function defineTopbar(html) {
                 paginationElem.style = "opacity: 1;";
             } else {
                 pagTextElem.innerHTML = "";
-                paginationElem.style = "opacity: 0;";
+                paginationElem.style = "opacity: 0; width: 0px";
             }
         }
 
