@@ -37,10 +37,13 @@ function defineSearchBar(html) {
         attributeChangedCallback(name, _, newValue) {
             let shadow = this.shadowRoot;
             let searchBar = shadow.getElementById("search-bar-container");
+            let searchBarInput = shadow.getElementById("search-bar-input");
 
             switch (name) {
                 case "state":
-                    searchBar.className = "flex-container " + newValue;
+                    searchBar.className =
+                        "flex-container container-" + newValue;
+                    searchBarInput.className = "search-icon input-" + newValue;
                     break;
             }
         }
