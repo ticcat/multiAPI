@@ -36,11 +36,12 @@ function defineSearchBar(html) {
 
         attributeChangedCallback(name, _, newValue) {
             let shadow = this.shadowRoot;
-            let searchBarInput = shadow.getElementById("search-bar-input");
+            let searchBarWrapper = shadow.getElementById("search-bar-wrapper");
 
             switch (name) {
                 case "state":
-                    searchBarInput.className = "search-icon input-" + newValue;
+                    searchBarWrapper.className =
+                        "flex-container input-" + newValue;
                     break;
             }
         }
@@ -55,12 +56,21 @@ function defineSearchBar(html) {
                     const searchInfo = currentEP
                         .getSearchUrls(barTextInput.value.toLowerCase())
                         .flat();
+                    const dataFetch = this.#fetchSearchData(searchInfo);
 
-                    barTextInput.value = "";
+                    this.#disableSearchBar();
+                    this.#setLoader(true);
+
                     this.#searchSubmit = new CustomEvent("search", {
-                        detail: this.#fetchSearchData(searchInfo),
+                        detail: dataFetch,
                     });
                     document.dispatchEvent(this.#searchSubmit);
+
+                    dataFetch.finally(() => {
+                        barTextInput.value = "";
+                        this.#enableSearchBar();
+                        this.#setLoader(false);
+                    });
                 }
             });
         }
@@ -118,6 +128,29 @@ function defineSearchBar(html) {
                         parentEP.api
                     );
             }
+        }
+
+        #disableSearchBar() {
+            const shadow = this.shadowRoot;
+            const barTextInput = shadow.getElementById("search-bar-input");
+
+            barTextInput.setAttribute("disabled", true);
+        }
+
+        #enableSearchBar() {
+            const shadow = this.shadowRoot;
+            const barTextInput = shadow.getElementById("search-bar-input");
+
+            barTextInput.removeAttribute("disabled");
+        }
+
+        #setLoader(loading = false) {
+            const shadow = this.shadowRoot;
+            const searchLoader = shadow.getElementById("search-loader");
+
+            document.body.style.cursor = loading ? "wait" : "default";
+            document.body.style.pointerEvents = loading ? "none" : "all";
+            searchLoader.style = loading ? "opacity: 1;" : "opacity: 0;";
         }
     }
 
