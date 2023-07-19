@@ -8,12 +8,21 @@ fetch("/components/search-bar/search-bar-template.html")
     .then((stream) => stream.text())
     .then((text) => defineSearchBar(text));
 
+export const searchBarState = {
+    centered: "center",
+    leftSide: "start",
+};
+
 function defineSearchBar(html) {
     const template = document.createElement("template");
     template.innerHTML = html;
 
     class SearchBar extends HTMLElement {
         #searchSubmit;
+
+        static get observedAttributes() {
+            return ["state"];
+        }
 
         constructor() {
             super();
@@ -23,6 +32,17 @@ function defineSearchBar(html) {
             this.shadowRoot.appendChild(template.content.cloneNode(true));
 
             this.#setUpSearchBar();
+        }
+
+        attributeChangedCallback(name, _, newValue) {
+            let shadow = this.shadowRoot;
+            let searchBar = shadow.getElementById("search-bar-container");
+
+            switch (name) {
+                case "state":
+                    searchBar.className = "flex-container " + newValue;
+                    break;
+            }
         }
 
         #setUpSearchBar() {

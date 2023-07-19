@@ -1,4 +1,5 @@
 import { getVarState } from "../../scripts/stateManager.js";
+import { searchBarState } from "../search-bar/search-bar-behavior.js";
 
 fetch("/components/topbar/topbar-template.html")
     .then((stream) => stream.text())
@@ -39,14 +40,23 @@ function defineTopbar(html) {
                     switch (newValue) {
                         case topBarState.Pagination:
                             this.#setBackButton(true, this.onBackButtonClick);
+                            this.#setSearchBarState(
+                                true,
+                                searchBarState.leftSide
+                            );
                             this.#setPaginationInfo();
                             break;
                         case topBarState.OnlyBackBtn:
                             this.#setBackButton(true, this.onBackButtonClick);
+                            this.#setSearchBarState(false);
                             this.#setPaginationInfo(false);
                             break;
                         case topBarState.Full:
                             this.#setBackButton(false, undefined);
+                            this.#setSearchBarState(
+                                true,
+                                searchBarState.centered
+                            );
                             this.#setPaginationInfo(false);
                             break;
                     }
@@ -61,6 +71,18 @@ function defineTopbar(html) {
 
             backButton.onclick = onClickHandler;
             backButton.style = visible ? "opacity: 1;" : "opacity: 0";
+        }
+
+        #setSearchBarState(visible = true, state) {
+            let shadow = this.shadowRoot;
+            let searchBar = shadow.getElementById("search-bar");
+
+            if (visible) {
+                searchBar.style = "opacity: 1;";
+                searchBar.setAttribute("state", state);
+            } else {
+                searchBar.style = "opacity: 0;";
+            }
         }
 
         #setPaginationInfo(visible = true) {
