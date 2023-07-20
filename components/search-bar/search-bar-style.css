@@ -10,35 +10,17 @@
 
 .flex-container {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
 }
 
 #search-bar-wrapper {
     min-width: 200px;
-    height: 50px;
+    min-height: 150px;
+    overflow: hidden;
 }
 
-#search-bar-input {
-    min-width: 100%;
-    height: 100%;
-    padding: 0 30px 0 50px;
-    border: none;
-    border-radius: 20px;
-    margin: 0 20px;
-    font-family: "Segoe UI Emoji", Helvetica;
-    color: var(--onBackgroundText);
-    font-size: 1.3rem;
-}
-
-#search-bar-input:focus {
-    outline: none;
-}
-
-#search-bar-input:disabled {
-    opacity: 0.6;
-}
-
+/* #region Search bar input */
 .search-icon {
     background-color: var(--onBackground);
     background-image: url(/icons/google/search.svg);
@@ -60,15 +42,40 @@
     width: 40%;
 }
 
+#search-bar-input {
+    min-width: 100%;
+    height: 50px;
+    padding: 0 30px 0 50px;
+    border: none;
+    border-radius: 20px;
+    margin: 0 20px;
+    font-family: "Segoe UI Emoji", Helvetica;
+    color: var(--onBackgroundText);
+    font-size: 1.3rem;
+    pointer-events: all;
+    z-index: 5;
+}
+
+#search-bar-input:focus {
+    outline: none;
+}
+
+#search-bar-input:disabled {
+    opacity: 0.6;
+}
+/* #endregion */
+
+/* #region Loader */
 .loader {
-    pointer-events: none;
-    cursor: text;
     opacity: 0;
     display: inline-block;
     position: absolute;
     width: max-content;
     height: 30px;
+    cursor: text;
+    pointer-events: none;
     z-index: 10;
+    transform: translateY(25%);
     transition: opacity 0.2s;
 }
 
@@ -89,5 +96,37 @@
     }
     100% {
         transform: rotate(360deg);
+    }
+}
+/* #endregion */
+
+.popup {
+    animation: notFoundPopup 0.3s normal, notFoundPopup 0.3s 1.3s reverse;
+    animation-fill-mode: forwards;
+}
+
+#popup-container {
+    position: absolute;
+    width: max-content;
+    border-radius: 0 0 20px 20px;
+    padding: 10px 20px 20px 20px;
+    background-color: var(--onBackground);
+    box-shadow: -2px 5px 15px #252525;
+    font-family: "Segoe UI Emoji", Helvetica;
+    font-size: 1.1rem;
+    text-align: center;
+    z-index: 2;
+}
+
+@keyframes notFoundPopup {
+    0% {
+        transform: translateY(0%);
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(90%);
     }
 }

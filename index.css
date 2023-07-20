@@ -49,6 +49,10 @@ body.grid-container {
 /* #endregion */
 
 /* #region Main panel */
+#mainpanel-topbar {
+    z-index: 10;
+}
+
 #mainPanel.grid-container {
     grid-template-rows: max-content auto;
 }

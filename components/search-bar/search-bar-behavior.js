@@ -36,9 +36,14 @@ function defineSearchBar(html) {
 
         connectedCallback() {
             document.addEventListener("searchNotFound", (event) => {
-                // TODO: Show nothing found screen
-                console.log("Nothing found");
-                alert(event.detail + " was not found.");
+                const shadow = this.shadowRoot;
+                const wrapper = shadow.getElementById("search-bar-wrapper");
+                const notFoundPopupTemplate =
+                    shadow.getElementById("not-found-popup");
+                const notFoundPopup =
+                    notFoundPopupTemplate.content.cloneNode(true);
+
+                wrapper.appendChild(notFoundPopup);
             });
         }
 
