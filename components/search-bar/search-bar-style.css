@@ -61,6 +61,8 @@
 }
 
 .loader {
+    pointer-events: none;
+    cursor: text;
     opacity: 0;
     display: inline-block;
     position: absolute;
