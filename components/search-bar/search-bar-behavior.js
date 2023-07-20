@@ -34,6 +34,14 @@ function defineSearchBar(html) {
             this.#setUpSearchBar();
         }
 
+        connectedCallback() {
+            document.addEventListener("searchNotFound", (event) => {
+                // TODO: Show nothing found screen
+                console.log("Nothing found");
+                alert(event.detail + " was not found.");
+            });
+        }
+
         attributeChangedCallback(name, _, newValue) {
             let shadow = this.shadowRoot;
             let searchBarWrapper = shadow.getElementById("search-bar-wrapper");
@@ -52,38 +60,43 @@ function defineSearchBar(html) {
 
             barTextInput.addEventListener("keypress", (event) => {
                 if (event.key === "Enter") {
-                    const currentEP = getVarState("currentEndpoint");
-                    const searchInfo = currentEP
-                        .getSearchUrls(barTextInput.value.toLowerCase())
-                        .flat();
-                    const dataFetch = this.#fetchSearchData(searchInfo);
-
-                    this.#disableSearchBar();
-                    this.#setLoader(true);
-
-                    this.#searchSubmit = new CustomEvent("search", {
-                        detail: dataFetch,
-                    });
-                    document.dispatchEvent(this.#searchSubmit);
-
-                    dataFetch.finally(() => {
-                        barTextInput.value = "";
-                        this.#enableSearchBar();
-                        this.#setLoader(false);
-                    });
+                    this.#searchHandler();
                 }
             });
         }
 
-        #fetchSearchData(searchInfo) {
+        #searchHandler() {
+            const shadow = this.shadowRoot;
+            const barTextInput = shadow.getElementById("search-bar-input");
+            const currentEP = getVarState("currentEndpoint");
+
+            const searchUrls = currentEP
+                .getSearchUrls(barTextInput.value.toLowerCase())
+                .flat();
+            const searchInput = barTextInput.value;
+
+            const dataFetch = this.#fetchSearchData(searchUrls);
+
+            this.#setSearchBarLoading();
+
+            this.#searchSubmit = new CustomEvent("search", {
+                detail: { fetch: dataFetch, input: searchInput },
+            });
+            document.dispatchEvent(this.#searchSubmit);
+
+            dataFetch.finally(() => {
+                this.#resetSearchBar();
+            });
+        }
+
+        #fetchSearchData(searchUrls) {
             let dataFetchList = [];
 
-            searchInfo.forEach((info) => {
+            searchUrls.forEach((url) => {
                 dataFetchList.push(
-                    fetch(info.url)
+                    fetch(url.url)
                         .then((response) => {
-                            if (!response.ok)
-                                throw new Error("Entry not found");
+                            if (!response.ok) throw new Error("Server error");
 
                             return response.json();
                         })
@@ -92,7 +105,7 @@ function defineSearchBar(html) {
                                 resultData: result,
                                 endpoint: this.#getResultEndpoint(
                                     result,
-                                    info.parent
+                                    url.parent
                                 ),
                             };
                         })
@@ -130,11 +143,22 @@ function defineSearchBar(html) {
             }
         }
 
-        #disableSearchBar() {
+        #setSearchBarLoading() {
+            this.#disableSearchBar();
+            this.#setLoader(true);
+        }
+
+        #resetSearchBar() {
+            this.#clearSearchBar();
+            this.#setLoader(false);
+            this.#enableSearchBar();
+        }
+
+        #clearSearchBar() {
             const shadow = this.shadowRoot;
             const barTextInput = shadow.getElementById("search-bar-input");
 
-            barTextInput.setAttribute("disabled", true);
+            barTextInput.value = "";
         }
 
         #enableSearchBar() {
@@ -144,12 +168,18 @@ function defineSearchBar(html) {
             barTextInput.removeAttribute("disabled");
         }
 
+        #disableSearchBar() {
+            const shadow = this.shadowRoot;
+            const barTextInput = shadow.getElementById("search-bar-input");
+
+            barTextInput.setAttribute("disabled", true);
+        }
+
         #setLoader(loading = false) {
             const shadow = this.shadowRoot;
             const searchLoader = shadow.getElementById("search-loader");
 
             document.body.style.cursor = loading ? "wait" : "default";
-            document.body.style.pointerEvents = loading ? "none" : "all";
             searchLoader.style = loading ? "opacity: 1;" : "opacity: 0;";
         }
     }

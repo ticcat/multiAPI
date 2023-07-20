@@ -268,7 +268,10 @@ function showLastLevelInfoFromEndpoint(data, endpoint) {
 }
 
 function searchEventHandler(event) {
-    event.detail.then((result) => {
+    const { fetch, input } = event.detail;
+    const notFoundEvent = new CustomEvent("searchNotFound", { detail: input });
+
+    fetch.then((result) => {
         let searchItem = undefined;
 
         switch (getVarState("currentAPI")) {
@@ -282,8 +285,7 @@ function searchEventHandler(event) {
         }
 
         if (searchItem == null) {
-            // TODO: Show nothing found screen
-            console.log("Nothing found");
+            document.dispatchEvent(notFoundEvent);
         } else {
             setVarState("isSearch", true);
             showLastLevelInfoFromEndpoint(
