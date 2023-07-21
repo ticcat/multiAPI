@@ -35,15 +35,12 @@ function defineSearchBar(html) {
         }
 
         connectedCallback() {
-            document.addEventListener("searchNotFound", (event) => {
-                const shadow = this.shadowRoot;
-                const wrapper = shadow.getElementById("search-bar-wrapper");
-                const notFoundPopupTemplate =
-                    shadow.getElementById("not-found-popup");
-                const notFoundPopup =
-                    notFoundPopupTemplate.content.cloneNode(true);
+            document.addEventListener("searchNotFound", (_) => {
+                this.#searchNotFoundHandler();
+            });
 
-                wrapper.appendChild(notFoundPopup);
+            document.addEventListener("searchCancel", (_) => {
+                this.#searchCancelHandler();
             });
         }
 
@@ -57,6 +54,20 @@ function defineSearchBar(html) {
                         "flex-container input-" + newValue;
                     break;
             }
+        }
+
+        #searchCancelHandler() {
+            console.log("Search cancel");
+        }
+
+        #searchNotFoundHandler() {
+            const shadow = this.shadowRoot;
+            const wrapper = shadow.getElementById("search-bar-wrapper");
+            const notFoundPopupTemplate =
+                shadow.getElementById("not-found-popup");
+            const notFoundPopup = notFoundPopupTemplate.content.cloneNode(true);
+
+            wrapper.appendChild(notFoundPopup);
         }
 
         #setUpSearchBar() {
