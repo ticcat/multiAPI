@@ -280,7 +280,8 @@ function searchEventHandler(event) {
                 break;
             case swAPI:
                 searchItem = result.find((it) => it.resultData.count > 0);
-                searchItem.resultData = searchItem.resultData.results[0];
+                if (searchItem != null)
+                    searchItem.resultData = searchItem.resultData.results[0];
                 break;
         }
 
