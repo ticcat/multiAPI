@@ -269,7 +269,7 @@ function showLastLevelInfoFromEndpoint(data, endpoint) {
 
 function searchEventHandler(event) {
     const { fetch, input } = event.detail;
-    const notFoundEvent = new CustomEvent("searchNotFound", { detail: input });
+    const notFoundEvent = new CustomEvent("searchNotFound");
 
     fetch.then((result) => {
         let searchItem = undefined;
@@ -314,6 +314,7 @@ function navigateBack() {
 }
 
 function navigateFromEndpoint(endpoint) {
+    document.dispatchEvent(new CustomEvent("searchCancel"));
     abortCurrentEndpointCall();
     clearMainPanelEndpoints();
 
