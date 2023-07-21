@@ -25,16 +25,17 @@ body {
     min-height: 100vh;
     background-color: var(--displayBackground);
     box-sizing: border-box;
-    padding: 20px;
+    padding: 10px 20px;
 }
 
-body.grid-container {
-    grid-template-columns: 10% auto;
+body.flex-container {
+    flex-direction: row;
 }
 
 /* #region Api buttons sidepanel */
 #api-buttons-sidepanel {
     min-width: 100px;
+    width: 10%;
     background-color: var(--background);
     margin-right: 15px;
     border-radius: var(--borderRadius);
@@ -49,12 +50,12 @@ body.grid-container {
 /* #endregion */
 
 /* #region Main panel */
-#mainpanel-topbar {
-    z-index: 10;
+#mainPanel {
+    width: 90%;
 }
 
 #mainPanel.grid-container {
-    grid-template-rows: max-content auto;
+    grid-template-rows: max-content 1fr;
 }
 
 #currentAPITitle {
@@ -70,11 +71,11 @@ body.grid-container {
     background-color: var(--background);
     border-radius: var(--borderRadius);
     color: var(--onBackgroundText);
-    overflow: auto;
+    overflow: hidden;
 }
 
 #currentAccessibleEndpointsPanel.grid-container {
-    grid-template-rows: max-content auto;
+    grid-template-rows: 85px 1fr max-content;
 }
 
 /* #region Current accessible endpoints top bar */
@@ -96,9 +97,6 @@ body.grid-container {
 #currAccEPCards::-webkit-scrollbar-thumb {
     background-color: var(--onBackground);
 }
-/* #endregion */
-/* #endregion */
-/* #endregion */
 
 @media screen and (max-width: 1550px) {
     #currAccEPCards.grid-container {
@@ -117,3 +115,6 @@ body.grid-container {
         grid-template-columns: repeat(auto-fill, 50%);
     }
 }
+/* #endregion */
+/* #endregion */
+/* #endregion */
