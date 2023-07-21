@@ -19,6 +19,7 @@ function defineSearchBar(html) {
 
     class SearchBar extends HTMLElement {
         #searchSubmitEvent;
+        #abortController;
 
         static get observedAttributes() {
             return ["state"];
@@ -57,7 +58,7 @@ function defineSearchBar(html) {
         }
 
         #searchCancelHandler() {
-            console.log("Search cancel");
+            if (this.#abortController != null) this.#abortController.abort();
         }
 
         #searchNotFoundHandler() {
@@ -108,9 +109,12 @@ function defineSearchBar(html) {
         #fetchSearchData(searchUrls) {
             let dataFetchList = [];
 
+            this.#abortController = new AbortController();
+            const abortSignal = this.#abortController.signal;
+
             searchUrls.forEach((url) => {
                 dataFetchList.push(
-                    fetch(url.url)
+                    fetch(url.url, { signal: abortSignal })
                         .then((response) => {
                             if (!response.ok) throw new Error("Server error");
 
@@ -125,7 +129,12 @@ function defineSearchBar(html) {
                                 ),
                             };
                         })
-                        .catch(() => {})
+                        .catch((e) => {
+                            if (e.message.includes("abort")) {
+                                this.#resetSearchBar();
+                                return { aborted: true };
+                            }
+                        })
                 );
             });
 
@@ -195,7 +204,6 @@ function defineSearchBar(html) {
             const shadow = this.shadowRoot;
             const searchLoader = shadow.getElementById("search-loader");
 
-            document.body.style.cursor = loading ? "wait" : "default";
             searchLoader.style = loading ? "opacity: 1;" : "opacity: 0;";
         }
     }

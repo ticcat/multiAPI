@@ -268,10 +268,12 @@ function showLastLevelInfoFromEndpoint(data, endpoint) {
 }
 
 function searchEventHandler(event) {
-    const { fetch, input } = event.detail;
+    const { fetch, _ } = event.detail;
     const notFoundEvent = new CustomEvent("searchNotFound");
 
     fetch.then((result) => {
+        if (result.every((it) => it?.aborted)) return;
+
         let searchItem = undefined;
 
         switch (getVarState("currentAPI")) {
@@ -279,7 +281,7 @@ function searchEventHandler(event) {
                 searchItem = result.find((it) => it != null);
                 break;
             case swAPI:
-                searchItem = result.find((it) => it.resultData.count > 0);
+                searchItem = result.find((it) => it.resultData?.count > 0);
                 if (searchItem != null)
                     searchItem.resultData = searchItem.resultData.results[0];
                 break;
