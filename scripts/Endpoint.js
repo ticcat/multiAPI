@@ -36,7 +36,7 @@ export default class Endpoint {
     }
 
     abortFetch() {
-        if (this.#abortController !== null) this.#abortController.abort();
+        if (this.#abortController != null) this.#abortController.abort();
     }
 
     resetPaginationInfo() {
