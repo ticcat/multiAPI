@@ -18,7 +18,7 @@ function defineSearchBar(html) {
     template.innerHTML = html;
 
     class SearchBar extends HTMLElement {
-        #searchSubmit;
+        #searchSubmitEvent;
 
         static get observedAttributes() {
             return ["state"];
@@ -84,10 +84,10 @@ function defineSearchBar(html) {
 
             this.#setSearchBarLoading();
 
-            this.#searchSubmit = new CustomEvent("search", {
+            this.#searchSubmitEvent = new CustomEvent("search", {
                 detail: { fetch: dataFetch, input: searchInput },
             });
-            document.dispatchEvent(this.#searchSubmit);
+            document.dispatchEvent(this.#searchSubmitEvent);
 
             dataFetch.finally(() => {
                 this.#resetSearchBar();
