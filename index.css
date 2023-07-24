@@ -34,8 +34,8 @@ body.flex-container {
 
 /* #region Api buttons sidepanel */
 #api-buttons-sidepanel {
-    min-width: 100px;
-    width: 10%;
+    min-width: max-content;
+    width: max-content;
     background-color: var(--background);
     margin-right: 15px;
     border-radius: var(--borderRadius);
