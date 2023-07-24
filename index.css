@@ -9,7 +9,6 @@
 }
 
 .scroll-container {
-    height: 70vh;
     overflow-x: hidden;
     overflow-y: auto;
 }
@@ -25,7 +24,7 @@ body {
     min-height: 100vh;
     background-color: var(--displayBackground);
     box-sizing: border-box;
-    padding: 10px 20px;
+    padding: 10px 20px 15px 20px;
 }
 
 body.flex-container {
@@ -51,7 +50,7 @@ body.flex-container {
 
 /* #region Main panel */
 #mainPanel {
-    width: 90%;
+    width: 100%;
 }
 
 #mainPanel.grid-container {
@@ -59,6 +58,7 @@ body.flex-container {
 }
 
 #currentAPITitle {
+    margin: 10px 0;
     font-family: "Bebas Neue", sans-serif;
     font-size: 3rem;
     letter-spacing: 0.2rem;
@@ -68,6 +68,7 @@ body.flex-container {
 
 /* #region Current accessible endpoints */
 #currentAccessibleEndpointsPanel {
+    position: relative;
     background-color: var(--background);
     border-radius: var(--borderRadius);
     color: var(--onBackgroundText);
@@ -75,12 +76,23 @@ body.flex-container {
 }
 
 #currentAccessibleEndpointsPanel.grid-container {
-    grid-template-rows: 85px 1fr max-content;
+    grid-template-rows: 10% 1fr;
 }
 
-/* #region Current accessible endpoints top bar */
+#mainpanel-topbar {
+    z-index: 10;
+}
 
-/* #endregion */
+#main-panel-data {
+    margin-bottom: 4%;
+}
+
+#pagination-footer {
+    position: absolute;
+    left: 50%;
+    bottom: 5px;
+    transform: translateX(-50%);
+}
 
 /* #region Current accessible endpoints list (cards) */
 
