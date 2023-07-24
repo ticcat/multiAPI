@@ -15,6 +15,7 @@
 }
 
 #search-bar-wrapper {
+    position: relative;
     min-width: 150px;
     min-height: 150px;
     overflow: hidden;
@@ -53,6 +54,7 @@
     color: var(--onBackgroundText);
     font-size: 1.3rem;
     pointer-events: all;
+    transform-origin: right;
     z-index: 5;
 }
 
@@ -80,6 +82,15 @@
     }
 }
 
+/* #endregion */
+
+/* #region Search button */
+#search-button {
+    position: absolute;
+    right: 0;
+    transform: translateY(25%);
+    z-index: 10;
+}
 /* #endregion */
 
 /* #region Loader */
@@ -117,6 +128,7 @@
 }
 /* #endregion */
 
+/* #region Popup */
 .popup {
     animation: notFoundPopup 0.3s normal, notFoundPopup 0.3s 1.3s reverse;
     animation-fill-mode: forwards;
@@ -125,10 +137,11 @@
 #popup-container {
     position: absolute;
     width: 60%;
+    max-height: 40px;
     border-radius: 0 0 20px 20px;
-    padding: 10px 20px 20px 20px;
+    padding: 0 20px 5px 20px;
     background-color: var(--onBackground);
-    box-shadow: -2px 5px 15px #252525;
+    box-shadow: -2px 5px 10px #333333;
     font-family: "Segoe UI Emoji", Helvetica;
     font-size: 1.1rem;
     text-align: center;
@@ -147,3 +160,5 @@
         transform: translateY(45px);
     }
 }
+
+/* #endregion */
