@@ -15,7 +15,6 @@
 }
 
 #search-bar-wrapper {
-    position: relative;
     min-width: 150px;
     min-height: 150px;
     overflow: hidden;
