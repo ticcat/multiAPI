@@ -176,7 +176,7 @@ function clearLastLevelScreen() {
     let mainPanelDataScroll = document.getElementById("main-panel-data-scroll");
     let lastLevelScreen = document.getElementById("last-level-screen");
 
-    mainPanelDataScroll.style = "height: 70vh";
+    mainPanelDataScroll.style.display = "block";
     if (lastLevelScreen !== null) mainPanelData.removeChild(lastLevelScreen);
 }
 
@@ -263,7 +263,7 @@ function showLastLevelInfoFromEndpoint(data, endpoint) {
     screen.id = "last-level-screen";
     screen.endpoint = endpoint;
     screen.data = data;
-    mainPanelDataScroll.style = "height: 0";
+    mainPanelDataScroll.style.display = "none";
     mainPanelData.appendChild(screen);
 }
 
