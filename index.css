@@ -21,6 +21,7 @@ body {
 }
 
 body {
+    min-width: 740px;
     min-height: 100vh;
     background-color: var(--displayBackground);
     box-sizing: border-box;
