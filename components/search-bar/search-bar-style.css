@@ -15,7 +15,7 @@
 }
 
 #search-bar-wrapper {
-    min-width: 200px;
+    min-width: 150px;
     min-height: 150px;
     overflow: hidden;
 }
@@ -62,6 +62,14 @@
 
 #search-bar-input:disabled {
     opacity: 0.6;
+}
+
+@media screen and (max-width: 820px) {
+    .input-start {
+        transform: translateX(-20%);
+        transition: transform 0.15s 0.2s ease, width 0.2s ease-out;
+        width: 40%;
+    }
 }
 /* #endregion */
 

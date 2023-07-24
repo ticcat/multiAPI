@@ -77,7 +77,7 @@ body.flex-container {
 }
 
 #currentAccessibleEndpointsPanel.grid-container {
-    grid-template-rows: 10% 1fr;
+    grid-template-rows: 85px 1fr;
 }
 
 #mainpanel-topbar {
