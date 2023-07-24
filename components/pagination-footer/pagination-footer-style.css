@@ -6,15 +6,31 @@
     padding: 0px;
 }
 
+.button {
+    filter: var(--onBackgroundSVGFilter);
+    height: 30px;
+    width: 30px;
+    margin: 0 40px;
+    transition: opacity 0.15s, transform 0.05s ease-in;
+}
+
+.button:hover {
+    transform: scale(115%);
+}
+
+.button:active {
+    transform: scale(85%);
+}
+
+.center {
+    text-align: center;
+}
+
 #pagination-container {
     width: 100%;
     height: 40px;
     margin-top: 20px;
     transition: opacity 0.15s;
-}
-
-.center {
-    text-align: center;
 }
 
 #pagination {
@@ -25,14 +41,6 @@
 
 #pagination > * {
     float: left;
-}
-
-.button {
-    filter: var(--onBackgroundSVGFilter);
-    height: 30px;
-    width: 30px;
-    margin: 0 40px;
-    transition: opacity 0.15s;
 }
 
 #next-btn {

@@ -29,7 +29,15 @@
     position: relative;
     opacity: 0;
     pointer-events: all;
-    transition: opacity 0.15s;
+    transition: opacity 0.15s, transform 0.05s ease-in;
+}
+
+#back-button:hover {
+    transform: scale(115%);
+}
+
+#back-button:active {
+    transform: scale(85%);
 }
 
 #pagination-info {
