@@ -14,12 +14,6 @@
     opacity: 1;
 }
 
-.grid-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
 .entry-cover-mask {
     -webkit-mask-image: linear-gradient(black 55%, transparent);
     mask-image: linear-gradient(black 55%, transparent);
