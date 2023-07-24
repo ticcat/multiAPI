@@ -88,6 +88,14 @@ body.flex-container {
     margin-bottom: 60px;
 }
 
+#main-panel-data::-webkit-scrollbar {
+    background-color: var(--background);
+}
+
+#main-panel-data::-webkit-scrollbar-thumb {
+    background-color: var(--onBackground);
+}
+
 #pagination-footer {
     position: absolute;
     left: 50%;
@@ -101,14 +109,6 @@ body.flex-container {
     grid-template-columns: repeat(auto-fill, 20%);
     justify-content: space-between;
     justify-items: center;
-}
-
-#currAccEPCards::-webkit-scrollbar {
-    background-color: var(--background);
-}
-
-#currAccEPCards::-webkit-scrollbar-thumb {
-    background-color: var(--onBackground);
 }
 
 @media screen and (max-width: 1550px) {
