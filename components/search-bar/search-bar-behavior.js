@@ -36,6 +36,7 @@ function defineSearchBar(html) {
         }
 
         connectedCallback() {
+            /* #region Global events handlers */
             document.addEventListener("searchNotFound", (_) => {
                 this.#searchNotFoundHandler();
             });
@@ -45,12 +46,26 @@ function defineSearchBar(html) {
             });
 
             document.addEventListener("mainPanelLoading", (event) => {
-                if (event.detail.loading) {
-                    this.#setSearchBarLoading();
-                } else {
-                    this.#resetSearchBar();
+                this.#mainPanelLoadingHandler(event.detail.loading);
+            });
+
+            document.addEventListener("globalVarChanged", (event) => {
+                const { varName, newValue } = event.detail;
+
+                if (varName === "currentEndpoint") {
+                    let newPlaceholderValue = newValue.name.toLowerCase();
+
+                    if (newValue.isBaseEndpoint()) {
+                        newPlaceholderValue = getVarState("currentAPI").name;
+                    }
+
+                    this.#setInputPlaceholder(newPlaceholderValue);
+                    // this.#setInputPlaceholder(event.detail.newApiName);
                 }
             });
+            /* #endregion */
+
+            this.#setInputPlaceholder(getVarState("currentAPI").name);
         }
 
         attributeChangedCallback(name, _, newValue) {
@@ -78,6 +93,22 @@ function defineSearchBar(html) {
             const notFoundPopup = notFoundPopupTemplate.content.cloneNode(true);
 
             wrapper.appendChild(notFoundPopup);
+        }
+
+        #mainPanelLoadingHandler(isLoading) {
+            if (isLoading) {
+                this.#setSearchBarLoading();
+            } else {
+                this.#resetSearchBar();
+            }
+        }
+
+        #setInputPlaceholder(newValue) {
+            const shadow = this.shadowRoot;
+            const searchBarInput = shadow.getElementById("search-bar-input");
+            const newPlaceholder = "Search in " + newValue;
+
+            searchBarInput.setAttribute("placeholder", newPlaceholder);
         }
 
         #setUpSearchBar() {

@@ -65,6 +65,10 @@
     opacity: 0.6;
 }
 
+#search-bar-input::placeholder {
+    color: var(--onBackgroundTextInput);
+}
+
 @media screen and (max-width: 870px) {
     .input-start {
         transform: translateX(-50%);
