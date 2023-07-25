@@ -352,6 +352,12 @@ function navigateToNextPage() {
     abortCurrentEndpointCall();
     clearMainPanelEndpoints();
 
+    document.dispatchEvent(
+        new CustomEvent("mainPanelLoading", {
+            detail: { loading: true },
+        })
+    );
+
     getVarState("currentEndpoint")
         .getNextData()
         .then((result) => endpointDataFetchHandler(result));
@@ -360,6 +366,12 @@ function navigateToNextPage() {
 function navigateToPreviousPage() {
     abortCurrentEndpointCall();
     clearMainPanelEndpoints();
+
+    document.dispatchEvent(
+        new CustomEvent("mainPanelLoading", {
+            detail: { loading: true },
+        })
+    );
 
     getVarState("currentEndpoint")
         .getPrevData()
