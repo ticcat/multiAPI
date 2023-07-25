@@ -47,10 +47,11 @@ function defineSearchBar(html) {
 
         attributeChangedCallback(name, _, newValue) {
             let shadow = this.shadowRoot;
-            let searchBarWrapper = shadow.getElementById("search-bar-wrapper");
 
             switch (name) {
                 case "state":
+                    let searchBarWrapper =
+                        shadow.getElementById("search-bar-wrapper");
                     searchBarWrapper.className =
                         "flex-container input-" + newValue;
                     break;
