@@ -248,6 +248,12 @@ function setCurrentAccessibleEndpoints(endpoints) {
 
         accesibleEndpoints.appendChild(newEndpointCard);
     });
+
+    document.dispatchEvent(
+        new CustomEvent("mainPanelLoading", {
+            detail: { loading: false },
+        })
+    );
 }
 
 function showLastLevelInfoFromEndpoint(data, endpoint) {
@@ -317,6 +323,12 @@ function navigateBack() {
 
 function navigateFromEndpoint(endpoint) {
     document.dispatchEvent(new CustomEvent("searchCancel"));
+    document.dispatchEvent(
+        new CustomEvent("mainPanelLoading", {
+            detail: { loading: true },
+        })
+    );
+
     abortCurrentEndpointCall();
     clearMainPanelEndpoints();
 

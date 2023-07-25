@@ -43,6 +43,14 @@ function defineSearchBar(html) {
             document.addEventListener("searchCancel", (_) => {
                 this.#searchCancelHandler();
             });
+
+            document.addEventListener("mainPanelLoading", (event) => {
+                if (event.detail.loading) {
+                    this.#setSearchBarLoading();
+                } else {
+                    this.#resetSearchBar();
+                }
+            });
         }
 
         attributeChangedCallback(name, _, newValue) {
