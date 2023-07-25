@@ -52,6 +52,7 @@
     font-family: "Segoe UI Emoji", Helvetica;
     color: var(--onBackgroundText);
     font-size: 1.3rem;
+    text-overflow: ellipsis;
     pointer-events: all;
     transform-origin: right;
     z-index: 5;
