@@ -1,9 +1,9 @@
-import API from "scripts/API.js";
-import PokeAPIEndpoint from "scripts/pokeAPIEndpoint.js";
-import SWAPIEndpoint from "scripts/swAPIEndpoint.js";
-import HPAPIEndpoint from "scripts/hpAPIEndpoint.js";
-import { setVarState, getVarState } from "scripts/stateManager.js";
-import { topBarState } from "components/topbar/topbar-behavior.js";
+import API from "./scripts/API.js";
+import PokeAPIEndpoint from "./scripts/pokeAPIEndpoint.js";
+import SWAPIEndpoint from "./scripts/swAPIEndpoint.js";
+import HPAPIEndpoint from "./scripts/hpAPIEndpoint.js";
+import { setVarState, getVarState } from "./scripts/stateManager.js";
+import { topBarState } from "./components/topbar/topbar-behavior.js";
 
 /* #region  APIs definitions */
 const accessibleAPIs = [];
