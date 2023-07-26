@@ -1,4 +1,4 @@
-fetch("/components/api-button/api-button-template.html")
+fetch("components/api-button/api-button-template.html")
     .then((stream) => stream.text())
     .then((text) => defineApiButton(text));
 

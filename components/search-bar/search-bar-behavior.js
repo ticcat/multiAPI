@@ -4,7 +4,7 @@ import PokeAPIEndpoint, {
 import { getVarState } from "../../scripts/stateManager.js";
 import SWAPIEndpoint from "../../scripts/swAPIEndpoint.js";
 
-fetch("/components/search-bar/search-bar-template.html")
+fetch("components/search-bar/search-bar-template.html")
     .then((stream) => stream.text())
     .then((text) => defineSearchBar(text));
 

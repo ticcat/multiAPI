@@ -1,7 +1,7 @@
 import { getVarState } from "../../scripts/stateManager.js";
 import { searchBarState } from "../search-bar/search-bar-behavior.js";
 
-fetch("/components/topbar/topbar-template.html")
+fetch("components/topbar/topbar-template.html")
     .then((stream) => stream.text())
     .then((text) => defineTopbar(text));
 

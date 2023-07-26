@@ -1,4 +1,4 @@
-fetch("/components/endpoint-card/endpoint-card-template.html")
+fetch("components/endpoint-card/endpoint-card-template.html")
     .then((stream) => stream.text())
     .then((text) => defineEndpointCard(text));
 

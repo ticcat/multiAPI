@@ -1,6 +1,6 @@
 import filterDataFromSearch from "../../scripts/last-level/lastLevelDataFilter.js";
 
-fetch("/components/last-level-screen/last-level-screen-template.html")
+fetch("components/last-level-screen/last-level-screen-template.html")
     .then((stream) => stream.text())
     .then((text) => defineLastLevelScreen(text));
 

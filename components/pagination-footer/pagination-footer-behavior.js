@@ -1,6 +1,6 @@
 import { getVarState } from "../../scripts/stateManager.js";
 
-fetch("/components/pagination-footer/pagination-footer-template.html")
+fetch("components/pagination-footer/pagination-footer-template.html")
     .then((stream) => stream.text())
     .then((text) => definePaginationFooter(text));
 
