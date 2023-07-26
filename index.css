@@ -21,15 +21,26 @@ body {
 }
 
 body {
+    opacity: 0;
     min-width: 740px;
     min-height: 100vh;
     background-color: var(--displayBackground);
     box-sizing: border-box;
     padding: 10px 20px 15px 20px;
+    animation: showWeb 0.3s ease-in-out forwards;
 }
 
 body.flex-container {
     flex-direction: row;
+}
+
+@keyframes showWeb {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }
 
 /* #region Api buttons sidepanel */
