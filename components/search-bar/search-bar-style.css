@@ -23,7 +23,7 @@
 /* #region Search bar input */
 .search-icon {
     background-color: var(--onBackground);
-    background-image: url(icons/google/search.svg);
+    background-image: url(../../icons/google/search.svg);
     background-repeat: no-repeat;
     background-position: 10px;
     background-size: 35px;
