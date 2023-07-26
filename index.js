@@ -8,7 +8,7 @@ import { topBarState } from "./components/topbar/topbar-behavior.js";
 /* #region  APIs definitions */
 const accessibleAPIs = [];
 
-const pokeAPI = new API("Pokémon API", "/icons/APIs/pokemon.svg");
+const pokeAPI = new API("Pokémon API", "icons/APIs/pokemon.svg");
 
 pokeAPI.baseEndpoint = new PokeAPIEndpoint(
     "Base",
@@ -21,35 +21,35 @@ pokeAPI.baseEndpoint = new PokeAPIEndpoint(
 pokeAPI.firstLevelEndPoints = [
     new PokeAPIEndpoint(
         "Berries",
-        "/images/PokeAPI/BerriesDefault.png",
+        "images/PokeAPI/BerriesDefault.png",
         pokeAPI.baseEndpoint,
         pokeAPI.baseEndpoint.url + "/berry",
         pokeAPI
     ),
     new PokeAPIEndpoint(
         "Items",
-        "/images/PokeAPI/ItemsDefault.png",
+        "images/PokeAPI/ItemsDefault.png",
         pokeAPI.baseEndpoint,
         pokeAPI.baseEndpoint.url + "/item",
         pokeAPI
     ),
     new PokeAPIEndpoint(
         "Locations",
-        "/images/PokeAPI/LocationsDefault.png",
+        "images/PokeAPI/LocationsDefault.png",
         pokeAPI.baseEndpoint,
         pokeAPI.baseEndpoint.url + "/location",
         pokeAPI
     ),
     new PokeAPIEndpoint(
         "Moves",
-        "/images/PokeAPI/MovesDefault.png",
+        "images/PokeAPI/MovesDefault.png",
         pokeAPI.baseEndpoint,
         pokeAPI.baseEndpoint.url + "/move",
         pokeAPI
     ),
     new PokeAPIEndpoint(
         "Pokemons",
-        "/images/PokeAPI/PokemonsDefault.png",
+        "images/PokeAPI/PokemonsDefault.png",
         pokeAPI.baseEndpoint,
         pokeAPI.baseEndpoint.url + "/pokemon",
         pokeAPI
@@ -58,7 +58,7 @@ pokeAPI.firstLevelEndPoints = [
 
 accessibleAPIs.push(pokeAPI);
 
-const swAPI = new API("Star Wars API", "/icons/APIs/star-wars.svg");
+const swAPI = new API("Star Wars API", "icons/APIs/star-wars.svg");
 
 swAPI.baseEndpoint = new SWAPIEndpoint(
     "Base",
@@ -71,42 +71,42 @@ swAPI.baseEndpoint = new SWAPIEndpoint(
 swAPI.firstLevelEndPoints = [
     new SWAPIEndpoint(
         "Films",
-        "/images/SWAPI/FilmsDefault.png",
+        "images/SWAPI/FilmsDefault.png",
         swAPI.baseEndpoint,
         swAPI.baseEndpoint.url + "/films",
         swAPI
     ),
     new SWAPIEndpoint(
         "People",
-        "/images/SWAPI/PeopleDefault.png",
+        "images/SWAPI/PeopleDefault.png",
         swAPI.baseEndpoint,
         swAPI.baseEndpoint.url + "/people",
         swAPI
     ),
     new SWAPIEndpoint(
         "Planets",
-        "/images/SWAPI/PlanetsDefault.png",
+        "images/SWAPI/PlanetsDefault.png",
         swAPI.baseEndpoint,
         swAPI.baseEndpoint.url + "/planets",
         swAPI
     ),
     new SWAPIEndpoint(
         "Species",
-        "/images/SWAPI/SpeciesDefault.png",
+        "images/SWAPI/SpeciesDefault.png",
         swAPI.baseEndpoint,
         swAPI.baseEndpoint.url + "/species",
         swAPI
     ),
     new SWAPIEndpoint(
         "Starships",
-        "/images/SWAPI/SpaceshipsDefault.png",
+        "images/SWAPI/SpaceshipsDefault.png",
         swAPI.baseEndpoint,
         swAPI.baseEndpoint.url + "/starships",
         swAPI
     ),
     new SWAPIEndpoint(
         "Vehicles",
-        "/images/SWAPI/VehiclesDefault.png",
+        "images/SWAPI/VehiclesDefault.png",
         swAPI.baseEndpoint,
         swAPI.baseEndpoint.url + "/vehicles",
         swAPI
