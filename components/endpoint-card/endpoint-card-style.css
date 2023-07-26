@@ -1,5 +1,5 @@
-@import url(/globalVariables.css);
-@import url(/skeletonLoader.css);
+@import url(globalVariables.css);
+@import url(skeletonLoader.css);
 
 * {
     visibility: visible;
