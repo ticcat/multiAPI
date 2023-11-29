@@ -5,6 +5,9 @@
 }
 
 .external-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background-color: var(--onBackground);
     width: 100px;
     height: 100px;
@@ -35,4 +38,5 @@
     -webkit-user-drag: none;
     -webkit-user-select: none;
     user-select: none;
+    transform: scale(0.6);
 }
