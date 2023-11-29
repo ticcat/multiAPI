@@ -168,7 +168,7 @@ function loadAccessibleAPIs() {
     //Add github button
     const gitHubButton = document.createElement("external-button");
     gitHubButton.externalInfo = {
-        imgSource: "/icons/APIs/external/github-mark.svg",
+        imgSource: "icons/APIs/external/github-mark.svg",
         name: "Github",
     };
     gitHubButton.setAttribute("id", "Github");
@@ -180,7 +180,7 @@ function loadAccessibleAPIs() {
     //Add webpage button
     const webButton = document.createElement("external-button");
     webButton.externalInfo = {
-        imgSource: "/icons/APIs/external/favicon.png",
+        imgSource: "icons/APIs/external/favicon.png",
         name: "Website",
     };
     webButton.setAttribute("id", "Website");
