@@ -164,6 +164,30 @@ function loadAccessibleAPIs() {
 
         apiButtonsSidePanel.appendChild(newApiButton);
     });
+
+    //Add github button
+    const gitHubButton = document.createElement("external-button");
+    gitHubButton.externalInfo = {
+        imgSource: "/icons/github-mark.svg",
+        name: "Github",
+    };
+    gitHubButton.setAttribute("id", "Github");
+    gitHubButton.onclick = function () {
+        window.open("https://github.com/ticcat/multiAPI", "_blank");
+    };
+    apiButtonsSidePanel.appendChild(gitHubButton);
+
+    //Add webpage button
+    const webButton = document.createElement("external-button");
+    webButton.externalInfo = {
+        imgSource: "/icons/favicon.png",
+        name: "Website",
+    };
+    webButton.setAttribute("id", "Website");
+    webButton.onclick = function () {
+        window.open("https://www.sergiori.co/", "_blank");
+    };
+    apiButtonsSidePanel.appendChild(webButton);
 }
 
 function clearMainPanelEndpoints() {
